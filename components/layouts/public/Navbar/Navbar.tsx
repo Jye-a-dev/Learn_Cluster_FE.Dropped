@@ -13,7 +13,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-   <header className="sticky top-2 z-9999 bg-linear-to-r from-blue-800 to-cyan-600 text-white shadow-lg rounded-2xl border-2 border-white">
+   <header className=" z-9999 bg-linear-to-r from-blue-800 to-cyan-600 text-white shadow-lg rounded-2xl border-2 border-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

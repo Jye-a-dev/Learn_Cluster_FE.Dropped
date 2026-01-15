@@ -10,7 +10,7 @@ import CallToAction from '@/components/pages/PublicHome/CallToAction';
 
 export default function PublicHome() {
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col gap-4">
       <HeroSection />
       <ProblemSolution />
       <CoreFeatures />

@@ -13,7 +13,7 @@ interface PublicSetupProps {
 
 export default function PublicSetup({ children }: PublicSetupProps) {
     return (
-     <div className="relative isolate min-h-screen flex flex-col overflow-x-hidden">
+    <div className="relative min-h-screen flex flex-col">
             <GalaxyBackground />
 
             <NavbarContainer>
