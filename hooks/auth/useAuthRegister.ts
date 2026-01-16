@@ -6,7 +6,6 @@ export interface RegisterPayload {
   username: string;
   email: string;
   password: string;
-  role_id?: number;
 }
 
 export function useAuthRegister() {
