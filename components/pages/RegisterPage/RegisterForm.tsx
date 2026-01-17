@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { useAuthRegister } from "@/hooks/auth/useAuthRegister";
 import RegisterInput from "./RegisterInput";
 import RegisterButton from "./RegisterButton";
+import { fields } from "./Data";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -13,9 +14,12 @@ export default function RegisterForm() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isFormValid) return;
+
     setError("");
     setLoading(true);
 
@@ -28,7 +32,6 @@ export default function RegisterForm() {
         password: form.get("password") as string,
       });
 
-      // 👉 switch sang login
       router.push("/login");
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
@@ -41,50 +44,41 @@ export default function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md rounded-xl border p-6 space-y-5 bg-card"
+      onInput={(e) =>
+        setIsFormValid((e.currentTarget as HTMLFormElement).checkValidity())
+      }
+      className="w-full max-w-md space-y-6 rounded-2xl border border-white bg-linear-to-br from-emerald-950 via-emerald-900 to-emerald-800 p-6 shadow-lg shadow-emerald-950/40"
     >
-      <h1 className="text-2xl font-semibold text-center">
+      <h1 className="text-center text-2xl font-semibold text-emerald-50">
         Đăng ký tài khoản
       </h1>
 
-      <RegisterInput
-        label="Tên người dùng"
-        name="username"
-        type="text"
-        required
-      />
+      {fields.map((field) => (
+        <RegisterInput
+          key={field.name}
+          label={field.label}
+          name={field.name}
+          type={field.type}
+          required
+        />
+      ))}
 
-      <RegisterInput
-        label="Email"
-        name="email"
-        type="email"
-        required
-      />
-
-      <RegisterInput
-        label="Mật khẩu"
-        name="password"
-        type="password"
-        required
-      />
-
-      {/* switch line */}
-      <p className="text-sm text-center text-muted-foreground">
+      <p className="text-center text-sm text-emerald-200/80">
         Đã có tài khoản?{" "}
         <button
           type="button"
           onClick={() => router.push("/login")}
-          className="text-primary hover:underline"
+          className="font-medium cursor-pointer text-emerald-300 hover:text-emerald-200 hover:underline"
         >
           Đăng nhập
         </button>
       </p>
 
       {error && (
-        <p className="text-sm text-destructive text-center">{error}</p>
+        <p className="text-center text-sm text-red-400">{error}</p>
       )}
 
-      <RegisterButton loading={loading} />
+      <RegisterButton loading={loading} disabled={!isFormValid} />
     </form>
   );
 }

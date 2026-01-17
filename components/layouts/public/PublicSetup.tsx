@@ -7,6 +7,7 @@ import NavbarContainer from "./Navbar/Container";
 import GalaxyBackground from "./Background/GalaxyBackground";
 import Footer from "./Footer/Footer";
 import FooterContainer from "./Footer/FooterContainer";
+
 interface PublicSetupProps {
     children: ReactNode;
 }

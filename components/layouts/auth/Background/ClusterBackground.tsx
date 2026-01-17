@@ -2,8 +2,8 @@
 
 export default function ClusterBackground() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Base emerald + lapis cluster */}
+    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+      {/* Base emerald + lapis cluster gradient */}
       <div
         className="absolute inset-0"
         style={{
@@ -34,7 +34,7 @@ export default function ClusterBackground() {
         }}
       />
 
-      {/* Nebula */}
+      {/* Soft nebula layer */}
       <div
         className="absolute inset-0 opacity-40 blur-[120px]"
         style={{

@@ -16,13 +16,20 @@ export default function LoginInput({
   required,
 }: Props) {
   return (
-    <div className="space-y-1">
-      <label className="text-sm font-medium">{label}</label>
+    <div className="space-y-1.5">
+      <label
+        htmlFor={name}
+        className="text-sm font-medium text-blue-100"
+      >
+        {label}
+      </label>
+
       <Input
+        id={name}
         name={name}
         type={type}
         required={required}
-        className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+        className="w-full rounded-xl border border-white bg-blue-950/60 px-3.5 py-2.5 text-blue-50 placeholder-blue-400/60 transition-all duration-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
       />
     </div>
   );
