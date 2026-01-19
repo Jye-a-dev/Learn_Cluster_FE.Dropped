@@ -23,7 +23,7 @@ export default function FooterTime() {
     }, []);
 
     return (
-        <span className="italic text-white/60 border border-white p-1">
+        <span className="italic text-white/60 border border-white p-2 rounded-2xl">
             • {time} - utc+7
         </span>);
 }

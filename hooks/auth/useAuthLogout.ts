@@ -8,7 +8,7 @@ export function useAuthLogout() {
 
   const logout = async () => {
     await api.post("/auth.route/logout");
-    router.replace("/login");
+    router.replace("/");
   };
 
   return { logout };
