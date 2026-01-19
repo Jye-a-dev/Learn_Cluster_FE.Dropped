@@ -14,14 +14,14 @@ interface PublicSetupProps {
 
 export default function PublicSetup({ children }: PublicSetupProps) {
     return (
-    <div className="relative min-h-screen flex flex-col">
+        <div className="relative min-h-screen flex flex-col">
             <GalaxyBackground />
 
             <NavbarContainer>
                 <Navbar />
             </NavbarContainer>
 
-            <main className="flex-1 relative z-10">
+            <main className="flex-1 relative z-0">
                 {children}
             </main>
 

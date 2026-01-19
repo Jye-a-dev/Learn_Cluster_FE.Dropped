@@ -1,8 +1,9 @@
 import api from "@/hooks/api";
+import type { RoleName } from "@/constants/role.constant";
 
 export interface Role {
   id: string ;      // ✅ UUID
-  name: string;
+  name: RoleName;
   description: string | null;
   code?: string;
 }

@@ -9,7 +9,7 @@ export function useAuthMe() {
 
   useEffect(() => {
     api
-      .get("/auth.route/me")
+      .get("/auth.route/me", { withCredentials: true })
       .then(res => setUser(res.data))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
