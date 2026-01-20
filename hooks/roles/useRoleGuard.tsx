@@ -1,13 +1,14 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useCurrentRoleName } from "@/hooks/roles/useCurrentRoleName";
 import type { RoleName } from "@/constants/role.constant";
 
 type RoleGuardProps = {
-  allow: RoleName[];        // danh sách role được phép
+  allow: RoleName[];
   children: ReactNode;
-  fallback?: ReactNode;    // optional UI khi bị chặn
+  fallback?: ReactNode;
 };
 
 export function RoleGuard({
@@ -15,15 +16,21 @@ export function RoleGuard({
   children,
   fallback = null,
 }: RoleGuardProps) {
+  const router = useRouter();
   const { roleName, isAuth, loading } = useCurrentRoleName();
 
+  const prevRoleRef = useRef<RoleName | null>(null);
+
+  useEffect(() => {
+    if (prevRoleRef.current && prevRoleRef.current !== roleName) {
+      router.refresh(); // refresh server components + re-eval guards
+    }
+    prevRoleRef.current = roleName ?? null;
+  }, [roleName, router]);
+
   if (loading) return null;
-
   if (!isAuth) return fallback;
-
-  if (!roleName || !allow.includes(roleName)) {
-    return fallback;
-  }
+  if (!roleName || !allow.includes(roleName)) return fallback;
 
   return <>{children}</>;
 }
