@@ -5,7 +5,7 @@ import { ROLES } from "@/constants/role.constant";
 import { useAuthGuard } from "@/hooks/auth/useAuthGuard";
 import { useRouter } from "next/navigation";
 
-export default function UserDashboardLayout({
+export default function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,11 +17,11 @@ export default function UserDashboardLayout({
 
   return (
     <RoleGuard
-      allow={[ROLES.STUDENT, ROLES.ADMIN] }
+      allow={[ROLES.ADMIN] }
       
       onRoleChange={() => router.refresh()}
     >
-    {children}
+     {children}
     </RoleGuard>
   );
 }

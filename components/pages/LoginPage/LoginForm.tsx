@@ -31,7 +31,7 @@ export default function LoginForm() {
         password: form.get("password") as string,
       });
 
-      router.push("/user");
+      router.push("/redirect");
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
       setError(err.response?.data?.message || "Đăng nhập thất bại");

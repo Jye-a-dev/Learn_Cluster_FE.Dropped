@@ -1,16 +1,16 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function DashboardLayout({
+import DashboardShell from "@/components/layouts/dashboard/DashboardShell";
+import { useAuthGuard } from "@/hooks/auth/useAuthGuard";
+
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const token = (await cookies()).get("access_token")?.value;
+  const { loading } = useAuthGuard("/login");
 
-  if (!token) {
-    redirect("http://localhost:3100/login");
-  }
+  if (loading) return null;
 
-  return <>{children}</>;
+  return <DashboardShell>{children}</DashboardShell>;
 }
