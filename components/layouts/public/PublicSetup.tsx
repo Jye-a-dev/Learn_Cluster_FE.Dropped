@@ -3,10 +3,10 @@
 
 import Navbar from "@/components/layouts/public/Navbar/Navbar"; // đường dẫn tới Navbar
 import { ReactNode } from "react";
-import NavbarContainer from "./Navbar/Container";
+import NavbarContainer from "../base/Navbar/Container";
 import GalaxyBackground from "./Background/GalaxyBackground";
 import Footer from "./Footer/Footer";
-import FooterContainer from "./Footer/FooterContainer";
+import FooterContainer from "../base/Footer/FooterContainer";
 
 interface PublicSetupProps {
     children: ReactNode;

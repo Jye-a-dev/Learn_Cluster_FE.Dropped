@@ -6,9 +6,13 @@ import Image from "next/image";
 
 interface NavbarLogoProps {
   disabled?: boolean;
+  href?: string;
 }
 
-export default function NavbarLogo({ disabled = false }: NavbarLogoProps) {
+export default function NavbarLogo({
+  disabled = false,
+  href = "/",
+}: NavbarLogoProps) {
   const LogoContent = (
     <>
       <div className="rounded-2xl p-0.5 border border-white bg-linear-to-br from-emerald-400 via-cyan-400 to-blue-400 shadow-md">
@@ -44,7 +48,7 @@ export default function NavbarLogo({ disabled = false }: NavbarLogoProps) {
           {LogoContent}
         </div>
       ) : (
-        <Link href="/" className="flex items-center">
+        <Link href={href} className="flex items-center">
           {LogoContent}
         </Link>
       )}

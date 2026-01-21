@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import NavbarContainer from "../../public/Navbar/Container";
+import NavbarContainer from "../../base/Navbar/Container";
 import AdminNavbar from "./Navbar/AdminNavbar";
 import WavesBackground from "@/components/layouts/dashboard/user/Background/WavesBackground";
-import FooterContainer from "../../public/Footer/FooterContainer";
+import FooterContainer from "../../base/Footer/FooterContainer";
 import AdminFooter from "./Footer/AdminFooter";
-import SidebarContainer from "../user/Sidebar/SidebarContainer";
+import SidebarContainer from "../../base/Sidebar/SidebarContainer";
 import AdminSidebar from "./Sidebar/AdminSidebar";
 interface UserSetupProps {
   children: ReactNode;

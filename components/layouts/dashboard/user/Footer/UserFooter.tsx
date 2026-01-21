@@ -1,42 +1,20 @@
 "use client";
 
-import NavbarLogo from "@/components/layouts/public/Navbar/NavbarLogo";
-import UserFooterLinking from "./UserFooterLinking";
-import UserFooterSupport from "./UserFooterSupport";
-import FooterTime from "@/components/layouts/public/Footer/FooterTime";
+import BaseFooter from "@/components/layouts/base/Footer/BaseFooter";
+import {
+  USER_FOOTER_LINKS,
+  USER_SUPPORT_LINKS,
+} from "./FooterData";
 
 export default function UserFooter() {
   return (
-    <footer className="mt-10 rounded-xl border border-white/20 bg-linear-to-r from-emerald-900 via-green-900 to-lime-800 text-white shadow-lg backdrop-blur">
-      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-7 md:grid-cols-3 items-start">
-          {/* Logo + description */}
-          <div className="space-y-2 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
-            <NavbarLogo disabled={true}/>
-            <p className="max-w-sm text-xs leading-relaxed text-justify text-white/75">
-              User Dashboard của LearnCluster – không gian cá nhân hoá để theo dõi
-              tiến độ học tập, tài nguyên đã lưu và hoạt động cộng đồng.
-            </p>
-          </div>
-
-          {/* User Links */}
-          <UserFooterLinking />
-
-          {/* User Support */}
-          <UserFooterSupport />
-        </div>
-
-        {/* Divider */}
-        <div className="my-5 h-px bg-white/15" />
-
-        {/* Bottom */}
-        <div className="flex flex-col items-center justify-between gap-2 text-xs text-white/65 md:flex-row">
-          <span>© {new Date().getFullYear()} LearnCluster · User Area</span>
-          <span className="italic text-white/55">
-            Personalized learning · <FooterTime />
-          </span>
-        </div>
-      </div>
-    </footer>
+    <BaseFooter
+      gradientClass="bg-linear-to-r from-emerald-900 via-green-900 to-lime-800"
+      areaLabel="User Area"
+      description="User Dashboard của LearnCluster – không gian cá nhân hoá để theo dõi tiến độ học tập, tài nguyên đã lưu và hoạt động cộng đồng."
+      links={USER_FOOTER_LINKS}
+      supports={USER_SUPPORT_LINKS}
+      logoDisabled
+    />
   );
 }
