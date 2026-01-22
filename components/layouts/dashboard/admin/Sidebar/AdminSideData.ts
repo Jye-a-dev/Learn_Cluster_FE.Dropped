@@ -13,10 +13,11 @@ export interface SideDropdown {
 }
 
 export const ADMIN_SIDE_LINKS: SideLink[] = [
-  { label: "My Courses", href: "/admin/courses", highlight: "lapis" },
+  { label: "Manage Courses", href: "/admin/courses", highlight: "lapis" },
   { label: "Assignments", href: "/admin/assignments", highlight: "emerald" },
   { label: "My Calendar", href: "/admin/calendar", highlight: "lapis" },
   { label: "Progress & Badges", href: "/admin/progress", highlight: "gold" },
+  { label: "Manage users", href: "/admin/users", highlight: "lapis" },
 { label: "Settings", href: "/admin/settings", highlight: "ruby" },
 ];
 

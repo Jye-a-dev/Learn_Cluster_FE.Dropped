@@ -11,7 +11,7 @@ export default function AdminNavbar() {
     <BaseNavbar
       links={ADMIN_NAV_LINKS}
       dropdowns={ADMIN_NAV_DROPDOWNS}
-      className="bg-linear-to-r from-yellow-800 to-lime-500"
+      className="bg-linear-to-r from-yellow-800 to-lime-600"
       auth
       logoHref="/admin"
     />

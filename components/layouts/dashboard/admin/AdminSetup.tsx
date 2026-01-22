@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import NavbarContainer from "../../base/Navbar/Container";
 import AdminNavbar from "./Navbar/AdminNavbar";
-import WavesBackground from "@/components/layouts/dashboard/user/Background/WavesBackground";
 import FooterContainer from "../../base/Footer/FooterContainer";
 import AdminFooter from "./Footer/AdminFooter";
 import SidebarContainer from "../../base/Sidebar/SidebarContainer";
 import AdminSidebar from "./Sidebar/AdminSidebar";
+import HexagonBackground from "../../base/Background/HexagonBackground";
 interface UserSetupProps {
   children: ReactNode;
 }
@@ -14,7 +14,7 @@ export default function AdminSetup({ children }: UserSetupProps) {
   return (
     <div className="relative min-h-screen flex flex-col">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <WavesBackground />
+        <HexagonBackground />
       </div>
 
       <NavbarContainer small>

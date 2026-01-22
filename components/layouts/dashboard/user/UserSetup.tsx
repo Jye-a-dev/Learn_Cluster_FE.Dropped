@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import NavbarContainer from "../../base/Navbar/Container";
 import UserNavbar from "./Navbar/UserNavbar";
-import WavesBackground from "./Background/WavesBackground";
+import WavesBackground from "../../base/Background/WavesBackground";
 import FooterContainer from "../../base/Footer/FooterContainer";
 import UserFooter from "./Footer/UserFooter";
 import UserSidebar from "./Sidebar/UserSidebar";
@@ -27,7 +27,7 @@ export default function UserSetup({ children }: UserSetupProps) {
           <UserSidebar />
         </SidebarContainer>
 
-       <main className="ml-64 px-6 py-6 min-h-[calc(100vh-64px)]">
+       <main className="ml-50 px-6 py-6 min-h-[calc(100vh-64px)]">
           {children}
         </main>
       </div>
