@@ -63,9 +63,8 @@ export async function createUser(payload: {
   username: string;
   email: string;
   password: string;
-  role_id: string;
-}): Promise<User> {
-  const res = await api.post<User>("/user", payload);
+}): Promise<{ id: string }> {
+  const res = await api.post<{ id: string }>("/user", payload);
   return res.data;
 }
 
