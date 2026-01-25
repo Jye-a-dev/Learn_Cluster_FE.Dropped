@@ -10,10 +10,10 @@ export interface User {
   created_at?: string;
   updated_at?: string;
 }
-
 export interface UserCount {
-  count: number;
+  total: number;
 }
+
 
 /* ===================== GET ===================== */
 
@@ -26,7 +26,7 @@ export async function getUsers(): Promise<User[]> {
 /** GET /api/user/count */
 export async function getUserCount(): Promise<number> {
   const res = await api.get<UserCount>("/user/count");
-  return res.data?.count ?? 0;
+  return res.data?.total ?? 0;
 }
 
 /** GET /api/user/:id */
@@ -53,7 +53,7 @@ export async function getUsersByRole(role_id: string): Promise<User[]> {
 /** GET /api/user/role/:role_id/count */
 export async function getUserCountByRole(role_id: string): Promise<number> {
   const res = await api.get<UserCount>(`/user/role/${role_id}/count`);
-  return res.data?.count ?? 0;
+  return res.data?.total   ?? 0;
 }
 
 /* ===================== MUTATION ===================== */

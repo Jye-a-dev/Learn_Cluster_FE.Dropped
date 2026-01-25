@@ -1,8 +1,10 @@
 // src/components/pages/AdminManage/AdminUser/UserUpdateModal.tsx
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { UserIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { useRolesMap } from "@/hooks/roles/useRolesMap";
+import BaseFormModal from "../BaseModel/BaseFormModal";
 import type { UserUI } from "./UserUiTypes";
 
 type Props = {
@@ -21,13 +23,10 @@ export default function UserUpdateModal({
     onClose,
     onSubmit,
 }: Props) {
-    /** --------------------------------
-     * Hooks PHẢI gọi ở top-level
-     * -------------------------------- */
+    /* ===== hooks (top-level) ===== */
     const { rolesMap, loading } = useRolesMap();
 
-    const initialUsername = user?.username ?? "";
-    const initialRoleId = useMemo(() => {
+    const resolvedRoleId = useMemo(() => {
         if (!user?.roleName) return "";
         const role = Object.values(rolesMap).find(
             (r) => r.name === user.roleName
@@ -35,13 +34,18 @@ export default function UserUpdateModal({
         return role?.id ?? "";
     }, [user, rolesMap]);
 
-    const [username, setUsername] = useState(initialUsername);
-    const [roleId, setRoleId] = useState(initialRoleId);
+    const [username, setUsername] = useState("");
+    const [roleId, setRoleId] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    /** --------------------------------
-     * Guard render (sau hook)
-     * -------------------------------- */
+    /* ===== sync khi mở modal ===== */
+    useEffect(() => {
+        if (open && user) {
+            setUsername(user.username);
+            setRoleId(resolvedRoleId);
+        }
+    }, [open, user, resolvedRoleId]);
+
     if (!open || !user) return null;
     const userId = user.id;
 
@@ -61,63 +65,71 @@ export default function UserUpdateModal({
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-2xl border border-white/10 bg-zinc-900 p-6">
-                <h2 className="mb-4 text-lg font-semibold text-white">
-                    Update User
-                </h2>
-
-                {/* Username */}
-                <div className="mb-4">
-                    <label className="mb-1 block text-xs text-white/60">
-                        Username
-                    </label>
+        <BaseFormModal
+            open={open}
+            title="Cập nhật User"
+            submitting={submitting}
+            onClose={onClose}
+            onSubmit={handleSubmit}
+        >
+            {/* Username */}
+            <div className="space-y-1.5">
+                <label className="text-xs font-medium text-white/70">
+                    Username
+                </label>
+                <div className="relative">
+                    <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
+                        className="input-admin pl-9 text-white"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className="w-full rounded-md border border-white/10 bg-black/40 p-2 text-sm text-white outline-none focus:border-white/30"
+                        placeholder="Username"
                     />
                 </div>
+            </div>
 
-                {/* Role */}
-                <div className="mb-6">
-                    <label className="mb-1 block text-xs text-white/60">
-                        Role
-                    </label>
+            {/* Role */}
+            <div className="space-y-1.5">
+                <label className="text-xs font-medium text-white/70">
+                    Role
+                </label>
+
+                <div className="relative">
+                    <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+
+                    {/* Arrow */}
+                    <svg
+                        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+
                     <select
                         value={roleId}
                         disabled={loading}
                         onChange={(e) => setRoleId(e.target.value)}
-                        className="w-full rounded-md border border-white/10 bg-black/40 p-2 text-sm text-white outline-none focus:border-white/30"
+                        className="input-admin pl-9 pr-10 border border-cyan-200 rounded-2xl text-white appearance-none cursor-pointer"
                     >
                         <option value="" disabled>
-                            Select role
+                            Chọn role
                         </option>
                         {Object.values(rolesMap).map((r) => (
-                            <option key={r.id} value={r.id}>
+                            <option key={r.id} value={r.id} className="bg-zinc-900">
                                 {r.name}
                             </option>
                         ))}
                     </select>
                 </div>
-
-                {/* Actions */}
-                <div className="flex justify-end gap-2">
-                    <button
-                        onClick={onClose}
-                        className="rounded-md border border-white/10 px-4 py-2 text-xs text-white/70 hover:bg-white/5"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        disabled={submitting}
-                        onClick={handleSubmit}
-                        className="rounded-md bg-white px-4 py-2 text-xs font-semibold text-black disabled:opacity-60"
-                    >
-                        Save
-                    </button>
-                </div>
             </div>
-        </div>
+
+
+            {/* Hint */}
+            <p className="pt-1 text-xs text-white/40">
+                Thay đổi username hoặc role sẽ ảnh hưởng quyền truy cập của user.
+            </p>
+        </BaseFormModal>
     );
 }

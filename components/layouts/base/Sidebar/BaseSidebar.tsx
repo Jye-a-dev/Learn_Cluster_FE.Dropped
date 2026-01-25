@@ -19,26 +19,26 @@ export interface SideDropdown {
 
 interface BaseSidebarProps {
   links: SideLink[];
-  dropdowns: SideDropdown[];
+  dropdowns?: SideDropdown[]; // ✅ cho phép truyền nhiều / hoặc không truyền
   gradientClass: string;
 }
 
 export default function BaseSidebar({
   links,
-  dropdowns,
+  dropdowns = [], // ✅ default để không crash
   gradientClass,
 }: BaseSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <aside
-      className={`relative left-0 flex flex-col text-white shadow-xl transition-all duration-300 ${collapsed
+      className={`relative left-0 flex flex-col text-white shadow-xl transition-all duration-300 ${
+        collapsed
           ? "w-14 rounded-none border-none"
           : "w-50 rounded-2xl border border-white/20"
-        } ${gradientClass}`}
+      } ${gradientClass}`}
     >
-
-      {/* Toggle button – luôn hiển thị */}
+      {/* Toggle button */}
       <SidebarToggleButton
         collapsed={collapsed}
         onToggle={() => setCollapsed((v) => !v)}
@@ -51,7 +51,7 @@ export default function BaseSidebar({
         </div>
       )}
 
-      {/* Navigation – CHỈ render khi không collapsed */}
+      {/* Navigation */}
       {!collapsed && (
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           {/* Normal links */}
@@ -67,10 +67,13 @@ export default function BaseSidebar({
             ))}
           </div>
 
-          <div className="my-4 h-px bg-white/20" />
+          {/* Divider chỉ hiện khi có dropdown */}
+          {dropdowns.length > 0 && (
+            <div className="my-4 h-px bg-white/20" />
+          )}
 
-          {/* Dropdowns */}
-          <div className="space-y-0">
+          {/* Multiple dropdowns – cùng cấp */}
+          <div className="space-y-2">
             {dropdowns.map((group) => (
               <Disclosure key={group.label}>
                 {({ open }) => (
@@ -78,8 +81,9 @@ export default function BaseSidebar({
                     <Disclosure.Button className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition hover:bg-white/15">
                       <span className="truncate">{group.label}</span>
                       <ChevronDownIcon
-                        className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""
-                          }`}
+                        className={`h-4 w-4 transition-transform ${
+                          open ? "rotate-180" : ""
+                        }`}
                       />
                     </Disclosure.Button>
 

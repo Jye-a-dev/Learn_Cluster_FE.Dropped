@@ -7,12 +7,11 @@ import type { UserUI } from "./UserUiTypes";
 type Props = {
   users: UserUI[];
   onEdit: (u: UserUI) => void;
-  onDelete: (id: string) => void;
+  onDelete: (u: UserUI) => void; // ✅ đổi sang UserUI
 };
-
 export default function UserTable({ users, onEdit, onDelete }: Props) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/10">
+    <div className="rounded-xl border border-white/50">
       <table className="w-full text-xs text-white">
         <thead className="bg-white/5">
           <tr>
@@ -43,22 +42,16 @@ export default function UserTable({ users, onEdit, onDelete }: Props) {
                   ? new Date(u.updated_at).toLocaleDateString()
                   : "—"}
               </td>
-              <td className="p-3 text-right">
+
+              {/* CHÌA KHÓA */}
+              <td className="p-3 text-right relative">
                 <UserActions
                   onEdit={() => onEdit(u)}
-                  onDelete={() => onDelete(u.id)}
+                  onDelete={() => onDelete(u)}
                 />
               </td>
             </tr>
           ))}
-
-          {users.length === 0 && (
-            <tr>
-              <td colSpan={7} className="p-6 text-center text-white/50">
-                No users found
-              </td>
-            </tr>
-          )}
         </tbody>
       </table>
     </div>

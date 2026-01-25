@@ -1,89 +1,98 @@
 "use client";
 
-import { Dialog } from "@headlessui/react";
 import { useState } from "react";
+import {
+  UserIcon,
+  EnvelopeIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
+import BaseFormModal from "../BaseModel/BaseFormModal";
 import type { CreateUserPayload } from "./UserUiTypes";
 
-export type CreateUserModalProps = {
+type Props = {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: CreateUserPayload) => Promise<void>;
 };
 
-const CreateUserModal = ({
-  open,
-  onClose,
-  onSubmit,
-}: CreateUserModalProps) => {
+export default function CreateUserModal({ open, onClose, onSubmit }: Props) {
   const [form, setForm] = useState<CreateUserPayload>({
     username: "",
     email: "",
     password: "",
   });
 
+  async function handleSubmit() {
+    await onSubmit(form);
+    onClose();
+  }
+
   return (
-    <Dialog open={open} onClose={onClose} className="relative z-50">
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-
-      {/* Modal */}
-      <div className="fixed inset-0 flex items-center justify-center px-4">
-        <Dialog.Panel className="w-full max-w-md rounded-2xl bg-zinc-900 border border-white/10 p-6 space-y-5 shadow-2xl">
-          <Dialog.Title className="text-xl font-semibold text-white">
-            Create User
-          </Dialog.Title>
-
-          {/* Username */}
+    <BaseFormModal
+      open={open}
+      title="Tạo User"
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
+      {/* Username */}
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-white/70">
+          Username
+        </label>
+        <div className="relative">
+          <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
           <input
-            className="w-full rounded-lg bg-zinc-800 border border-white/10 px-4 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            placeholder="Username"
+            placeholder="vd: admin01"
+            className="input-admin pl-9 text-white"
             value={form.username}
             onChange={(e) =>
               setForm({ ...form, username: e.target.value })
             }
           />
+        </div>
+      </div>
 
-          {/* Email */}
+      {/* Email */}
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-white/70">
+          Email
+        </label>
+        <div className="relative">
+          <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
           <input
-            className="w-full rounded-lg bg-zinc-800 border border-white/10 px-4 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            placeholder="Email"
+            placeholder="vd: admin@email.com"
+            className="input-admin pl-9 text-white"
             value={form.email}
             onChange={(e) =>
               setForm({ ...form, email: e.target.value })
             }
           />
+        </div>
+      </div>
 
-          {/* Password */}
+      {/* Password */}
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-white/70">
+          Password
+        </label>
+        <div className="relative">
+          <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
           <input
             type="password"
-            className="w-full rounded-lg bg-zinc-800 border border-white/10 px-4 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            placeholder="Password"
+            placeholder="••••••••"
+            className="input-admin pl-9 text-white"
             value={form.password}
             onChange={(e) =>
               setForm({ ...form, password: e.target.value })
             }
           />
-
-          {/* Actions */}
-          <div className="flex justify-end gap-3 pt-2">
-            <button
-              onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 transition"
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={() => onSubmit(form)}
-              className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition"
-            >
-              Create
-            </button>
-          </div>
-        </Dialog.Panel>
+        </div>
       </div>
-    </Dialog>
-  );
-};
 
-export default CreateUserModal;
+      {/* Hint */}
+      <p className="pt-1 text-xs text-white/40">
+        Mật khẩu nên có ít nhất 8 ký tự, bao gồm chữ và số.
+      </p>
+    </BaseFormModal>
+  );
+}

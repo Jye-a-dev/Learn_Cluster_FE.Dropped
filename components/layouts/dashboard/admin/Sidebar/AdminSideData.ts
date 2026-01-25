@@ -18,6 +18,7 @@ export const ADMIN_SIDE_LINKS: SideLink[] = [
   { label: "My Calendar", href: "/admin/calendar", highlight: "lapis" },
   { label: "Progress & Badges", href: "/admin/progress", highlight: "gold" },
   { label: "Manage users", href: "/admin/users", highlight: "lapis" },
+  { label: "Manage roles", href: "/admin/roles", highlight: "emerald" },
 { label: "Settings", href: "/admin/settings", highlight: "ruby" },
 ];
 

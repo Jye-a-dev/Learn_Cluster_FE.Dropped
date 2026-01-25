@@ -1,3 +1,4 @@
+// src/components/pages/AdminManage/AdminUser/AdminUserContainer.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -6,6 +7,7 @@ import {
     deleteUser,
     updateUser,
     createUser,
+    getUserCount,
 } from "@/hooks/users/getUsers";
 import { useRolesMap } from "@/hooks/roles/useRolesMap";
 
@@ -13,6 +15,8 @@ import UserTable from "./UserTable";
 import CreateUserModal from "./CreateUserModal";
 import CreateUserButton from "./CreateUserButton";
 import UserUpdateModal from "./UserUpdateModal";
+import ConfirmDeleteUserModal from "./ConfirmDeleteUserModal";
+import SearchFilterUser from "./SearchFilterUser";
 
 import type { UserUI, CreateUserPayload } from "./UserUiTypes";
 
@@ -29,10 +33,18 @@ type UserRaw = {
 export default function AdminUserContainer() {
     const [rawUsers, setRawUsers] = useState<UserRaw[]>([]);
     const [loading, setLoading] = useState(false);
+    const [totalCount, setTotalCount] = useState(0);
 
+    const [openDelete, setOpenDelete] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
+
     const [selectedUser, setSelectedUser] = useState<UserUI | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<UserUI | null>(null);
+
+    /* ===== SEARCH & FILTER ===== */
+    const [search, setSearch] = useState("");
+    const [filterRoleId, setFilterRoleId] = useState("");
 
     const { rolesMap } = useRolesMap();
 
@@ -40,16 +52,33 @@ export default function AdminUserContainer() {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            setRawUsers(await getUsers());
+
+            const [users, count] = await Promise.all([
+                getUsers(),
+                getUserCount(),
+            ]);
+
+            setRawUsers(users);
+            setTotalCount(count);
+
             setLoading(false);
         })();
     }, []);
 
     async function refresh() {
         setLoading(true);
-        setRawUsers(await getUsers());
+
+        const [users, count] = await Promise.all([
+            getUsers(),
+            getUserCount(),
+        ]);
+
+        setRawUsers(users);
+        setTotalCount(count);
+
         setLoading(false);
     }
+
 
     /* ===== CREATE ===== */
     async function handleCreate(data: CreateUserPayload) {
@@ -58,7 +87,7 @@ export default function AdminUserContainer() {
         refresh();
     }
 
-    /* ===== EDIT (OPEN MODAL) ===== */
+    /* ===== EDIT ===== */
     function handleEdit(user: UserUI) {
         setSelectedUser(user);
         setOpenUpdate(true);
@@ -76,9 +105,15 @@ export default function AdminUserContainer() {
     }
 
     /* ===== DELETE ===== */
-    async function handleDelete(id: string) {
-        if (!confirm("Delete this user?")) return;
+    function handleDelete(user: UserUI) {
+        setDeleteTarget(user);
+        setOpenDelete(true);
+    }
+
+    async function handleConfirmDelete(id: string) {
         await deleteUser(id);
+        setOpenDelete(false);
+        setDeleteTarget(null);
         refresh();
     }
 
@@ -96,22 +131,42 @@ export default function AdminUserContainer() {
         [rawUsers, rolesMap]
     );
 
+    /* ===== FILTER ===== */
+    const filteredUsers = useMemo(() => {
+        return users.filter((u) => {
+            const matchSearch =
+                u.username.toLowerCase().includes(search.toLowerCase()) ||
+                u.email.toLowerCase().includes(search.toLowerCase());
+
+            const matchRole =
+                !filterRoleId || rolesMap[filterRoleId]?.name === u.roleName;
+
+            return matchSearch && matchRole;
+        });
+    }, [users, search, filterRoleId, rolesMap]);
+
     /* ===== RENDER ===== */
     return (
         <section className="space-y-4">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-semibold text-white">
-                    User Management
+                    Quản lý User |   Tổng users: {totalCount}
                 </h1>
-
                 <CreateUserButton onClick={() => setOpenCreate(true)} />
             </div>
 
+            <SearchFilterUser
+                search={search}
+                roleId={filterRoleId}
+                onSearchChange={setSearch}
+                onRoleChange={setFilterRoleId}
+            />
+
             {loading ? (
-                <p className="text-white/60">Loading users…</p>
+                <p className="text-white/60">Đang tải users…</p>
             ) : (
                 <UserTable
-                    users={users}
+                    users={filteredUsers}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                 />
@@ -133,6 +188,17 @@ export default function AdminUserContainer() {
                     setSelectedUser(null);
                 }}
                 onSubmit={handleUpdate}
+            />
+
+            {/* DELETE */}
+            <ConfirmDeleteUserModal
+                open={openDelete}
+                user={deleteTarget}
+                onClose={() => {
+                    setOpenDelete(false);
+                    setDeleteTarget(null);
+                }}
+                onConfirm={handleConfirmDelete}
             />
         </section>
     );
