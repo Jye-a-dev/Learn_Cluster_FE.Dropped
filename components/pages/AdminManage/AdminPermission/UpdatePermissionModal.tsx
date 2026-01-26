@@ -5,46 +5,53 @@ import {
     ShieldCheckIcon,
     DocumentTextIcon,
 } from "@heroicons/react/24/outline";
+
 import BaseFormModal from "../BaseModel/BaseFormModal";
-import type { Role, UpdateRolePayload } from "./RoleUiTypes";
-import { RoleName } from "@/constants/role.constant";
+import type {
+    Permission,
+    UpdatePermissionPayload,
+} from "./PermissionUiTypes";
 
 type Props = {
     open: boolean;
-    role: Role | null;
+    permission: Permission | null;
     onClose: () => void;
-    onSubmit: (id: string, data: UpdateRolePayload) => Promise<void>;
+    onSubmit: (id: number, data: UpdatePermissionPayload) => Promise<void>;
 };
 
-export default function UpdateRoleModal({
+export default function UpdatePermissionModal({
     open,
-    role,
+    permission,
     onClose,
     onSubmit,
 }: Props) {
-    const [name, setName] = useState<RoleName>("Student");
-
+    const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
     /* ===== sync khi mở modal ===== */
     useEffect(() => {
-        if (open && role) {
-            setName(role.name);
-            setDescription(role.description ?? "");
+        if (open && permission) {
+            setName(permission.name);
+            setDescription(permission.description ?? "");
         }
-    }, [open, role]);
+    }, [open, permission]);
 
-    if (!open || !role) return null;
-    const roleId = role.id;
+    if (!open || !permission) return null;
+    const permissionId = permission.id;
 
     async function handleSubmit() {
+        const trimmedName = name.trim();
+        if (!trimmedName) return;
+
         try {
             setSubmitting(true);
-            await onSubmit(roleId, {
-                name,
+
+            await onSubmit(permissionId, {
+                name: trimmedName,
                 description: description || undefined,
             });
+
             onClose();
         } finally {
             setSubmitting(false);
@@ -54,26 +61,26 @@ export default function UpdateRoleModal({
     return (
         <BaseFormModal
             open={open}
-            title="Cập nhật Role"
+            title="Cập nhật Permission"
             submitting={submitting}
             onClose={onClose}
             onSubmit={handleSubmit}
         >
-            {/* Role name */}
+            {/* Permission name */}
             <div className="space-y-1.5">
-                <label className="text-xs font-medium text-white/70">Role name</label>
+                <label className="text-xs font-medium text-white/70">
+                    Permission name
+                </label>
                 <div className="relative">
                     <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     <input
-                        disabled
                         value={name}
-                        className="input-admin pl-9 text-white/60 cursor-not-allowed border border-white rounded-b-md"
+                        onChange={(e) => setName(e.target.value)}
+                        className="input-admin pl-9 text-white border border-white rounded-b-md"
+                        placeholder="vd: user.update"
                     />
                 </div>
             </div>
-
-       
-           
 
             {/* Description */}
             <div className="space-y-1.5">
@@ -83,12 +90,11 @@ export default function UpdateRoleModal({
                 <div className="relative">
                     <DocumentTextIcon className="pointer-events-none absolute left-3 top-1 h-4 w-4 text-white/40" />
                     <textarea
-                        rows={10}
+                        rows={3}
                         className="input-admin pl-9 pr-2 text-white resize-none overflow-hidden min-h-10 border border-white rounded-b-md w-full max-w-[50vw]"
                         value={description}
                         onChange={(e) => {
                             setDescription(e.target.value);
-
                             e.currentTarget.style.height = "auto";
                             e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                         }}
@@ -97,14 +103,13 @@ export default function UpdateRoleModal({
                             el.style.height = "auto";
                             el.style.height = `${el.scrollHeight}px`;
                         }}
-                        placeholder="Mô tả quyền hạn của role"
+                        placeholder="Mô tả chức năng permission"
                     />
-
                 </div>
             </div>
 
             <p className="pt-1 text-xs text-white/40">
-                Thay đổi role sẽ ảnh hưởng đến tất cả user đang sử dụng role này.
+                Thay đổi permission sẽ ảnh hưởng đến quyền truy cập chức năng trong hệ thống.
             </p>
         </BaseFormModal>
     );

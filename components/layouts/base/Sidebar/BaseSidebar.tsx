@@ -78,7 +78,7 @@ export default function BaseSidebar({
               <Disclosure key={group.label}>
                 {({ open }) => (
                   <div className="space-y-1">
-                    <Disclosure.Button className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition hover:bg-white/15">
+                    <Disclosure.Button className="flex w-full items-center justify-between rounded-xl px-3 py-2 cursor-pointer text-sm font-semibold transition hover:bg-white/15">
                       <span className="truncate">{group.label}</span>
                       <ChevronDownIcon
                         className={`h-4 w-4 transition-transform ${
@@ -87,12 +87,12 @@ export default function BaseSidebar({
                       />
                     </Disclosure.Button>
 
-                    <Disclosure.Panel className="ml-3 space-y-1 border-l border-white/20 pl-3">
+                    <Disclosure.Panel className="ml-3 space-y-1 border-l border-white/20 pl-3 cursor-pointer">
                       {group.items.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="block rounded-lg px-3 py-2 text-sm transition hover:bg-white/10"
+                          className="block rounded-lg px-3 py-2 text-sm transition hover:bg-white/10 cursor-pointer"
                         >
                           {item.label}
                         </Link>

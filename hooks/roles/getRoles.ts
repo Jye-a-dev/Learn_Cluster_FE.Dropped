@@ -6,14 +6,12 @@ export interface Role {
 	id: string; // UUID
 	name: RoleName;
 	description: string | null;
-	code?: string;
 }
 
 /* ===== PAYLOAD ===== */
 export type CreateRolePayload = {
 	name: RoleName;
 	description?: string | null;
-	code?: string;
 };
 
 export type UpdateRolePayload = Partial<CreateRolePayload>;

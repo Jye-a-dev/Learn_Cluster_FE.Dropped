@@ -1,55 +1,45 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import api from "@/hooks/api";
 
-export interface RolePermission {
-  role_id: number;
-  permission_id: number;
-  permission_code?: string;
+/* ===================== TYPES ===================== */
+
+export interface RolePermissionBE {
+	role_id: string;
+	permission_id: string;
 }
 
-export function usePermissionRole(role_id?: number) {
-  const [permissions, setPermissions] = useState<RolePermission[]>([]);
-  const [loading, setLoading] = useState(false);
+/* ===================== GET ===================== */
 
-  useEffect(() => {
-    if (!role_id) {
-      setPermissions([]);
-      return;
-    }
+/** GET /api/role_permission */
+export async function getRolePermissions(): Promise<RolePermissionBE[]> {
+	const res = await api.get<RolePermissionBE[]>("/role_permission");
+	return res.data ?? [];
+}
 
-    let active = true;
+/** GET /api/role_permission/role/:role_id */
+export async function getRolePermissionsByRole(role_id: string): Promise<RolePermissionBE[]> {
+	const res = await api.get<RolePermissionBE[]>(`/role_permission/role/${role_id}`);
+	return res.data ?? [];
+}
 
-    const fetchPermissions = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get<RolePermission[]>(
-          `/api/role_permission/role/${role_id}`
-        );
-        if (active) {
-          setPermissions(res.data ?? []);
-        }
-      } catch {
-        if (active) {
-          setPermissions([]);
-        }
-      } finally {
-        if (active) {
-          setLoading(false);
-        }
-      }
-    };
+/** GET /api/role_permission/role/:role_id/count */
+export async function countRolePermissionsByRole(role_id: string): Promise<number> {
+	const res = await api.get<{ total: number }>(`/role_permission/role/${role_id}/count`);
+	return res.data.total;
+}
 
-    fetchPermissions();
+/* ===================== MUTATION ===================== */
 
-    return () => {
-      active = false;
-    };
-  }, [role_id]);
+/** POST /api/role_permission */
+export async function createRolePermission(body: { role_id: string; permission_id: string }): Promise<void> {
+	await api.post("/role_permission", body);
+}
 
-  return {
-    permissions,
-    loading,
-  };
+/** DELETE /api/role_permission */
+export async function deleteRolePermission(body: { role_id: string; permission_id: string }): Promise<void> {
+	await api.delete("/role_permission", { data: body });
+}
+
+/** DELETE /api/role_permission/role/:role_id */
+export async function deleteRolePermissionsByRole(role_id: string): Promise<void> {
+	await api.delete(`/role_permission/role/${role_id}`);
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { countPermissions } from "./permission.api";
+import { countPermissions } from "./getPermission";
 
 export function usePermissionCount() {
   const [total, setTotal] = useState(0);

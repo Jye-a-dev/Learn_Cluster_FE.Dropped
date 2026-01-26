@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPermissions, type Permission } from "./permission.api";
+import { getPermissions, type PermissionBE } from "./getPermission";
 
 export function usePermissions(params?: {
   page?: number;
@@ -10,7 +10,7 @@ export function usePermissions(params?: {
 }) {
   const { page, limit, keyword } = params || {};
 
-  const [permissions, setPermissions] = useState<Permission[]>([]);
+  const [permissions, setPermissions] = useState<PermissionBE[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

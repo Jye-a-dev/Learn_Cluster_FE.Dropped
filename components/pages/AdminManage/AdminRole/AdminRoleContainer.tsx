@@ -104,8 +104,7 @@ export default function AdminRoleContainer() {
         const q = search.toLowerCase();
         return roles.filter(
             (r) =>
-                r.name.toLowerCase().includes(q) ||
-                (r.code?.toLowerCase().includes(q) ?? false)
+                r.name.toLowerCase().includes(q) 
         );
     }, [roles, search]);
 
