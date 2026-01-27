@@ -1,12 +1,10 @@
 // app/(dashboard)/admin/roleallow/[roleId]/page.tsx
 "use client";
 
-import AdminRoleAllowContainer from
-    "@/components/pages/AdminManage/AdminRolePermission/AdminRoleAllowContainer";
-
+import AdminRolePermissionContainer from "@/components/pages/AdminManage/AdminRolePermission/AdminRolePermissionContainer";
 export default function Page() {
 
     return (
-        <AdminRoleAllowContainer />
+        <AdminRolePermissionContainer />
     );
 }
