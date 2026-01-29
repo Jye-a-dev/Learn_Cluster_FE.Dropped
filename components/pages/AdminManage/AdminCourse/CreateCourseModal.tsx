@@ -69,50 +69,46 @@ export default function CreateCourseModal({
 			onSubmit={handleSubmit}
 		>
 			{/* Title */}
-			<div className="space-y-1.5">
-				<label className="text-xs font-medium text-white/70">
+			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
+				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
+					<BookOpenIcon className="h-4 w-4 text-white/40" />
 					Title
 				</label>
-				<div className="relative">
-					<BookOpenIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-					<input
-						className="input-admin pl-9 text-white border border-white rounded-b-md"
-						placeholder="Tên khóa học"
-						value={form.title}
-						onChange={(e) =>
-							setForm({ ...form, title: e.target.value })
-						}
-					/>
-				</div>
+				<input
+					className="input-admin text-white border border-white rounded-md"
+					placeholder="Tên khóa học"
+					value={form.title}
+					onChange={(e) =>
+						setForm({ ...form, title: e.target.value })
+					}
+				/>
 			</div>
 
 			{/* Description */}
-			<div className="space-y-1.5">
-				<label className="text-xs font-medium text-white/70">
+			<div className="grid grid-cols-[140px_1fr] items-start gap-3">
+				<label className="flex items-center gap-2 pt-2 text-xs font-medium text-white/70">
+					<DocumentTextIcon className="h-4 w-4 text-white/40" />
 					Description
 				</label>
-				<div className="relative">
-					<DocumentTextIcon className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-white/40" />
-					<textarea
-						rows={3}
-						className="input-admin pl-9 text-white border border-white rounded-b-md"
-						placeholder="Mô tả khóa học"
-						value={form.description}
-						onChange={(e) =>
-							setForm({ ...form, description: e.target.value })
-						}
-					/>
-				</div>
+				<textarea
+					rows={3}
+					className="input-admin text-white border border-white rounded-md"
+					placeholder="Mô tả khóa học"
+					value={form.description}
+					onChange={(e) =>
+						setForm({ ...form, description: e.target.value })
+					}
+				/>
 			</div>
 
 			{/* Objective */}
-			<div className="space-y-1.5">
-				<label className="text-xs font-medium text-white/70">
+			<div className="grid grid-cols-[140px_1fr] items-start gap-3">
+				<label className="pt-2 text-xs font-medium text-white/70">
 					Objective
 				</label>
 				<textarea
 					rows={3}
-					className="input-admin text-white border border-white rounded-b-md"
+					className="input-admin text-white border border-white rounded-md"
 					placeholder="Mục tiêu khóa học"
 					value={form.objective}
 					onChange={(e) =>
@@ -122,31 +118,32 @@ export default function CreateCourseModal({
 			</div>
 
 			{/* Duration */}
-			<div className="space-y-1.5">
-				<label className="text-xs font-medium text-white/70">
+			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
+				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
+					<ClockIcon className="h-4 w-4 text-white/40" />
 					Duration (hours)
 				</label>
-				<div className="relative">
-					<ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-					<input
-						type="number"
-						min={0}
-						className="input-admin pl-9 text-white border border-white rounded-b-md"
-						value={form.duration_hours}
-						onChange={(e) =>
-							setForm({ ...form, duration_hours: e.target.value })
-						}
-					/>
-				</div>
+				<input
+					type="number"
+					min={0}
+					className="input-admin text-white border border-white rounded-md"
+					value={form.duration_hours}
+					onChange={(e) =>
+						setForm({
+							...form,
+							duration_hours: e.target.value,
+						})
+					}
+				/>
 			</div>
 
 			{/* Status */}
-			<div className="space-y-1.5">
+			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="text-xs font-medium text-white/70">
 					Status
 				</label>
 				<select
-					className="input-admin text-white border border-white rounded-b-md"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md focus:border-white"
 					value={form.status}
 					onChange={(e) =>
 						setForm({
@@ -155,11 +152,12 @@ export default function CreateCourseModal({
 						})
 					}
 				>
-					<option value="draft">Draft</option>
-					<option value="public">Public</option>
-					<option value="closed">Closed</option>
+					<option value="draft" className="bg-neutral-800 text-white">Draft</option>
+					<option value="public" className="bg-neutral-800 text-white">Public</option>
+					<option value="closed" className="bg-neutral-800 text-white">Closed</option>
 				</select>
 			</div>
 		</BaseFormModal>
 	);
+
 }
