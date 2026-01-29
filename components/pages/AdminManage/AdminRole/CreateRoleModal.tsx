@@ -48,7 +48,6 @@ export default function CreateRoleModal({
 
       await onSubmit({
         name: normalizeRoleName(name), // ✅ cast + normalize tại boundary
-        code: form.code || undefined,
         description: form.description || undefined,
       });
 

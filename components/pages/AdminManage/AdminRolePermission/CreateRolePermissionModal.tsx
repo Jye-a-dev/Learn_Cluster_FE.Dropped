@@ -69,7 +69,7 @@ export default function CreateRolePermissionModal({
             }
             className="input-admin pl-9 text-white"
           >
-            <option value="">-- Chọn role --</option>
+            <option value="" className="bg-zinc-900 text-white hover:bg-cyan-700">-- Chọn role --</option>
             {roles.map((r) => (
               <option key={r.id} value={r.id} className="bg-zinc-900 text-white hover:bg-cyan-700">
                 {r.name}

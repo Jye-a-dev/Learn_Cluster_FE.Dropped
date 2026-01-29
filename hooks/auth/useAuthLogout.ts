@@ -7,7 +7,7 @@ export function useAuthLogout() {
   const router = useRouter();
 
   const logout = async () => {
-    await api.post("/auth.route/logout");
+    await api.post("/auth/logout");
     router.replace("/");
   };
 

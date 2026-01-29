@@ -10,7 +10,7 @@ export interface RegisterPayload {
 
 export function useAuthRegister() {
   const register = (data: RegisterPayload) =>
-    api.post("/auth.route/register", data);
+    api.post("/auth/register", data);
 
   return { register };
 }

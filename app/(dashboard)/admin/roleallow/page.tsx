@@ -2,9 +2,12 @@
 "use client";
 
 import AdminRolePermissionContainer from "@/components/pages/AdminManage/AdminRolePermission/AdminRolePermissionContainer";
-export default function Page() {
+export default function RoleAllowPage() {
 
     return (
-        <AdminRolePermissionContainer />
+         <section className="space-y-6 bg-cyan-400/20 p-3 rounded-2xl">
+              <AdminRolePermissionContainer />
+         </section>
+      
     );
 }

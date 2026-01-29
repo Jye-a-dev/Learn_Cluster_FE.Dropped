@@ -17,7 +17,7 @@ export function useAuthMe() {
 
   useEffect(() => {
     api
-      .get<AuthUser>("/auth.route/me")
+      .get<AuthUser>("/auth/me")
       .then(res => setUser(res.data))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
