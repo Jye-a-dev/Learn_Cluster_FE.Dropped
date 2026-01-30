@@ -7,6 +7,7 @@ import {
 	updateCourse,
 	deleteCourse,
 	getCourseCount,
+	type Course as CourseApi,
 } from "@/hooks/courses/getCourse";
 
 import CreateCourseButton from "./CreateCourseButton";
@@ -22,10 +23,10 @@ import type {
 	UpdateCoursePayload,
 } from "./CourseUiTypes";
 
-type CourseRaw = Course;
+type CourseRaw = CourseApi;
 
 export default function AdminCourseContainer() {
-	const [rawCourses, setRawCourses] = useState<CourseRaw[]>([]);
+	const [rawCourses, setRawCourses] = useState<Course[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [totalCount, setTotalCount] = useState(0);
 
@@ -49,7 +50,14 @@ export default function AdminCourseContainer() {
 				getCourses(),
 				getCourseCount(),
 			]);
-			setRawCourses(courses);
+
+			const normalized: Course[] = (courses as CourseRaw[]).map((c) => ({
+				...c,
+				created_at: c.created_at ?? "",
+				updated_at: c.updated_at ?? "",
+			}));
+
+			setRawCourses(normalized);
 			setTotalCount(count);
 		} finally {
 			setLoading(false);
@@ -89,9 +97,7 @@ export default function AdminCourseContainer() {
 
 	const filteredCourses = useMemo(() => {
 		const q = search.toLowerCase();
-		return courses.filter((c) =>
-			c.title.toLowerCase().includes(q)
-		);
+		return courses.filter((c) => c.title.toLowerCase().includes(q));
 	}, [courses, search]);
 
 	return (
