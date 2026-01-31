@@ -1,12 +1,12 @@
 import { Lesson } from "@/components/pages/AdminManage/AdminLesson/LessonUiTypes";
 import api from "@/hooks/api";
-
+import type { AxiosError } from "axios";
 /* =======================
    TYPE
 ======================= */
 export interface LessonBE {
-    content_type: string;
-    content_url: null;
+	content_type: string;
+	content_url: null;
 	id: string; // UUID
 	chapter_id: string; // UUID
 	title: string;
@@ -24,8 +24,8 @@ export type AddLessonPayload = {
 	chapter_id: string;
 	title: string;
 	description?: string | null;
-    content_type: "video" | "pdf" | "text";
-    content_url?: string | null;
+	content_type: "video" | "pdf" | "text";
+	content_url?: string | null;
 	content?: string | null;
 	ordering: number;
 };
@@ -65,9 +65,10 @@ export async function getLessons(query?: LessonQuery): Promise<Lesson[]> {
  * GET /api/lesson/count
  * ======================================================= */
 export async function getLessonCount(query?: LessonQuery): Promise<number> {
-	const res = await api.get<{ count: number }>("/lesson/count", { params: query });
-	return res.data?.count ?? 0;
+  const res = await api.get<{ total: number }>("/lesson/count", { params: query });
+  return res.data?.total ?? 0;
 }
+
 
 /* =========================================================
  * GET /api/lesson/:id
@@ -81,17 +82,30 @@ export async function getLesson(id: string): Promise<Lesson> {
  * POST /api/lesson
  * ======================================================= */
 export async function addLesson(payload: AddLessonPayload): Promise<Lesson> {
-	const res = await api.post<Lesson>("/lesson", payload);
-	return res.data;
-}
+	try {
+		console.log("=== ADD LESSON PAYLOAD ===");
+		console.log(payload);
 
+		const res = await api.post<Lesson>("/lesson", payload);
+		return res.data;
+	} catch (err: unknown) {
+		if (err instanceof Error) {
+			const axiosErr = err as AxiosError;
+
+			console.log("=== ADD LESSON ERROR RESPONSE ===");
+			console.log(axiosErr.response?.data);
+
+			console.log("=== ADD LESSON STATUS ===");
+			console.log(axiosErr.response?.status);
+		}
+
+		throw err;
+	}
+}
 /* =========================================================
  * PUT /api/lesson/:id
  * ======================================================= */
-export async function updateLesson(
-	id: string,
-	payload: UpdateLessonPayload
-): Promise<Lesson> {
+export async function updateLesson(id: string, payload: UpdateLessonPayload): Promise<Lesson> {
 	const res = await api.put<Lesson>(`/lesson/${id}`, payload);
 	return res.data;
 }
@@ -99,10 +113,7 @@ export async function updateLesson(
 /* =========================================================
  * PATCH /api/lesson/:id
  * ======================================================= */
-export async function patchLesson(
-	id: string,
-	payload: PatchLessonPayload
-): Promise<Lesson> {
+export async function patchLesson(id: string, payload: PatchLessonPayload): Promise<Lesson> {
 	const res = await api.patch<Lesson>(`/lesson/${id}`, payload);
 	return res.data;
 }
@@ -117,9 +128,7 @@ export async function deleteLesson(id: string): Promise<void> {
 /* =========================================================
  * GET /api/lesson/chapter/:chapter_id
  * ======================================================= */
-export async function getLessonsByChapter(
-	chapter_id: string
-): Promise<Lesson[]> {
+export async function getLessonsByChapter(chapter_id: string): Promise<Lesson[]> {
 	const res = await api.get<Lesson[]>(`/lesson/chapter/${chapter_id}`);
 	return res.data ?? [];
 }
@@ -127,10 +136,7 @@ export async function getLessonsByChapter(
 /* =========================================================
  * PATCH /api/lesson/:id/order
  * ======================================================= */
-export async function updateLessonOrder(
-	id: string,
-	payload: UpdateLessonOrderPayload
-): Promise<Lesson> {
+export async function updateLessonOrder(id: string, payload: UpdateLessonOrderPayload): Promise<Lesson> {
 	const res = await api.patch<Lesson>(`/lesson/${id}/order`, payload);
 	return res.data;
 }

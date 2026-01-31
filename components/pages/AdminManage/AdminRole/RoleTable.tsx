@@ -2,56 +2,77 @@ import RoleActions from "./RoleAction";
 import { Role } from "./RoleUiTypes";
 
 type Props = {
-  roles: Role[];             // ✅ thêm đúng
-  onEdit: (role: Role) => void;
-  onDelete: (role: Role) => void;
+    roles: Role[];
+    onEdit: (role: Role) => void;
+    onDelete: (role: Role) => void;
 };
 
 export default function RoleTable({ roles, onEdit, onDelete }: Props) {
-  return (
-    <div className="overflow-x-hidden overflow-y-visible rounded-xl border border-white bg-red-200/20">
-      <table className="w-full text-sm text-white">
-        <thead className="bg-black/5">
-          <tr>
-            <th className="px-4 py-3 text-left">ID</th>
-            <th className="px-4 py-3 text-left">Name</th>
-            <th className="px-4 py-3 text-left">Description</th>
-            <th className="px-4 py-3 text-right">Actions</th>
-          </tr>
-        </thead>
+    return (
+        <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0f172a] shadow-lg">
+            <table className="w-full text-sm text-slate-100">
+                {/* ===== HEADER ===== */}
+                <thead className="bg-slate-900 text-xs uppercase tracking-wide text-slate-300">
+                    <tr>
+                        <th className="px-4 py-3 text-left">ID</th>
+                        <th className="px-4 py-3 text-left">Role name</th>
+                        <th className="px-4 py-3 text-left">Description</th>
+                        <th className="px-4 py-3 text-right">Actions</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-          {roles.map((r) => (
-            <tr
-              key={r.id}
-              className="border-t border-white/10 hover:bg-white/5"
-            >
-              <td className="px-4 py-3 font-mono text-xs text-white/60">
-                {r.id}
-              </td>
-              <td className="px-4 py-3 font-medium">{r.name}</td>
-              <td className="px-4 py-3 text-white/60">
-                {r.description ?? "—"}
-              </td>
-              <td className="px-4 py-3 text-right">
-                <RoleActions
-                  role={r}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                />
-              </td>
-            </tr>
-          ))}
+                {/* ===== BODY ===== */}
+                <tbody className="divide-y divide-white/5">
+                    {roles.map((r, idx) => (
+                        <tr
+                            key={r.id}
+                            className={`
+                                transition-colors
+                                ${idx % 2 === 0 ? "bg-slate-800/40" : "bg-slate-800/20"}
+                                hover:bg-indigo-500/10
+                            `}
+                        >
+                            {/* ID */}
+                            <td className="px-4 py-3 font-mono text-xs text-slate-400">
+                                {r.id}
+                            </td>
 
-          {roles.length === 0 && (
-            <tr>
-              <td colSpan={4} className="px-4 py-6 text-center text-white/50">
-                Không có role
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
+                            {/* NAME */}
+                            <td className="px-4 py-3 font-semibold text-slate-100">
+                                {r.name}
+                            </td>
+
+                            {/* DESCRIPTION */}
+                            <td className="px-4 py-3 text-slate-300">
+                                {r.description ?? (
+                                    <span className="italic text-slate-500">No description</span>
+                                )}
+                            </td>
+
+                            {/* ACTIONS */}
+                            <td className="px-4 py-3 text-right">
+                                <RoleActions
+                                    role={r}
+                                    onEdit={onEdit}
+                                    onDelete={onDelete}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+
+                    {/* ===== EMPTY STATE ===== */}
+                    {roles.length === 0 && (
+                        <tr>
+                            <td
+                                colSpan={4}
+                                className="px-4 py-10 text-center text-slate-400"
+                            >
+                                Không có role nào
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
+    );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
 	getChapters,
 	addChapter,
@@ -11,6 +11,8 @@ import {
 	type AddChapterPayload,
 	type UpdateChapterPayload as UpdateChapterApiPayload,
 } from "@/hooks/chapters/getChapters";
+
+import { useBaseCrudContainer } from "../BaseModel/BaseCrudContainer";
 
 import CreateChapterButton from "./CreateChapterButton";
 import ChapterTable from "./ChapterTable";
@@ -26,32 +28,16 @@ import type {
 } from "./ChapterUiTypes";
 
 export default function AdminChapterContainer() {
-	const [rawChapters, setRawChapters] = useState<Chapter[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [totalCount, setTotalCount] = useState(0);
-
-	const [openCreate, setOpenCreate] = useState(false);
-	const [openUpdate, setOpenUpdate] = useState(false);
-	const [openDelete, setOpenDelete] = useState(false);
-
-	const [selectedChapter, setSelectedChapter] = useState<Chapter | null>(null);
-	const [deleteTarget, setDeleteTarget] = useState<Chapter | null>(null);
-
 	const [search, setSearch] = useState("");
 
-	useEffect(() => {
-		refresh();
-	}, []);
+	/* =======================
+	   BASE CRUD
+	======================= */
+	const crud = useBaseCrudContainer<Chapter>({
+		fetchList: async () => {
+			const chapters = (await getChapters()) as ChapterApi[];
 
-	async function refresh() {
-		setLoading(true);
-		try {
-			const [chapters, count] = await Promise.all([
-				getChapters(),
-				getChapterCount(),
-			]);
-
-			const normalized: Chapter[] = (chapters as ChapterApi[]).map((c) => ({
+			return chapters.map((c) => ({
 				id: c.id,
 				course_id: c.course_id,
 				title: c.title,
@@ -59,13 +45,9 @@ export default function AdminChapterContainer() {
 				ordering: c.ordering ?? 0,
 				order: undefined, // ✅ FIX BẮT BUỘC
 			}));
-
-			setRawChapters(normalized);
-			setTotalCount(count);
-		} finally {
-			setLoading(false);
-		}
-	}
+		},
+		fetchCount: getChapterCount,
+	});
 
 	/* =======================
 	   CREATE
@@ -79,52 +61,55 @@ export default function AdminChapterContainer() {
 		};
 
 		await addChapter(payload);
-		refresh();
+		crud.setOpenCreate(false);
+		crud.refresh();
 	}
 
 	/* =======================
 	   UPDATE
 	======================= */
 	function handleEdit(chapter: Chapter) {
-		setSelectedChapter(chapter);
-		setOpenUpdate(true);
+		crud.setSelectedItem(chapter);
+		crud.setOpenUpdate(true);
 	}
 
 	async function handleUpdate(id: string, data: UpdateChapterPayload) {
-		if (!selectedChapter) return;
+		if (!crud.selectedItem) return;
+
+		const current = crud.selectedItem;
 
 		const payload: UpdateChapterApiPayload = {
-			course_id: selectedChapter.course_id,
-			title: data.title ?? selectedChapter.title,
+			course_id: current.course_id,
+			title: data.title ?? current.title,
 			description:
 				data.description !== undefined
 					? data.description
-					: selectedChapter.description,
+					: current.description,
 			ordering:
 				data.ordering !== undefined
 					? data.ordering
-					: selectedChapter.ordering,
+					: current.ordering,
 		};
 
 		await updateChapter(id, payload);
-		setOpenUpdate(false);
-		setSelectedChapter(null);
-		refresh();
+		crud.setOpenUpdate(false);
+		crud.setSelectedItem(null);
+		crud.refresh();
 	}
 
 	/* =======================
 	   DELETE
 	======================= */
 	function handleDelete(chapter: Chapter) {
-		setDeleteTarget(chapter);
-		setOpenDelete(true);
+		crud.setDeleteTarget(chapter);
+		crud.setOpenDelete(true);
 	}
 
 	async function handleConfirmDelete(id: string) {
 		await deleteChapter(id);
-		setOpenDelete(false);
-		setDeleteTarget(null);
-		refresh();
+		crud.setOpenDelete(false);
+		crud.setDeleteTarget(null);
+		crud.refresh();
 	}
 
 	/* =======================
@@ -132,10 +117,10 @@ export default function AdminChapterContainer() {
 	======================= */
 	const filteredChapters = useMemo(() => {
 		const q = search.toLowerCase();
-		return rawChapters.filter((c) =>
+		return crud.items.filter((c) =>
 			c.title.toLowerCase().includes(q)
 		);
-	}, [rawChapters, search]);
+	}, [crud.items, search]);
 
 	/* =======================
 	   RENDER
@@ -144,15 +129,22 @@ export default function AdminChapterContainer() {
 		<section className="space-y-4">
 			<div className="flex items-center justify-between">
 				<h1 className="text-xl font-semibold text-white">
-					Quản lý Chapter | Tổng chapter: {totalCount}
+					Quản lý Chapter | Tổng chapter: {crud.totalCount}
 				</h1>
-				<CreateChapterButton onClick={() => setOpenCreate(true)} />
+				<CreateChapterButton
+					onClick={() => crud.setOpenCreate(true)}
+				/>
 			</div>
 
-			<SearchChapter search={search} onSearchChange={setSearch} />
+			<SearchChapter
+				search={search}
+				onSearchChange={setSearch}
+			/>
 
-			{loading ? (
-				<p className="text-white/60">Đang tải chapter…</p>
+			{crud.loading ? (
+				<p className="text-white/60">
+					Đang tải chapter…
+				</p>
 			) : (
 				<ChapterTable
 					chapters={filteredChapters}
@@ -162,27 +154,27 @@ export default function AdminChapterContainer() {
 			)}
 
 			<CreateChapterModal
-				open={openCreate}
-				onClose={() => setOpenCreate(false)}
+				open={crud.openCreate}
+				onClose={() => crud.setOpenCreate(false)}
 				onSubmit={handleCreate}
 			/>
 
 			<UpdateChapterModal
-				open={openUpdate}
-				chapter={selectedChapter}
+				open={crud.openUpdate}
+				chapter={crud.selectedItem}
 				onClose={() => {
-					setOpenUpdate(false);
-					setSelectedChapter(null);
+					crud.setOpenUpdate(false);
+					crud.setSelectedItem(null);
 				}}
 				onSubmit={handleUpdate}
 			/>
 
 			<ConfirmDeleteChapterModal
-				open={openDelete}
-				chapter={deleteTarget}
+				open={crud.openDelete}
+				chapter={crud.deleteTarget}
 				onClose={() => {
-					setOpenDelete(false);
-					setDeleteTarget(null);
+					crud.setOpenDelete(false);
+					crud.setDeleteTarget(null);
 				}}
 				onConfirm={handleConfirmDelete}
 			/>

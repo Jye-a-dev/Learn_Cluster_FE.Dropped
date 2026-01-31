@@ -1,7 +1,7 @@
 // src/components/pages/AdminManage/AdminUser/AdminUserContainer.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
     getUsers,
     deleteUser,
@@ -11,6 +11,8 @@ import {
 } from "@/hooks/users/getUsers";
 import { useRolesMap } from "@/hooks/roles/useRolesMap";
 
+
+import { useBaseCrudContainer } from "../BaseModel/BaseCrudContainer";
 import UserTable from "./UserTable";
 import CreateUserModal from "./CreateUserModal";
 import CreateUserButton from "./CreateUserButton";
@@ -31,54 +33,35 @@ type UserRaw = {
 };
 
 export default function AdminUserContainer() {
-    const [rawUsers, setRawUsers] = useState<UserRaw[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [totalCount, setTotalCount] = useState(0);
+    const {
+        items: rawUsers,
+        loading,
+        totalCount,
 
-    const [openDelete, setOpenDelete] = useState(false);
-    const [openCreate, setOpenCreate] = useState(false);
-    const [openUpdate, setOpenUpdate] = useState(false);
+        openCreate,
+        openUpdate,
+        openDelete,
 
-    const [selectedUser, setSelectedUser] = useState<UserUI | null>(null);
-    const [deleteTarget, setDeleteTarget] = useState<UserUI | null>(null);
+        selectedItem,
+        deleteTarget,
+
+        setOpenCreate,
+        setOpenUpdate,
+        setOpenDelete,
+        setSelectedItem,
+        setDeleteTarget,
+
+        refresh,
+    } = useBaseCrudContainer<UserRaw>({
+        fetchList: getUsers,
+        fetchCount: getUserCount,
+    });
+
+    const { rolesMap } = useRolesMap();
 
     /* ===== SEARCH & FILTER ===== */
     const [search, setSearch] = useState("");
     const [filterRoleId, setFilterRoleId] = useState("");
-
-    const { rolesMap } = useRolesMap();
-
-    /* ===== FETCH ===== */
-    useEffect(() => {
-        (async () => {
-            setLoading(true);
-
-            const [users, count] = await Promise.all([
-                getUsers(),
-                getUserCount(),
-            ]);
-
-            setRawUsers(users);
-            setTotalCount(count);
-
-            setLoading(false);
-        })();
-    }, []);
-
-    async function refresh() {
-        setLoading(true);
-
-        const [users, count] = await Promise.all([
-            getUsers(),
-            getUserCount(),
-        ]);
-
-        setRawUsers(users);
-        setTotalCount(count);
-
-        setLoading(false);
-    }
-
 
     /* ===== CREATE ===== */
     async function handleCreate(data: CreateUserPayload) {
@@ -89,7 +72,9 @@ export default function AdminUserContainer() {
 
     /* ===== EDIT ===== */
     function handleEdit(user: UserUI) {
-        setSelectedUser(user);
+        setSelectedItem(
+            rawUsers.find((u) => u.id === user.id) ?? null
+        );
         setOpenUpdate(true);
     }
 
@@ -100,13 +85,15 @@ export default function AdminUserContainer() {
     ) {
         await updateUser(userId, data);
         setOpenUpdate(false);
-        setSelectedUser(null);
+        setSelectedItem(null);
         refresh();
     }
 
     /* ===== DELETE ===== */
     function handleDelete(user: UserUI) {
-        setDeleteTarget(user);
+        setDeleteTarget(
+            rawUsers.find((u) => u.id === user.id) ?? null
+        );
         setOpenDelete(true);
     }
 
@@ -150,7 +137,7 @@ export default function AdminUserContainer() {
         <section className="space-y-4">
             <div className="flex items-center justify-between">
                 <h1 className="text-xl font-semibold text-white">
-                    Quản lý User |   Tổng users: {totalCount}
+                    Quản lý User | Tổng users: {totalCount}
                 </h1>
                 <CreateUserButton onClick={() => setOpenCreate(true)} />
             </div>
@@ -182,10 +169,21 @@ export default function AdminUserContainer() {
             {/* UPDATE */}
             <UserUpdateModal
                 open={openUpdate}
-                user={selectedUser}
+                user={
+                    selectedItem
+                        ? {
+                              id: selectedItem.id,
+                              username: selectedItem.username,
+                              email: selectedItem.email,
+                              roleName:
+                                  rolesMap[selectedItem.role_id]?.name ??
+                                  "—",
+                          }
+                        : null
+                }
                 onClose={() => {
                     setOpenUpdate(false);
-                    setSelectedUser(null);
+                    setSelectedItem(null);
                 }}
                 onSubmit={handleUpdate}
             />
@@ -193,7 +191,17 @@ export default function AdminUserContainer() {
             {/* DELETE */}
             <ConfirmDeleteUserModal
                 open={openDelete}
-                user={deleteTarget}
+                user={
+                    deleteTarget
+                        ? {
+                              id: deleteTarget.id,
+                              username: deleteTarget.username,
+                              email: deleteTarget.email,
+                              roleName:
+                                  rolesMap[deleteTarget.role_id]?.name ?? "—",
+                          }
+                        : null
+                }
                 onClose={() => {
                     setOpenDelete(false);
                     setDeleteTarget(null);

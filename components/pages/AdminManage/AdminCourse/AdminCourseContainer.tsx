@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
 	getCourses,
 	addCourse,
@@ -9,6 +9,8 @@ import {
 	getCourseCount,
 	type Course as CourseApi,
 } from "@/hooks/courses/getCourse";
+
+import { useBaseCrudContainer } from "../BaseModel/BaseCrudContainer";
 
 import CreateCourseButton from "./CreateCourseButton";
 import CourseTable from "./CourseTable";
@@ -26,92 +28,80 @@ import type {
 type CourseRaw = CourseApi;
 
 export default function AdminCourseContainer() {
-	const [rawCourses, setRawCourses] = useState<Course[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [totalCount, setTotalCount] = useState(0);
-
-	const [openCreate, setOpenCreate] = useState(false);
-	const [openUpdate, setOpenUpdate] = useState(false);
-	const [openDelete, setOpenDelete] = useState(false);
-
-	const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-	const [deleteTarget, setDeleteTarget] = useState<Course | null>(null);
-
 	const [search, setSearch] = useState("");
 
-	useEffect(() => {
-		refresh();
-	}, []);
-
-	async function refresh() {
-		setLoading(true);
-		try {
-			const [courses, count] = await Promise.all([
-				getCourses(),
-				getCourseCount(),
-			]);
-
-			const normalized: Course[] = (courses as CourseRaw[]).map((c) => ({
+	const crud = useBaseCrudContainer<Course>({
+		fetchList: async () => {
+			const courses = (await getCourses()) as CourseRaw[];
+			return courses.map((c) => ({
 				...c,
 				created_at: c.created_at ?? "",
 				updated_at: c.updated_at ?? "",
 			}));
+		},
+		fetchCount: getCourseCount,
+	});
 
-			setRawCourses(normalized);
-			setTotalCount(count);
-		} finally {
-			setLoading(false);
-		}
-	}
+	/* ===================== HANDLERS ===================== */
 
 	async function handleCreate(data: CreateCoursePayload) {
 		await addCourse(data);
-		refresh();
+		crud.setOpenCreate(false);
+		crud.refresh();
 	}
 
 	function handleEdit(course: Course) {
-		setSelectedCourse(course);
-		setOpenUpdate(true);
+		crud.setSelectedItem(course);
+		crud.setOpenUpdate(true);
 	}
 
 	async function handleUpdate(id: string, data: UpdateCoursePayload) {
 		await updateCourse(id, data);
-		setOpenUpdate(false);
-		setSelectedCourse(null);
-		refresh();
+		crud.setOpenUpdate(false);
+		crud.setSelectedItem(null);
+		crud.refresh();
 	}
 
 	function handleDelete(course: Course) {
-		setDeleteTarget(course);
-		setOpenDelete(true);
+		crud.setDeleteTarget(course);
+		crud.setOpenDelete(true);
 	}
 
 	async function handleConfirmDelete(id: string) {
 		await deleteCourse(id);
-		setOpenDelete(false);
-		setDeleteTarget(null);
-		refresh();
+		crud.setOpenDelete(false);
+		crud.setDeleteTarget(null);
+		crud.refresh();
 	}
 
-	const courses = useMemo(() => rawCourses, [rawCourses]);
+	/* ===================== FILTER ===================== */
 
 	const filteredCourses = useMemo(() => {
 		const q = search.toLowerCase();
-		return courses.filter((c) => c.title.toLowerCase().includes(q));
-	}, [courses, search]);
+		return crud.items.filter((c) =>
+			c.title.toLowerCase().includes(q)
+		);
+	}, [crud.items, search]);
+
+	/* ===================== RENDER ===================== */
 
 	return (
 		<section className="space-y-4">
 			<div className="flex items-center justify-between">
 				<h1 className="text-xl font-semibold text-white">
-					Quản lý Course | Tổng course: {totalCount}
+					Quản lý Course | Tổng course: {crud.totalCount}
 				</h1>
-				<CreateCourseButton onClick={() => setOpenCreate(true)} />
+				<CreateCourseButton
+					onClick={() => crud.setOpenCreate(true)}
+				/>
 			</div>
 
-			<SearchCourse search={search} onSearchChange={setSearch} />
+			<SearchCourse
+				search={search}
+				onSearchChange={setSearch}
+			/>
 
-			{loading ? (
+			{crud.loading ? (
 				<p className="text-white/60">Đang tải course…</p>
 			) : (
 				<CourseTable
@@ -122,27 +112,27 @@ export default function AdminCourseContainer() {
 			)}
 
 			<CreateCourseModal
-				open={openCreate}
-				onClose={() => setOpenCreate(false)}
+				open={crud.openCreate}
+				onClose={() => crud.setOpenCreate(false)}
 				onSubmit={handleCreate}
 			/>
 
 			<UpdateCourseModal
-				open={openUpdate}
-				course={selectedCourse}
+				open={crud.openUpdate}
+				course={crud.selectedItem}
 				onClose={() => {
-					setOpenUpdate(false);
-					setSelectedCourse(null);
+					crud.setOpenUpdate(false);
+					crud.setSelectedItem(null);
 				}}
 				onSubmit={handleUpdate}
 			/>
 
 			<ConfirmDeleteCourseModal
-				open={openDelete}
-				course={deleteTarget}
+				open={crud.openDelete}
+				course={crud.deleteTarget}
 				onClose={() => {
-					setOpenDelete(false);
-					setDeleteTarget(null);
+					crud.setOpenDelete(false);
+					crud.setDeleteTarget(null);
 				}}
 				onConfirm={handleConfirmDelete}
 			/>

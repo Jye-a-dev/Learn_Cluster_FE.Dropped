@@ -1,7 +1,6 @@
-// src/components/pages/AdminManage/AdminPermission/AdminPermissionContainer.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   getPermissions,
   createPermission,
@@ -9,6 +8,8 @@ import {
   deletePermission,
   countPermissions,
 } from "@/hooks/permission/getPermission";
+
+import { useBaseCrudContainer } from "@/components/pages/AdminManage/BaseModel/BaseCrudContainer";
 
 import CreatePermissionButton from "./CreatePermissionButton";
 import PermissionTable from "./PermissionTable";
@@ -26,40 +27,31 @@ import type {
 /* ===================== CONTAINER ===================== */
 
 export default function AdminPermissionContainer() {
-  const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState(0);
-
-  const [openCreate, setOpenCreate] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-
-  const [selectedPermission, setSelectedPermission] =
-    useState<Permission | null>(null);
-  const [deleteTarget, setDeleteTarget] =
-    useState<Permission | null>(null);
-
   const [search, setSearch] = useState("");
 
-  /* ===================== FETCH ===================== */
+  const {
+    items: permissions,
+    loading,
+    totalCount,
 
-  useEffect(() => {
-    refresh();
-  }, []);
+    openCreate,
+    openUpdate,
+    openDelete,
 
-  async function refresh() {
-    setLoading(true);
-    try {
-      const [data, count] = await Promise.all([
-        getPermissions(),
-        countPermissions(),
-      ]);
-      setPermissions(data);
-      setTotalCount(count);
-    } finally {
-      setLoading(false);
-    }
-  }
+    selectedItem,
+    deleteTarget,
+
+    setOpenCreate,
+    setOpenUpdate,
+    setOpenDelete,
+    setSelectedItem,
+    setDeleteTarget,
+
+    refresh,
+  } = useBaseCrudContainer<Permission>({
+    fetchList: getPermissions,
+    fetchCount: countPermissions,
+  });
 
   /* ===================== HANDLERS ===================== */
 
@@ -70,7 +62,7 @@ export default function AdminPermissionContainer() {
   }
 
   function handleEdit(permission: Permission) {
-    setSelectedPermission(permission);
+    setSelectedItem(permission);
     setOpenUpdate(true);
   }
 
@@ -80,7 +72,7 @@ export default function AdminPermissionContainer() {
   ) {
     await updatePermission(id, data);
     setOpenUpdate(false);
-    setSelectedPermission(null);
+    setSelectedItem(null);
     refresh();
   }
 
@@ -143,10 +135,10 @@ export default function AdminPermissionContainer() {
 
       <UpdatePermissionModal
         open={openUpdate}
-        permission={selectedPermission}
+        permission={selectedItem}
         onClose={() => {
           setOpenUpdate(false);
-          setSelectedPermission(null);
+          setSelectedItem(null);
         }}
         onSubmit={handleUpdate}
       />
