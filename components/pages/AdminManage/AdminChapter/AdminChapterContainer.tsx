@@ -56,7 +56,8 @@ export default function AdminChapterContainer() {
 				course_id: c.course_id,
 				title: c.title,
 				description: c.description ?? null,
-				ordering: c.ordering ?? 0, // backend → UI
+				ordering: c.ordering ?? 0,
+				order: undefined, // ✅ FIX BẮT BUỘC
 			}));
 
 			setRawChapters(normalized);
@@ -74,7 +75,7 @@ export default function AdminChapterContainer() {
 			course_id: data.course_id,
 			title: data.title,
 			description: data.description ?? null,
-			ordering: data.ordering ?? 0, // ✅ đảm bảo number
+			ordering: data.ordering ?? 0,
 		};
 
 		await addChapter(payload);
@@ -94,12 +95,15 @@ export default function AdminChapterContainer() {
 
 		const payload: UpdateChapterApiPayload = {
 			course_id: selectedChapter.course_id,
-			title: data.title ?? selectedChapter.title, // ✅ FIX CHÍNH
+			title: data.title ?? selectedChapter.title,
 			description:
 				data.description !== undefined
 					? data.description
 					: selectedChapter.description,
-			ordering: data.ordering ?? selectedChapter.ordering,
+			ordering:
+				data.ordering !== undefined
+					? data.ordering
+					: selectedChapter.ordering,
 		};
 
 		await updateChapter(id, payload);
@@ -107,7 +111,6 @@ export default function AdminChapterContainer() {
 		setSelectedChapter(null);
 		refresh();
 	}
-
 
 	/* =======================
 	   DELETE
