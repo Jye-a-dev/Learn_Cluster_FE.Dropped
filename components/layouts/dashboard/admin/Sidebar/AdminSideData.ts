@@ -29,6 +29,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 			{ label: "Courses", href: "/admin/courses", highlight: "lapis" },
 			{ label: "Chapers", href: "/admin/chapters", highlight: "lapis" },
 			{ label: "Lessons", href: "/admin/lessons", highlight: "gold" },
+			{ label: "Course Instruction", href: "/admin/course_instruction", highlight: "gold" },
 			{ label: "Permission", href: "/admin/permissions", highlight: "gold" },
 			{ label: "Roles Permission", href: "/admin/roleallow", highlight: "emerald" },
 			{ label: "Users", href: "/admin/users", highlight: "lapis" },
