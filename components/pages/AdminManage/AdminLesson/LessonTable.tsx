@@ -17,12 +17,14 @@ const CONTENT_TYPE_LABEL: Record<LessonContentType, string> = {
 
 export default function LessonTable({ lessons, onEdit, onDelete }: Props) {
     return (
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0f172a] shadow-lg">
+        <div className="rounded-xl border border-white/50">
             <table className="w-full text-sm text-slate-100">
                 {/* ===== HEADER ===== */}
                 <thead className="bg-slate-900 text-xs uppercase tracking-wide text-slate-300">
                     <tr>
                         <th className="px-4 py-3 text-left">Tiêu đề</th>
+                        <th className="px-4 py-3 text-left">Chapter</th>
+                        <th className="px-4 py-3 text-left">Chương</th>
                         <th className="px-4 py-3 text-left">Loại</th>
                         <th className="px-4 py-3 text-left">Nội dung</th>
                         <th className="px-4 py-3 text-center">Thứ tự</th>
@@ -36,15 +38,25 @@ export default function LessonTable({ lessons, onEdit, onDelete }: Props) {
                         <tr
                             key={lesson.id}
                             className={`
-                                transition-colors
-                                ${idx % 2 === 0 ? "bg-slate-800/40" : "bg-slate-800/20"}
-                                hover:bg-indigo-500/10
-                            `}
+								transition-colors
+								${idx % 2 === 0 ? "bg-slate-800/40" : "bg-slate-800/20"}
+								hover:bg-indigo-500/10
+							`}
                         >
                             {/* TITLE */}
                             <td className="px-4 py-3 font-medium">
                                 {lesson.title}
                             </td>
+
+                            <td className="px-4 py-3 text-slate-400 font-mono text-xs">
+                                {lesson.chapter_id}
+                            </td>
+
+                            
+                            <td className="px-4 py-3 text-slate-400  text-xs">
+                                {lesson.chapter_name}
+                            </td>
+
 
                             {/* CONTENT TYPE */}
                             <td className="px-4 py-3 text-slate-300">
@@ -52,7 +64,7 @@ export default function LessonTable({ lessons, onEdit, onDelete }: Props) {
                             </td>
 
                             {/* CONTENT */}
-                            <td className="px-4 py-3">
+                            <td className="px-4 py-3 align-top">
                                 {renderContentCell(lesson)}
                             </td>
 
@@ -106,7 +118,24 @@ export default function LessonTable({ lessons, onEdit, onDelete }: Props) {
 ========================= */
 
 function renderContentCell(lesson: Lesson) {
-    if (!lesson.content_url && lesson.content_type !== "text") {
+    // ===== TEXT LESSON =====
+    if (lesson.content_type === "text") {
+        if (!lesson.content_text) {
+            return <span className="text-slate-500">—</span>;
+        }
+
+        return (
+            <div
+                className="max-w-105 whitespace-pre-wrap text-sm leading-relaxed text-slate-300 line-clamp-3"
+                title={lesson.content_text}
+            >
+                {lesson.content_text}
+            </div>
+        );
+    }
+
+    // ===== VIDEO / PDF =====
+    if (!lesson.content_url) {
         return <span className="text-slate-500">—</span>;
     }
 
@@ -114,7 +143,7 @@ function renderContentCell(lesson: Lesson) {
         case "video":
             return (
                 <a
-                    href={lesson.content_url!}
+                    href={lesson.content_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-indigo-400 hover:underline"
@@ -126,20 +155,13 @@ function renderContentCell(lesson: Lesson) {
         case "pdf":
             return (
                 <a
-                    href={lesson.content_url!}
+                    href={lesson.content_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-indigo-400 hover:underline"
                 >
                     Mở PDF
                 </a>
-            );
-
-        case "text":
-            return (
-                <span className="italic text-slate-400">
-                    Nội dung văn bản
-                </span>
             );
 
         default:

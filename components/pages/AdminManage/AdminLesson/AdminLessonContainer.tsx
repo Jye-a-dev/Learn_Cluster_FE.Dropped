@@ -12,7 +12,7 @@ import {
     type AddLessonPayload,
     type UpdateLessonPayload as UpdateLessonApiPayload,
 } from "@/hooks/lessons/getLesson";
-
+import { useChaptersMap } from "@/hooks/chapters/useChaptersMap";
 import { useBaseCrudContainer } from "../BaseModel/BaseCrudContainer";
 
 import CreateLessonButton from "./CreateLessonButton";
@@ -31,22 +31,34 @@ import type {
 
 export default function AdminLessonContainer() {
     const [search, setSearch] = useState("");
+    const { chaptersMap, loading: chapterLoading } = useChaptersMap();
 
     /* =======================
        BASE CRUD
     ======================= */
     const crud = useBaseCrudContainer<Lesson>({
         fetchList: async () => {
+            if (chapterLoading) return [];
+
             const lessons = (await getLessons()) as LessonApi[];
 
-            return lessons.map((l) => ({
-                id: l.id,
-                chapter_id: l.chapter_id,
-                title: l.title,
-                content_type: (l.content_type ?? "text") as LessonContentType,
-                content_url: l.content_url ?? null,
-                ordering: l.ordering ?? 0,
-            }));
+            return lessons.map((l) => {
+                const chapter = chaptersMap[l.chapter_id];
+
+                return {
+                    id: l.id,
+                    chapter_id: l.chapter_id,
+                    chapter_name: chapter?.title ?? "—",
+                    title: l.title,
+                    content_type: l.content_type as LessonContentType,
+                    content_url: l.content_url ?? null,
+                    content_text:
+                        l.content_type === "text"
+                            ? l.content_text ?? null
+                            : null,
+                    ordering: l.ordering ?? 1,
+                };
+            });
         },
         fetchCount: getLessonCount,
     });
@@ -58,16 +70,19 @@ export default function AdminLessonContainer() {
         const payload: AddLessonPayload = {
             chapter_id: data.chapter_id,
             title: data.title,
-
-            content_type: data.content_type ?? "text",
-            content_url: data.content_url ?? null,
-
-            // ✅ BE yêu cầu min(1)
+            content_type: data.content_type,
             ordering:
-                data.ordering && data.ordering >= 1
+                typeof data.ordering === "number" && data.ordering >= 1
                     ? data.ordering
                     : 1,
         };
+
+        if (data.content_type === "text") {
+            payload.content_text = data.content_text ?? "";
+            payload.content_url = "";
+        } else {
+            payload.content_url = data.content_url ?? "";
+        }
 
         await addLesson(payload);
         crud.setOpenCreate(false);
@@ -90,11 +105,26 @@ export default function AdminLessonContainer() {
 
         const current = crud.selectedItem;
 
-        const payload: UpdateLessonApiPayload = {
-            chapter_id: current.chapter_id,
+        const payload: UpdateLessonApiPayload & {
+            content_text?: string | null;
+            content_url?: string | null;
+        } = {
+            // ✅ CHO ĐỔI CHAPTER
+            chapter_id: data.chapter_id ?? current.chapter_id,
+
             title: data.title ?? current.title,
             ordering: data.ordering ?? current.ordering,
         };
+
+        if (current.content_type === "text") {
+            payload.content_text =
+                data.content_text ?? current.content_text ?? "";
+            payload.content_url = "";
+        } else {
+            payload.content_url =
+                data.content_url ?? current.content_url ?? "";
+            payload.content_text = null;
+        }
 
         await updateLesson(id, payload);
         crud.setOpenUpdate(false);
@@ -147,9 +177,7 @@ export default function AdminLessonContainer() {
             />
 
             {crud.loading ? (
-                <p className="text-white/60">
-                    Đang tải lesson…
-                </p>
+                <p className="text-white/60">Đang tải lesson…</p>
             ) : (
                 <LessonTable
                     lessons={filteredLessons}

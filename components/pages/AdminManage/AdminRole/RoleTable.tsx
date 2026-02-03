@@ -9,7 +9,7 @@ type Props = {
 
 export default function RoleTable({ roles, onEdit, onDelete }: Props) {
     return (
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0f172a] shadow-lg">
+       <div className="rounded-xl border border-white/50">
             <table className="w-full text-sm text-slate-100">
                 {/* ===== HEADER ===== */}
                 <thead className="bg-slate-900 text-xs uppercase tracking-wide text-slate-300">

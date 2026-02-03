@@ -56,9 +56,9 @@ export async function getCourses(query?: CourseQuery): Promise<Course[]> {
 /* =========================================================
  * GET /api/course/count
  * ======================================================= */
-export async function getCourseCount(query?: CourseQuery): Promise<number> {
-	const res = await api.get<{ count: number }>("/course/count", { params: query });
-	return res.data?.count ?? 0;
+export async function getCourseCount(): Promise<number> {
+	const res = await api.get<{ total: number }>("/course/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

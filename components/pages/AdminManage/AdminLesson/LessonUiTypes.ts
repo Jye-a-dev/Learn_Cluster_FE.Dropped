@@ -1,26 +1,30 @@
-// LessonUiTypes.ts
+import type { LessonBE } from "@/hooks/lessons/getLesson";
 
-// LessonUiTypes.ts
 export type LessonContentType = "video" | "pdf" | "text";
 
-export type Lesson = {
-	id: string;
-	chapter_id: string;
-	title: string;
-	content_type: LessonContentType;
-	content_url: string | null;
-	ordering: number;
-	created_at?: string;
+/**
+ * UI-only lesson (mở rộng BE)
+ */
+export type Lesson = Omit<LessonBE, "content_type"> & {
+	chapter_name?: string;
+	content_type: LessonContentType; // ✅ OVERRIDE
+	content_text?: string | null; // UI-only
 };
 
-export type CreateLessonPayload = {
+export interface CreateLessonPayload {
 	chapter_id: string;
 	title: string;
 	content_type: LessonContentType;
-	content_url: string | null;
+	content_url?: string | null;
+	content_text?: string | null; // UI-only
+	ordering?: number;
+}
+
+export type UpdateLessonPayload = {
+	chapter_id?: string; // ✅ ADD
+	title?: string;
+	content_url?: string;
+	content_text?: string;
 	ordering?: number;
 };
 
-export type UpdateLessonPayload = Partial<
-	Omit<CreateLessonPayload, "chapter_id">
->;

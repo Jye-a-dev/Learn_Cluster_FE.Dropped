@@ -53,8 +53,8 @@ export async function getChapters(query?: ChapterQuery): Promise<Chapter[]> {
  * GET /api/chapter/count
  * ======================================================= */
 export async function getChapterCount(query?: ChapterQuery): Promise<number> {
-	const res = await api.get<{ count: number }>("/chapter/count", { params: query });
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/chapter/count", { params: query });
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

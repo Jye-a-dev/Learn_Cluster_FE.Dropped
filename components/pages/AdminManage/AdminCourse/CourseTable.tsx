@@ -9,7 +9,7 @@ type Props = {
 
 export default function CourseTable({ courses, onEdit, onDelete }: Props) {
 	return (
-		<div className="overflow-x-auto rounded-xl border border-white bg-white/5">
+		<div className="rounded-xl border border-white/50">
 			<table className="w-full text-sm text-white">
 				<thead className="bg-black/5">
 					<tr>

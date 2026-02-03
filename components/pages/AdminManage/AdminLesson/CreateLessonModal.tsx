@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import {
 	BookOpenIcon,
 	ListBulletIcon,
@@ -8,16 +8,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 import BaseFormModal from "../BaseModel/BaseFormModal";
+import { useChaptersMap } from "@/hooks/chapters/useChaptersMap";
 import type {
 	CreateLessonPayload,
 	LessonContentType,
 } from "./LessonUiTypes";
-import { getChapters } from "@/hooks/chapters/getChapters";
-
-type ChapterOption = {
-	id: string;
-	title: string;
-};
 
 type Props = {
 	open: boolean;
@@ -25,82 +20,67 @@ type Props = {
 	onSubmit: (data: CreateLessonPayload) => Promise<void>;
 };
 
+type FormState = {
+	chapter_id: string;
+	title: string;
+	content_type: LessonContentType;
+	content_url: string;
+	content_text: string;
+	ordering: number;
+};
+
 export default function CreateLessonModal({
 	open,
 	onClose,
 	onSubmit,
 }: Props) {
-	const [chapters, setChapters] = useState<ChapterOption[]>([]);
-	const [searchChapter, setSearchChapter] = useState("");
+	const { chaptersMap, loading } = useChaptersMap();
 
-	const [form, setForm] = useState({
+	const [form, setForm] = useState<FormState>({
 		chapter_id: "",
 		title: "",
-		content_type: "video" as LessonContentType,
+		content_type: "video",
 		content_url: "",
-		ordering: "",
+		content_text: "",
+		ordering: 1,
 	});
 
-	const [submitting, setSubmitting] = useState(false);
-
 	/* =======================
-	   LOAD CHAPTERS
+	   VALIDATION
 	======================= */
-	useEffect(() => {
-		if (!open) return;
-
-		getChapters().then((res) => {
-			setChapters(
-				res.map((c) => ({
-					id: c.id,
-					title: c.title,
-				}))
-			);
-		});
-	}, [open]);
-
-	const filteredChapters = useMemo(() => {
-		const q = searchChapter.toLowerCase();
-		return chapters.filter((c) =>
-			c.title.toLowerCase().includes(q)
-		);
-	}, [chapters, searchChapter]);
+	const isInvalid =
+		!form.chapter_id ||
+		!form.title.trim() ||
+		(form.content_type !== "text" &&
+			!form.content_url.trim()) ||
+		(form.content_type === "text" &&
+			!form.content_text.trim());
 
 	/* =======================
 	   SUBMIT
 	======================= */
 	async function handleSubmit() {
-		if (!form.title.trim() || !form.chapter_id) return;
+		if (isInvalid) return;
 
-		try {
-			setSubmitting(true);
+		const payload: CreateLessonPayload = {
+			chapter_id: form.chapter_id,
+			title: form.title.trim(),
+			content_type: form.content_type,
+			ordering: form.ordering,
+		};
 
-			await onSubmit({
-				chapter_id: form.chapter_id,
-				title: form.title.trim(),
-				content_type: form.content_type,
-				content_url:
-					form.content_url !== ""
-						? form.content_url
-						: null,
-				ordering: form.ordering
-					? Number(form.ordering)
-					: undefined,
-			});
-
-			onClose();
-			setForm({
-				chapter_id: "",
-				title: "",
-				content_type: "video",
-				content_url: "",
-				ordering: "",
-			});
-			setSearchChapter("");
-		} finally {
-			setSubmitting(false);
+		if (form.content_type === "text") {
+			payload.content_text = form.content_text.trim();
+			payload.content_url = "";
+		} else {
+			payload.content_url = form.content_url.trim();
 		}
+
+		await onSubmit(payload);
+		onClose();
 	}
+
+	if (!open) return null;
 
 	/* =======================
 	   RENDER
@@ -109,47 +89,44 @@ export default function CreateLessonModal({
 		<BaseFormModal
 			open={open}
 			title="Tạo Lesson"
-			submitting={submitting}
 			onClose={onClose}
 			onSubmit={handleSubmit}
 		>
-			{/* Chapter */}
-			<div className="space-y-2">
+			{/* CHAPTER */}
+			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="text-xs font-medium text-white/70">
 					Chapter
 				</label>
-
-				<input
-					placeholder="Tìm chapter theo tên…"
-					className="input-admin text-white border border-white rounded-md"
-					value={searchChapter}
-					onChange={(e) => setSearchChapter(e.target.value)}
-				/>
-
 				<select
-					className="input-admin text-white border border-white rounded-md bg-black"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
 					value={form.chapter_id}
+					disabled={loading}
 					onChange={(e) =>
-						setForm({ ...form, chapter_id: e.target.value })
+						setForm({
+							...form,
+							chapter_id: e.target.value,
+						})
 					}
 				>
 					<option value="">-- Chọn chapter --</option>
-					{filteredChapters.map((c) => (
-						<option key={c.id} value={c.id}>
-							{c.title}
-						</option>
-					))}
+					{Object.values(chaptersMap)
+						.sort((a, b) => a.ordering - b.ordering)
+						.map((c) => (
+							<option key={c.id} value={c.id}>
+								{c.title}
+							</option>
+						))}
 				</select>
 			</div>
 
-			{/* Title */}
+			{/* TITLE */}
 			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
 					<BookOpenIcon className="h-4 w-4 text-white/40" />
 					Title
 				</label>
 				<input
-					className="input-admin text-white border border-white rounded-md"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
 					value={form.title}
 					onChange={(e) =>
 						setForm({ ...form, title: e.target.value })
@@ -157,19 +134,21 @@ export default function CreateLessonModal({
 				/>
 			</div>
 
-			{/* Content Type */}
+			{/* CONTENT TYPE */}
 			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="text-xs font-medium text-white/70">
 					Content Type
 				</label>
 				<select
-					className="input-admin text-white border border-white rounded-md bg-black"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
 					value={form.content_type}
 					onChange={(e) =>
 						setForm({
 							...form,
 							content_type:
 								e.target.value as LessonContentType,
+							content_url: "",
+							content_text: "",
 						})
 					}
 				>
@@ -179,31 +158,46 @@ export default function CreateLessonModal({
 				</select>
 			</div>
 
-			{/* Content URL */}
-			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
-				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
-					<LinkIcon className="h-4 w-4 text-white/40" />
-					Content URL
-				</label>
-				<input
-					className="input-admin text-white border border-white rounded-md"
-					placeholder={
-						form.content_type === "text"
-							? "Không cần URL cho text"
-							: "https://..."
-					}
-					value={form.content_url}
-					onChange={(e) =>
-						setForm({
-							...form,
-							content_url: e.target.value,
-						})
-					}
-					disabled={form.content_type === "text"}
-				/>
-			</div>
+			{/* CONTENT URL */}
+			{form.content_type !== "text" && (
+				<div className="grid grid-cols-[140px_1fr] items-center gap-3">
+					<label className="flex items-center gap-2 text-xs font-medium text-white/70">
+						<LinkIcon className="h-4 w-4 text-white/40" />
+						Content URL
+					</label>
+					<input
+						className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
+						value={form.content_url}
+						onChange={(e) =>
+							setForm({
+								...form,
+								content_url: e.target.value,
+							})
+						}
+					/>
+				</div>
+			)}
 
-			{/* Ordering */}
+			{/* CONTENT TEXT */}
+			{form.content_type === "text" && (
+				<div className="grid grid-cols-[140px_1fr] items-start gap-3">
+					<label className="text-xs font-medium text-white/70">
+						Content Text
+					</label>
+					<textarea
+						className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md min-h-40"
+						value={form.content_text}
+						onChange={(e) =>
+							setForm({
+								...form,
+								content_text: e.target.value,
+							})
+						}
+					/>
+				</div>
+			)}
+
+			{/* ORDERING */}
 			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
 					<ListBulletIcon className="h-4 w-4 text-white/40" />
@@ -211,12 +205,12 @@ export default function CreateLessonModal({
 				</label>
 				<input
 					type="number"
-					className="input-admin text-white border border-white rounded-md"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
 					value={form.ordering}
 					onChange={(e) =>
 						setForm({
 							...form,
-							ordering: e.target.value,
+							ordering: Number(e.target.value),
 						})
 					}
 				/>
