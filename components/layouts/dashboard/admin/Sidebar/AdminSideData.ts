@@ -24,16 +24,27 @@ export const ADMIN_SIDE_LINKS: SideLink[] = [
 
 export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 	{
-		label: "Manage",
+		label: "Manage Courses",
 		items: [
 			{ label: "Courses", href: "/admin/courses", highlight: "lapis" },
 			{ label: "Chapers", href: "/admin/chapters", highlight: "lapis" },
 			{ label: "Lessons", href: "/admin/lessons", highlight: "gold" },
 			{ label: "Course Instruction", href: "/admin/course_instruction", highlight: "gold" },
+		],
+	},
+	{
+		label: "Manage User",
+		items: [
 			{ label: "Permission", href: "/admin/permissions", highlight: "gold" },
 			{ label: "Roles Permission", href: "/admin/roleallow", highlight: "emerald" },
 			{ label: "Users", href: "/admin/users", highlight: "lapis" },
 			{ label: "Roles", href: "/admin/roles", highlight: "emerald" },
+		],
+	},
+		{
+		label: "Manage Task",
+		items: [
+			{ label: "Assignments", href: "/admin/assignments", highlight: "gold" },
 		],
 	},
 	{

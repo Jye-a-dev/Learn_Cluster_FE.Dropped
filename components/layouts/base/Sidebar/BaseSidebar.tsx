@@ -32,12 +32,12 @@ export default function BaseSidebar({
 
   return (
     <aside
-      className={`relative left-0 flex flex-col text-white shadow-xl transition-all duration-300 ${
-        collapsed
-          ? "w-14 rounded-none border-none"
+      className={`absolute inset-0 flex min-h-0 flex-col text-white shadow-xl transition-all duration-300 ${collapsed
+          ? "w-0 rounded-2xl border-none "
           : "w-50 rounded-2xl border border-white/20"
-      } ${gradientClass}`}
+        } ${gradientClass}`}
     >
+
       {/* Toggle button */}
       <SidebarToggleButton
         collapsed={collapsed}
@@ -53,7 +53,7 @@ export default function BaseSidebar({
 
       {/* Navigation */}
       {!collapsed && (
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
+        <nav className="flex-1 px-3 py-4 overflow-y-auto no-scrollbar">
           {/* Normal links */}
           <div className="space-y-1">
             {links.map((item) => (
@@ -81,9 +81,8 @@ export default function BaseSidebar({
                     <Disclosure.Button className="flex w-full items-center justify-between rounded-xl px-3 py-2 cursor-pointer text-sm font-semibold transition hover:bg-white/15">
                       <span className="truncate">{group.label}</span>
                       <ChevronDownIcon
-                        className={`h-4 w-4 transition-transform ${
-                          open ? "rotate-180" : ""
-                        }`}
+                        className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""
+                          }`}
                       />
                     </Disclosure.Button>
 
@@ -103,6 +102,7 @@ export default function BaseSidebar({
               </Disclosure>
             ))}
           </div>
+          <div className="h-70 shrink-0" />
         </nav>
       )}
     </aside>

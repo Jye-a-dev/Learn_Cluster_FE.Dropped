@@ -1,9 +1,11 @@
 import api from "@/hooks/api";
+import { ReactNode } from "react";
 
 /* =======================
    TYPE
 ======================= */
 export interface Course {
+	name: ReactNode;
 	id: string; // UUID
 	title: string;
 	description?: string | null;

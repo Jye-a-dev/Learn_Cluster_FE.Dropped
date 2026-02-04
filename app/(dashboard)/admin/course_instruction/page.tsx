@@ -1,4 +1,4 @@
-// app/(dashboard)/admin/roleallow/[roleId]/page.tsx
+
 "use client";
 
 import AdminCourseInstructorContainer from "@/components/pages/AdminManage/AdminCourseInstructor/AdminCourseInstructorContainer";

@@ -28,8 +28,8 @@ export async function getRoles(): Promise<Role[]> {
  * GET /api/role/count
  * ======================================================= */
 export async function getRoleCount(): Promise<number> {
-	const res = await api.get<{ count: number }>("/role/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/role/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================
