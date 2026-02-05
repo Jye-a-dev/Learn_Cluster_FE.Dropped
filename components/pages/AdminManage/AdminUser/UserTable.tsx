@@ -1,59 +1,85 @@
 // src/components/pages/AdminManage/AdminUser/UserTable.tsx
 "use client";
 
+import BaseTable, { BaseColumn } from "@/components/pages/AdminManage/BaseModel/BaseTable";
 import UserActions from "./UserActions";
 import type { UserUI } from "./UserUiTypes";
 
 type Props = {
-  users: UserUI[];
-  onEdit: (u: UserUI) => void;
-  onDelete: (u: UserUI) => void; // ✅ đổi sang UserUI
+	users: UserUI[];
+	onEdit: (u: UserUI) => void;
+	onDelete: (u: UserUI) => void;
 };
-export default function UserTable({ users, onEdit, onDelete }: Props) {
-  return (
-    <div className="rounded-xl border border-white/50">
-      <table className="w-full text-xs text-white">
-        <thead className="bg-white/5">
-          <tr>
-            <th className="p-3">ID</th>
-            <th className="p-3 text-left">Username</th>
-            <th className="p-3 text-left">Email</th>
-            <th className="p-3 text-left">Role</th>
-            <th className="p-3">Created</th>
-            <th className="p-3">Updated</th>
-            <th className="p-3 text-right">Actions</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id} className="border-t border-white/10">
-              <td className="p-3 font-mono text-[10px]">{u.id}</td>
-              <td className="p-3">{u.username}</td>
-              <td className="p-3">{u.email}</td>
-              <td className="p-3">{u.roleName}</td>
-              <td className="p-3">
-                {u.created_at
-                  ? new Date(u.created_at).toLocaleDateString()
-                  : "—"}
-              </td>
-              <td className="p-3">
-                {u.updated_at
-                  ? new Date(u.updated_at).toLocaleDateString()
-                  : "—"}
-              </td>
+export default function UserTable({
+	users,
+	onEdit,
+	onDelete,
+}: Props) {
+	const columns: BaseColumn<UserUI>[] = [
+		{
+			key: "id",
+			header: "ID",
+			className: "p-3 font-mono text-[10px]",
+			render: (u) => u.id,
+		},
+		{
+			key: "username",
+			header: "Username",
+			className: "p-3 text-left",
+			render: (u) => u.username,
+		},
+		{
+			key: "email",
+			header: "Email",
+			className: "p-3 text-left",
+			render: (u) => u.email,
+		},
+		{
+			key: "role",
+			header: "Role",
+			className: "p-3 text-left",
+			render: (u) => u.roleName,
+		},
+		{
+			key: "created_at",
+			header: "Created",
+			className: "p-3",
+			render: (u) =>
+				u.created_at
+					? new Date(u.created_at).toLocaleDateString()
+					: "—",
+		},
+		{
+			key: "updated_at",
+			header: "Updated",
+			className: "p-3",
+			render: (u) =>
+				u.updated_at
+					? new Date(u.updated_at).toLocaleDateString()
+					: "—",
+		},
+		{
+			key: "actions",
+			header: "Actions",
+			className: "p-3 text-right relative",
+			render: (u) => (
+				<UserActions
+					onEdit={() => onEdit(u)}
+					onDelete={() => onDelete(u)}
+				/>
+			),
+		},
+	];
 
-              {/* CHÌA KHÓA */}
-              <td className="p-3 text-right relative">
-                <UserActions
-                  onEdit={() => onEdit(u)}
-                  onDelete={() => onDelete(u)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+	return (
+		<BaseTable
+			data={users}
+			columns={columns}
+			tableClassName="w-full text-xs text-white"
+			headClassName="bg-white/5"
+			rowClassName={() => "border-t border-white/10"}
+			emptyText="Không có user"
+		/>
+	);
 }

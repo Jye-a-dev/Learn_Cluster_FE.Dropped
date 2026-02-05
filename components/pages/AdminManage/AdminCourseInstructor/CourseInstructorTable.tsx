@@ -1,4 +1,7 @@
+"use client";
+
 import { useMemo } from "react";
+import BaseTable, { BaseColumn } from "@/components/pages/AdminManage/BaseModel/BaseTable";
 import CourseInstructorActions from "./CourseInstructorActions";
 import type { CourseInstructor } from "./CourseInstructorUiTypes";
 
@@ -22,74 +25,65 @@ export default function CourseInstructorTable({
 	onEdit,
 	onDelete,
 }: Props) {
-	/* ===== lookup maps (typed) ===== */
-	const courseMap = useMemo<Map<string, string>>(
+	const courseMap = useMemo(
 		() => new Map(courseOptions.map((c) => [c.id, c.label])),
 		[courseOptions]
 	);
 
-	const userMap = useMemo<Map<string, string>>(
+	const userMap = useMemo(
 		() => new Map(userOptions.map((u) => [u.id, u.label])),
 		[userOptions]
 	);
 
+	const columns: BaseColumn<CourseInstructor>[] = [
+		{
+			key: "id",
+			header: "ID",
+			className: "px-3 py-2 text-left text-xs text-white/60",
+			render: (i) => i.id,
+		},
+		{
+			key: "course",
+			header: "Course",
+			className: "px-3 py-2 font-medium text-center",
+			render: (i) => courseMap.get(i.course_id) || "—",
+		},
+		{
+			key: "user",
+			header: "User",
+			className: "px-3 py-2 text-white/80 text-center",
+			render: (i) => userMap.get(i.user_id) || "—",
+		},
+		{
+			key: "role",
+			header: "Role",
+			className: "px-3 py-2 text-white/60 text-center",
+			render: (i) => i.role_in_course,
+		},
+		{
+			key: "actions",
+			header: "Actions",
+			className: "px-3 py-2 text-center",
+			render: (i) => (
+				<CourseInstructorActions
+					instructor={i}
+					onEdit={onEdit}
+					onDelete={onDelete}
+				/>
+			),
+		},
+	];
+
 	return (
-		<div className="rounded-xl border border-white/50">
-			<table className="w-full text-sm text-white">
-				<thead className="bg-black/5">
-					<tr>
-						<th className="px-3 py-2 text-left">ID</th>
-						<th className="px-3 py-2 text-left">Course</th>
-						<th className="px-3 py-2 text-left">User</th>
-						<th className="px-3 py-2 text-left">Role</th>
-						<th className="px-3 py-2 text-right">Actions</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{instructors.map((i) => (
-						<tr
-							key={i.id}
-							className="border-t border-white/10 hover:bg-white/5"
-						>
-							<td className="px-3 py-2 text-xs text-white/60">
-								{i.id}
-							</td>
-
-							<td className="px-3 py-2 font-medium">
-								{courseMap.get(i.course_id) || "—"}
-							</td>
-
-							<td className="px-3 py-2 text-white/80">
-								{userMap.get(i.user_id) || "—"}
-							</td>
-
-							<td className="px-3 py-2 text-white/60">
-								{i.role_in_course}
-							</td>
-
-							<td className="px-3 py-2 text-right">
-								<CourseInstructorActions
-									instructor={i}
-									onEdit={onEdit}
-									onDelete={onDelete}
-								/>
-							</td>
-						</tr>
-					))}
-
-					{instructors.length === 0 && (
-						<tr>
-							<td
-								colSpan={5}
-								className="px-4 py-6 text-center text-white/50"
-							>
-								Không có instructor
-							</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
-		</div>
+		<BaseTable
+			data={instructors}
+			columns={columns}
+			emptyText="Không có instructor"
+			tableClassName="w-full text-sm text-white"
+			headClassName="bg-black/5"
+			rowClassName={() =>
+				"border-t border-white/10 hover:bg-white/5"
+			}
+		/>
 	);
 }

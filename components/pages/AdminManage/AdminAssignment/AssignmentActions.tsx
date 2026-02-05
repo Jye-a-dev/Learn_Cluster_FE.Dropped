@@ -1,6 +1,6 @@
 "use client";
 
-import BaseAction from "../AdminManage/BaseModel/BaseAction";
+import BaseAction from "../BaseModel/BaseAction";
 import type { Assignment } from "./AssignmentUiTypes";
 
 export default function AssignmentActions({

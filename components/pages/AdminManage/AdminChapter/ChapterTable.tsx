@@ -1,3 +1,6 @@
+"use client";
+
+import BaseTable, { BaseColumn } from "@/components/pages/AdminManage/BaseModel/BaseTable";
 import ChapterActions from "./ChapterActions";
 import type { Chapter } from "./ChapterUiTypes";
 
@@ -12,63 +15,53 @@ export default function ChapterTable({
 	onEdit,
 	onDelete,
 }: Props) {
+	const columns: BaseColumn<Chapter>[] = [
+		{
+			key: "id",
+			header: "ID",
+			className: "px-3 py-2 text-left text-xs text-white/60",
+			render: (c) => c.id,
+		},
+		{
+			key: "course_id",
+			header: "Course ID",
+			className: "px-3 py-2 text-left text-xs text-white/60",
+			render: (c) => c.course_id,
+		},
+		{
+			key: "title",
+			header: "Title",
+			className: "px-3 py-2 text-left font-medium",
+			render: (c) => c.title,
+		},
+		{
+			key: "ordering",
+			header: "Ordering",
+			className: "px-3 py-2 text-right font-semibold",
+			render: (c) => c.ordering,
+		},
+		{
+			key: "actions",
+			header: "Actions",
+			className: "px-3 py-2 text-right",
+			render: (c) => (
+				<ChapterActions
+					chapter={c}
+					onEdit={onEdit}
+					onDelete={onDelete}
+				/>
+			),
+		},
+	];
+
 	return (
-		<div className="rounded-xl border border-white/50">
-			<table className="w-full text-sm text-white">
-				<thead className="bg-black/5">
-					<tr>
-						<th className="px-3 py-2 text-left">ID</th>
-						<th className="px-3 py-2 text-left">Course ID</th>
-						<th className="px-3 py-2 text-left">Title</th>
-						<th className="px-3 py-2 text-right">Ordering</th>
-						<th className="px-3 py-2 text-right">Actions</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{chapters.map((c) => (
-						<tr
-							key={c.id}
-							className="border-t border-white/10 hover:bg-white/5"
-						>
-							<td className="px-3 py-2 text-xs text-white/60">
-								{c.id}
-							</td>
-
-							<td className="px-3 py-2 text-xs text-white/60">
-								{c.course_id}
-							</td>
-
-							<td className="px-3 py-2 font-medium">
-								{c.title}
-							</td>
-
-							<td className="px-3 py-2 text-right font-semibold">
-								{c.ordering}
-							</td>
-
-							<td className="px-3 py-2 text-right">
-								<ChapterActions
-									chapter={c}
-									onEdit={onEdit}
-									onDelete={onDelete}
-								/>
-							</td>
-						</tr>
-					))}
-
-					{chapters.length === 0 && (
-						<tr>
-							<td
-								colSpan={5}
-								className="px-4 py-6 text-center text-white/50"
-							>
-								Không có chapter
-							</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
-		</div>
+		<BaseTable
+			data={chapters}
+			columns={columns}
+			emptyText="Không có chapter"
+			rowClassName={() =>
+				"border-t border-white/10 hover:bg-white/5"
+			}
+		/>
 	);
 }

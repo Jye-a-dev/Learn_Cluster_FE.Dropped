@@ -1,7 +1,7 @@
 // app/(dashboard)/admin/assignments/page.tsx
 "use client";
 
-import AdminAssignmentContainer from "@/components/pages/AdminAssignment/AdminAssignmentContainer";
+import AdminAssignmentContainer from "@/components/pages/AdminManage/AdminAssignment/AdminAssignmentContainer";
 
 export default function AdminAssignmentsPage() {
     return (

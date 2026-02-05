@@ -3,6 +3,7 @@ import api from "@/hooks/api";
 /* ===================== TYPES ===================== */
 
 export interface User {
+  name: ReactNode;
   id: string;          // UUID
   username: string;
   email: string;

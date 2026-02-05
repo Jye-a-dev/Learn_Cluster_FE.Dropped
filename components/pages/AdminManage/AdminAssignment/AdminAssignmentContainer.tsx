@@ -9,7 +9,7 @@ import {
     deleteAssignment,
 } from "@/hooks/assignment/getAssignment";
 
-import { useBaseCrudContainer } from "../AdminManage/BaseModel/BaseCrudContainer";
+import { useBaseCrudContainer } from "../BaseModel/BaseCrudContainer";
 
 import AssignmentTable from "./AssignmentTable";
 import CreateAssignmentModal from "./CreateAssignmentModal";

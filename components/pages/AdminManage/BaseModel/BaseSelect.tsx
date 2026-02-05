@@ -24,7 +24,7 @@ export default function BaseSelect<T>({
 			value={value}
 			disabled={disabled}
 			onChange={(e) => onChange(e.target.value)}
-			className={`w-full rounded-md bg-zinc-900 px-3 py-2 text-sm text-white border border-cyan-400/40 ${className}`}
+			className={`w-full rounded-md bg-emerald-900 cursor-pointer rounded-b-2xl px-3 py-2 text-sm text-white border border-cyan-400/40 ${className}`}
 		>
 			<option value="">{placeholder}</option>
 			{options.map((item) => (

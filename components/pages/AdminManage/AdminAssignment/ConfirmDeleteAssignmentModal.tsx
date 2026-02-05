@@ -1,6 +1,6 @@
 "use client";
 
-import BaseConfirmModal from "../AdminManage/BaseModel/BaseConfirmModal";
+import BaseConfirmModal from "../BaseModel/BaseConfirmModal";
 import type { Assignment } from "./AssignmentUiTypes";
 
 export default function ConfirmDeleteAssignmentModal({

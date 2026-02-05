@@ -1,66 +1,63 @@
+"use client";
+
+import BaseTable, { BaseColumn } from "@/components/pages/AdminManage/BaseModel/BaseTable";
 import PermissionActions from "./PermissionAction";
-import { Permission } from "./PermissionUiTypes";
+import type { Permission } from "./PermissionUiTypes";
 
 type Props = {
-    permissions: Permission[];
-    onEdit: (permission: Permission) => void;
-    onDelete: (permission: Permission) => void;
+	permissions: Permission[];
+	onEdit: (permission: Permission) => void;
+	onDelete: (permission: Permission) => void;
 };
 
 export default function PermissionTable({
-    permissions,
-    onEdit,
-    onDelete,
+	permissions,
+	onEdit,
+	onDelete,
 }: Props) {
-    return (
-        <div className="overflow-x-hidden overflow-y-visible rounded-xl border border-white bg-red-200/20">
-            <table className="w-full text-sm text-white">
-                <thead className="bg-black/5">
-                    <tr>
-                        <th className="px-4 py-3 text-left">ID</th>
-                        <th className="px-4 py-3 text-left">Name</th>
-                        <th className="px-4 py-3 text-left">Description</th>
-                        <th className="px-4 py-3 text-right">Actions</th>
-                    </tr>
-                </thead>
+	const columns: BaseColumn<Permission>[] = [
+		{
+			key: "id",
+			header: "ID",
+			className: "px-4 py-3 text-left font-mono text-xs text-white/60",
+			render: (p) => p.id,
+		},
+		{
+			key: "name",
+			header: "Name",
+			className: "px-4 py-3 text-left font-medium",
+			render: (p) => p.name,
+		},
+		{
+			key: "description",
+			header: "Description",
+			className: "px-4 py-3 text-left text-white/60",
+			render: (p) => p.description ?? "—",
+		},
+		{
+			key: "actions",
+			header: "Actions",
+			className: "px-4 py-3 text-center",
+			render: (p) => (
+				<PermissionActions
+					permission={p}
+					onEdit={onEdit}
+					onDelete={onDelete}
+				/>
+			),
+		},
+	];
 
-                <tbody>
-                    {permissions.map((p) => (
-                        <tr
-                            key={p.id}
-                            className="border-t border-white/10 hover:bg-white/5"
-                        >
-                            <td className="px-4 py-3 font-mono text-xs text-white/60">
-                                {p.id}
-                            </td>
-                            <td className="px-4 py-3 font-medium">
-                                {p.name}
-                            </td>
-                            <td className="px-4 py-3 text-white/60">
-                                {p.description ?? "—"}
-                            </td>
-                            <td className="px-4 py-3 text-right">
-                                <PermissionActions
-                                    permission={p}
-                                    onEdit={onEdit}
-                                    onDelete={onDelete}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-
-                    {permissions.length === 0 && (
-                        <tr>
-                            <td
-                                colSpan={4}
-                                className="px-4 py-6 text-center text-white/50"
-                            >
-                                Không có permission
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
-    );
+	return (
+		<BaseTable
+			data={permissions}
+			columns={columns}
+			wrapperClassName="overflow-x-hidden overflow-y-visible rounded-xl border border-white"
+			tableClassName="w-full text-sm text-white"
+			headClassName="bg-cyan-800/50"
+			rowClassName={() => "border-t border-white/10 hover:bg-white/5"}
+			emptyText="Không có permission"
+			rowsPerPage={10}
+		/>
+	);
 }

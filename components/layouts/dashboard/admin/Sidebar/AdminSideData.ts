@@ -45,6 +45,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		label: "Manage Task",
 		items: [
 			{ label: "Assignments", href: "/admin/assignments", highlight: "gold" },
+			{ label: "Submissions", href: "/admin/submissions", highlight: "lapis" },
 		],
 	},
 	{

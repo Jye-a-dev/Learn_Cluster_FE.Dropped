@@ -29,7 +29,7 @@ export default function SearchFilterRolePermission({
 	);
 
 	return (
-		<div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-emerald-600 p-4 md:flex-row md:items-center">
+		<div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-cyan-600 p-4 md:flex-row md:items-center">
 			<BaseSelect
 				value={roleId}
 				onChange={onRoleChange}
