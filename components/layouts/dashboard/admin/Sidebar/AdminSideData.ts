@@ -27,6 +27,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		label: "Manage Courses",
 		items: [
 			{ label: "Courses", href: "/admin/courses", highlight: "lapis" },
+			{ label: "Enrollments", href: "/admin/enrollments", highlight: "emerald" },
 			{ label: "Chapers", href: "/admin/chapters", highlight: "lapis" },
 			{ label: "Lessons", href: "/admin/lessons", highlight: "gold" },
 			{ label: "Course Instruction", href: "/admin/course_instruction", highlight: "gold" },
