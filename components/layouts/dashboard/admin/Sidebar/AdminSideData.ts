@@ -51,6 +51,12 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		],
 	},
 	{
+		label: "Manage Study date",
+		items: [
+			{ label: "Study dates", href: "/admin/study_dates", highlight: "gold" },
+		],
+	},
+	{
 		label: "Learning Tools",
 		items: [
 			{ label: "Pomodoro Timer", href: "/admin/tools/pomodoro" },
