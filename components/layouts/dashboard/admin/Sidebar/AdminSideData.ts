@@ -42,7 +42,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 			{ label: "Roles", href: "/admin/roles", highlight: "emerald" },
 		],
 	},
-		{
+	{
 		label: "Manage Task",
 		items: [
 			{ label: "Assignments", href: "/admin/assignments", highlight: "gold" },
@@ -54,6 +54,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		label: "Manage Study date",
 		items: [
 			{ label: "Study dates", href: "/admin/study_dates", highlight: "gold" },
+			{ label: "Participants", href: "/admin/studydate_participants", highlight: "gold" },
 		],
 	},
 	{
