@@ -55,6 +55,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		items: [
 			{ label: "Study dates", href: "/admin/study_dates", highlight: "gold" },
 			{ label: "Participants", href: "/admin/studydate_participants", highlight: "gold" },
+			{ label: "Lesson to study", href: "/admin/studydate_lesson", highlight: "gold" },
 		],
 	},
 	{
