@@ -94,8 +94,7 @@ export default function AdminPermissionContainer() {
     const q = search.toLowerCase();
     return permissions.filter(
       (p) =>
-        p.name.toLowerCase().includes(q) ||
-        (p.code?.toLowerCase().includes(q) ?? false)
+        p.name.toLowerCase().includes(q)
     );
   }, [permissions, search]);
 

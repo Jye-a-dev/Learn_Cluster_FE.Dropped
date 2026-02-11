@@ -5,7 +5,6 @@ export type PermissionName = string;
 export interface Permission {
   id: number;   // ✅ UUID
   name: string;
-  code?: string;
   description?: string;
 }
 
@@ -14,12 +13,10 @@ export interface Permission {
 
 export interface CreatePermissionPayload {
     name: string;
-    code?: string;
     description?: string;
 }
 
 export interface UpdatePermissionPayload {
     name?: string;
-    code?: string;
     description?: string;
 }
