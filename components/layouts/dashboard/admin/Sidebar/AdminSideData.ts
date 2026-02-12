@@ -62,6 +62,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 		label: "Manage Messages",
 		items: [
 			{ label: "Messages", href: "/admin/message", highlight: "gold" },
+			{ label: "Notes", href: "/admin/note", highlight: "lapis" },
 		],
 	},
 	{
