@@ -58,11 +58,12 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 			{ label: "Lesson to study", href: "/admin/studydate_lesson", highlight: "gold" },
 		],
 	},
-		{
+	{
 		label: "Manage Messages",
 		items: [
 			{ label: "Messages", href: "/admin/message", highlight: "gold" },
 			{ label: "Notes", href: "/admin/note", highlight: "lapis" },
+			{ label: "Bookmark", href: "/admin/bookmark", highlight: "lapis" },
 		],
 	},
 	{
