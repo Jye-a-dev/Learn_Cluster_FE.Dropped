@@ -41,20 +41,20 @@ export default function UpdateMessageModal({
         }
     }, [open, message]);
 
-    // 🔒 Guard: đảm bảo message luôn non-null phía dưới
     if (!open || !message) return null;
 
     const currentMessage = message;
 
+    const isInvalid = !content.trim();
+
     async function handleSubmit() {
-        const trimmed = content.trim();
-        if (!trimmed) return;
+        if (isInvalid) return;
 
         try {
             setSubmitting(true);
 
             await onSubmit(currentMessage.id, {
-                content: trimmed,
+                content: content.trim(),
             });
 
             onClose();
@@ -73,11 +73,11 @@ export default function UpdateMessageModal({
             open={open}
             title="Cập nhật Message"
             submitting={submitting}
+            isInvalid={isInvalid}   // ✅ FIX
             onClose={onClose}
             onSubmit={handleSubmit}
         >
             <div className="space-y-5 text-white">
-
                 {/* ===== STUDY DATE (LOCKED) ===== */}
                 <div className="space-y-1">
                     <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-white/70">
@@ -87,7 +87,7 @@ export default function UpdateMessageModal({
                     <select
                         disabled
                         className="w-full rounded-md bg-black/60 border border-white/30
-                        px-3 py-2 text-sm opacity-60 cursor-not-allowed"
+              px-3 py-2 text-sm opacity-60 cursor-not-allowed"
                         value={currentMessage.study_date_id}
                     >
                         <option value={currentMessage.study_date_id}>
@@ -105,7 +105,7 @@ export default function UpdateMessageModal({
                     <select
                         disabled
                         className="w-full rounded-md bg-black/60 border border-white/30
-                        px-3 py-2 text-sm opacity-60 cursor-not-allowed"
+              px-3 py-2 text-sm opacity-60 cursor-not-allowed"
                         value={currentMessage.sender_id ?? ""}
                     >
                         <option value={currentMessage.sender_id ?? ""}>
@@ -125,9 +125,9 @@ export default function UpdateMessageModal({
                     <textarea
                         rows={3}
                         className="w-full rounded-md bg-black/60 border border-white/30
-                        px-3 py-2 text-sm
-                        focus:outline-none focus:ring-2 focus:ring-blue-500
-                        focus:border-blue-500"
+              px-3 py-2 text-sm
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+              focus:border-blue-500"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />

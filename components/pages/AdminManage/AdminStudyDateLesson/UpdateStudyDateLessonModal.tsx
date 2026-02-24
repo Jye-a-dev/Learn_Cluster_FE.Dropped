@@ -36,6 +36,7 @@ export default function UpdateStudyDateLessonModal({
 
 	const [submitting, setSubmitting] = useState(false);
 
+	/* ===== Sync khi mở modal ===== */
 	useEffect(() => {
 		if (!open || !studyDateLesson) return;
 
@@ -45,8 +46,16 @@ export default function UpdateStudyDateLessonModal({
 		});
 	}, [open, studyDateLesson]);
 
+	if (!open || !studyDateLesson) return null;
+
+	/* ===== Validation ===== */
+	const isInvalid =
+		!form.study_date_id?.trim() ||
+		!form.lesson_id?.trim();
+
+	/* ===== Submit ===== */
 	async function handleSubmit() {
-		if (!studyDateLesson) return;
+		if (isInvalid) return;
 
 		try {
 			setSubmitting(true);
@@ -70,6 +79,7 @@ export default function UpdateStudyDateLessonModal({
 			open={open}
 			title="Sửa Lesson trong Study Date"
 			submitting={submitting}
+			isInvalid={isInvalid}
 			onClose={onClose}
 			onSubmit={handleSubmit}
 		>
@@ -83,7 +93,7 @@ export default function UpdateStudyDateLessonModal({
 						onChange={(e) =>
 							setForm({
 								...form,
-								study_date_id: e.target.value,
+								study_date_id: e.target.value || undefined,
 							})
 						}
 					>
@@ -109,7 +119,7 @@ export default function UpdateStudyDateLessonModal({
 							onChange={(e) =>
 								setForm({
 									...form,
-									lesson_id: e.target.value,
+									lesson_id: e.target.value || undefined,
 								})
 							}
 						>

@@ -29,7 +29,7 @@ export default function UpdatePermissionModal({
     const [description, setDescription] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    /* ===== sync khi mở modal ===== */
+    /* ===== Sync khi mở modal ===== */
     useEffect(() => {
         if (open && permission) {
             setName(permission.name);
@@ -40,16 +40,17 @@ export default function UpdatePermissionModal({
     if (!open || !permission) return null;
     const permissionId = permission.id;
 
+    const isInvalid = !name.trim();
+
     async function handleSubmit() {
-        const trimmedName = name.trim();
-        if (!trimmedName) return;
+        if (isInvalid) return;
 
         try {
             setSubmitting(true);
 
             await onSubmit(permissionId, {
-                name: trimmedName,
-                description: description || undefined,
+                name: name.trim(),
+                description: description.trim() || undefined,
             });
 
             onClose();
@@ -63,6 +64,7 @@ export default function UpdatePermissionModal({
             open={open}
             title="Cập nhật Permission"
             submitting={submitting}
+            isInvalid={isInvalid}   // ✅ FIX
             onClose={onClose}
             onSubmit={handleSubmit}
         >

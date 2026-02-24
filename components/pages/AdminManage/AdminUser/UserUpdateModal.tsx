@@ -23,7 +23,7 @@ export default function UserUpdateModal({
     onClose,
     onSubmit,
 }: Props) {
-    /* ===== hooks (top-level) ===== */
+    /* ===== Hooks ===== */
     const { rolesMap, loading } = useRolesMap();
 
     const resolvedRoleId = useMemo(() => {
@@ -38,7 +38,7 @@ export default function UserUpdateModal({
     const [roleId, setRoleId] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    /* ===== sync khi mở modal ===== */
+    /* ===== Sync khi mở modal ===== */
     useEffect(() => {
         if (open && user) {
             setUsername(user.username);
@@ -49,13 +49,20 @@ export default function UserUpdateModal({
     if (!open || !user) return null;
     const userId = user.id;
 
+    /* ===== Validation ===== */
+    const isInvalid =
+        !username.trim() ||
+        !roleId ||
+        (username === user.username && roleId === resolvedRoleId);
+
+    /* ===== Submit ===== */
     async function handleSubmit() {
-        if (!username.trim() || !roleId) return;
+        if (isInvalid) return;
 
         try {
             setSubmitting(true);
             await onSubmit(userId, {
-                username,
+                username: username.trim(),
                 role_id: roleId,
             });
             onClose();
@@ -69,10 +76,11 @@ export default function UserUpdateModal({
             open={open}
             title="Cập nhật User"
             submitting={submitting}
+            isInvalid={isInvalid}
             onClose={onClose}
             onSubmit={handleSubmit}
         >
-            {/* Username */}
+            {/* ===== Username ===== */}
             <div className="space-y-1.5">
                 <label className="text-xs font-medium text-white/70">
                     Username
@@ -88,7 +96,7 @@ export default function UserUpdateModal({
                 </div>
             </div>
 
-            {/* Role */}
+            {/* ===== Role ===== */}
             <div className="space-y-1.5">
                 <label className="text-xs font-medium text-white/70">
                     Role
@@ -97,14 +105,18 @@ export default function UserUpdateModal({
                 <div className="relative">
                     <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
 
-                    {/* Arrow */}
                     <svg
                         className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                     >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                        />
                     </svg>
 
                     <select
@@ -117,7 +129,11 @@ export default function UserUpdateModal({
                             Chọn role
                         </option>
                         {Object.values(rolesMap).map((r) => (
-                            <option key={r.id} value={r.id} className="bg-zinc-900">
+                            <option
+                                key={r.id}
+                                value={r.id}
+                                className="bg-zinc-900"
+                            >
                                 {r.name}
                             </option>
                         ))}
@@ -125,8 +141,7 @@ export default function UserUpdateModal({
                 </div>
             </div>
 
-
-            {/* Hint */}
+            {/* ===== Hint ===== */}
             <p className="pt-1 text-xs text-white/40">
                 Thay đổi username hoặc role sẽ ảnh hưởng quyền truy cập của user.
             </p>

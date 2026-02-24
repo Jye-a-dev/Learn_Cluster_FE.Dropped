@@ -13,13 +13,21 @@ type Props = {
 	onSubmit: (id: string, data: UpdateCoursePayload) => Promise<void>;
 };
 
+type FormState = {
+	title: string;
+	description: string;
+	objective: string;
+	duration_hours?: number;
+	status: "draft" | "public" | "closed";
+};
+
 export default function UpdateCourseModal({
 	open,
 	course,
 	onClose,
 	onSubmit,
 }: Props) {
-	const [form, setForm] = useState<UpdateCoursePayload>({
+	const [form, setForm] = useState<FormState>({
 		title: "",
 		description: "",
 		objective: "",
@@ -29,40 +37,60 @@ export default function UpdateCourseModal({
 
 	const [submitting, setSubmitting] = useState(false);
 
+	/* =======================
+	   INIT FORM
+	======================= */
 	useEffect(() => {
-		if (open && course) {
-			setForm({
-				title: course.title,
-				description: course.description ?? "",
-				objective: course.objective ?? "",
-				duration_hours: course.duration_hours ?? undefined,
-				status: course.status,
-			});
-		}
+		if (!open || !course) return;
+
+		setForm({
+			title: course.title,
+			description: course.description ?? "",
+			objective: course.objective ?? "",
+			duration_hours: course.duration_hours ?? undefined,
+			status: course.status,
+		});
 	}, [open, course]);
 
 	if (!open || !course) return null;
 	const courseId = course.id;
 
+	/* =======================
+	   VALIDATION
+	======================= */
+	const isInvalid = !form.title.trim();
+
+	/* =======================
+	   SUBMIT
+	======================= */
 	async function handleSubmit() {
 		try {
 			setSubmitting(true);
-			await onSubmit(courseId, {
-				...form,
-				description: form.description || undefined,
-				objective: form.objective || undefined,
-			});
+
+			const payload: UpdateCoursePayload = {
+				title: form.title.trim(),
+				description: form.description.trim() || undefined,
+				objective: form.objective.trim() || undefined,
+				duration_hours: form.duration_hours,
+				status: form.status,
+			};
+
+			await onSubmit(courseId, payload);
 			onClose();
 		} finally {
 			setSubmitting(false);
 		}
 	}
 
+	/* =======================
+	   RENDER
+	======================= */
 	return (
 		<BaseFormModal
 			open={open}
 			title="Cập nhật Course"
 			submitting={submitting}
+			isInvalid={isInvalid}
 			onClose={onClose}
 			onSubmit={handleSubmit}
 		>
@@ -73,7 +101,7 @@ export default function UpdateCourseModal({
 					Title
 				</label>
 				<input
-					className="input-admin text-white border border-white rounded-md"
+					className="input-admin text-white border border-white/40 rounded-md"
 					value={form.title}
 					onChange={(e) =>
 						setForm({ ...form, title: e.target.value })
@@ -88,8 +116,8 @@ export default function UpdateCourseModal({
 				</label>
 				<textarea
 					rows={3}
-					className="input-admin text-white border border-white rounded-md"
-					value={form.description ?? ""}
+					className="input-admin text-white border border-white/40 rounded-md"
+					value={form.description}
 					onChange={(e) =>
 						setForm({ ...form, description: e.target.value })
 					}
@@ -103,8 +131,8 @@ export default function UpdateCourseModal({
 				</label>
 				<textarea
 					rows={3}
-					className="input-admin text-white border border-white rounded-md"
-					value={form.objective ?? ""}
+					className="input-admin text-white border border-white/40 rounded-md"
+					value={form.objective}
 					onChange={(e) =>
 						setForm({ ...form, objective: e.target.value })
 					}
@@ -120,7 +148,7 @@ export default function UpdateCourseModal({
 				<input
 					type="number"
 					min={0}
-					className="input-admin text-white border border-white rounded-md"
+					className="input-admin text-white border border-white/40 rounded-md"
 					value={form.duration_hours ?? ""}
 					onChange={(e) =>
 						setForm({
@@ -139,18 +167,19 @@ export default function UpdateCourseModal({
 					Status
 				</label>
 				<select
-					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md focus:border-white"
+					className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
 					value={form.status}
 					onChange={(e) =>
 						setForm({
 							...form,
-							status: e.target.value as never,
+							status:
+								e.target.value as FormState["status"],
 						})
 					}
 				>
-					<option value="draft" className="bg-neutral-800 text-white">Draft</option>
-					<option value="public" className="bg-neutral-800 text-white">Public</option>
-					<option value="closed" className="bg-neutral-800 text-white">Closed</option>
+					<option value="draft">Draft</option>
+					<option value="public">Public</option>
+					<option value="closed">Closed</option>
 				</select>
 			</div>
 		</BaseFormModal>

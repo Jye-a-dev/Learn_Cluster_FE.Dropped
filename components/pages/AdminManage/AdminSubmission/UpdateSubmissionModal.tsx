@@ -1,24 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BaseFormModal from "../BaseModel/BaseFormModal";
 import type {
 	Submission,
 	UpdateSubmissionPayload,
 } from "./SubmissionUiTypes";
 
+type Props = {
+	open: boolean;
+	submission: Submission | null;
+	onClose: () => void;
+	onSubmit: (id: string, data: UpdateSubmissionPayload) => Promise<void>;
+};
+
 export default function UpdateSubmissionModal({
 	open,
 	submission,
 	onClose,
 	onSubmit,
-}: {
-	open: boolean;
-	submission: Submission | null;
-	onClose: () => void;
-	onSubmit: (id: string, data: UpdateSubmissionPayload) => Promise<void>;
-}) {
+}: Props) {
 	const [form, setForm] = useState<UpdateSubmissionPayload>({});
+	const [submitting, setSubmitting] = useState(false);
+
+	/* ===== Sync khi mở modal ===== */
+	useEffect(() => {
+		if (!open || !submission) return;
+		setForm({});
+	}, [open, submission]);
 
 	if (!open || !submission) return null;
 
@@ -29,9 +38,22 @@ export default function UpdateSubmissionModal({
 		text_submission: form.text_submission ?? s.text_submission,
 	};
 
+	/* ===== Validation ===== */
+	const isInvalid =
+		mergedForm.file_url === s.file_url &&
+		mergedForm.text_submission === s.text_submission;
+
+	/* ===== Submit ===== */
 	async function handleSubmit() {
-		await onSubmit(s.id, mergedForm);
-		onClose();
+		if (isInvalid) return;
+
+		try {
+			setSubmitting(true);
+			await onSubmit(s.id, mergedForm);
+			onClose();
+		} finally {
+			setSubmitting(false);
+		}
 	}
 
 	const inputClass =
@@ -45,11 +67,13 @@ export default function UpdateSubmissionModal({
 		<BaseFormModal
 			open={open}
 			title="Cập nhật Submission"
+			submitting={submitting}
+			isInvalid={isInvalid}
 			onClose={onClose}
 			onSubmit={handleSubmit}
 		>
 			<div className="space-y-4">
-				{/* Text submission */}
+				{/* ===== Text submission ===== */}
 				<div>
 					<label className={labelClass}>
 						Text submission
@@ -67,7 +91,7 @@ export default function UpdateSubmissionModal({
 					/>
 				</div>
 
-				{/* File URL */}
+				{/* ===== File URL ===== */}
 				<div>
 					<label className={labelClass}>File URL</label>
 					<input

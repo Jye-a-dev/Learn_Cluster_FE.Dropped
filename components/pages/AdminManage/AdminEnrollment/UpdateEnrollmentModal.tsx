@@ -1,155 +1,97 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-    UserIcon,
-    AcademicCapIcon,
-} from "@heroicons/react/24/outline";
-
-import BaseFormModal from "../BaseModel/BaseFormModal";
-import { useUsersMap } from "@/hooks/users/useUsersMap";
-import { useCoursesMap } from "@/hooks/courses/useCoursesMap";
-
-import type {
-    Enrollment,
-    UpdateEnrollmentPayload,
-} from "./EnrollmentUiTypes";
+import { useEffect } from "react";
 
 type Props = {
-    open: boolean;
-    enrollment: Enrollment | null;
-    onClose: () => void;
-    onSubmit: (id: string, data: UpdateEnrollmentPayload) => Promise<void>;
+	open: boolean;
+	title: string;
+	submitting?: boolean;
+	disableSubmit?: boolean;
+	onClose: () => void;
+	onSubmit: () => void;
+	children: React.ReactNode;
 };
 
-type FormState = {
-    user_id: string;
-    course_id: string;
-};
-
-export default function UpdateEnrollmentModal({
-    open,
-    enrollment,
-    onClose,
-    onSubmit,
+export default function BaseFormModal({
+	open,
+	title,
+	submitting = false,
+	disableSubmit = false,
+	onClose,
+	onSubmit,
+	children,
 }: Props) {
-    const { usersMap, loading: loadingUsers } = useUsersMap();
-    const { coursesMap, loading: loadingCourses } = useCoursesMap();
+	/* =========================
+	   ESC CLOSE
+	========================= */
+	useEffect(() => {
+		if (!open) return;
 
-    const [form, setForm] = useState<FormState>({
-        user_id: "",
-        course_id: "",
-    });
+		function handleKeyDown(e: KeyboardEvent) {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		}
 
-    const [submitting, setSubmitting] = useState(false);
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [open, onClose]);
 
-    /* =======================
-       INIT FORM
-    ======================= */
-    useEffect(() => {
-        if (!open || !enrollment) return;
+	if (!open) return null;
 
-        setForm({
-            user_id: enrollment.user_id,
-            course_id: enrollment.course_id,
-        });
-    }, [open, enrollment]);
+	return (
+		<div
+			className="fixed inset-0 z-50 flex items-center justify-center"
+			onClick={onClose}
+		>
+			{/* Overlay */}
+			<div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
-    if (!open || !enrollment) return null;
-    const current = enrollment;
+			{/* Modal */}
+			<div
+				className="relative z-10 w-full max-w-lg rounded-xl bg-neutral-900 border border-white/10 shadow-xl p-6 space-y-6"
+				onClick={(e) => e.stopPropagation()}
+			>
+				{/* ===== HEADER ===== */}
+				<div className="flex items-center justify-between">
+					<h2 className="text-lg font-semibold text-white">
+						{title}
+					</h2>
 
-    /* =======================
-       VALIDATION
-    ======================= */
-    const isInvalid = !form.user_id || !form.course_id;
+					<button
+						onClick={onClose}
+						className="text-white/50 hover:text-white transition"
+					>
+						✕
+					</button>
+				</div>
 
-    /* =======================
-       SUBMIT
-    ======================= */
-    async function handleSubmit() {
-        if (isInvalid) return;
+				{/* ===== BODY ===== */}
+				<div>{children}</div>
 
-        try {
-            setSubmitting(true);
+				{/* ===== FOOTER ===== */}
+				<div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+					<button
+						onClick={onClose}
+						className="px-4 py-2 rounded-md bg-white/10 text-white hover:bg-white/20 transition"
+						disabled={submitting}
+					>
+						Huỷ
+					</button>
 
-            const payload: UpdateEnrollmentPayload = {
-                user_id: form.user_id,
-                course_id: form.course_id,
-            };
-
-            await onSubmit(current.id, payload);
-            onClose();
-        } finally {
-            setSubmitting(false);
-        }
-    }
-
-    /* =======================
-       RENDER
-    ======================= */
-    return (
-        <BaseFormModal
-            open={open}
-            title="Cập nhật Enrollment"
-            submitting={submitting}
-            onClose={onClose}
-            onSubmit={handleSubmit}
-        >
-            <div className="space-y-5 text-white">
-                {/* ===== USER ===== */}
-                <div className="space-y-1">
-                    <label className="flex items-center gap-2 text-xs font-semibold uppercase text-white/70">
-                        <UserIcon className="h-4 w-4 text-white/40" />
-                        User
-                    </label>
-                    <select
-                        className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
-                        value={form.user_id}
-                        disabled={loadingUsers}
-                        onChange={(e) =>
-                            setForm({ ...form, user_id: e.target.value })
-                        }
-                    >
-                        <option value="">-- Chọn user --</option>
-                        {Object.values(usersMap).map((u) => (
-                            <option key={u.id} value={u.id}>
-                                {u.name ?? u.email}
-                            </option>
-
-                        ))}
-                    </select>
-                </div>
-
-                {/* ===== COURSE ===== */}
-                <div className="space-y-1">
-                    <label className="flex items-center gap-2 text-xs font-semibold uppercase text-white/70">
-                        <AcademicCapIcon className="h-4 w-4 text-white/40" />
-                        Course
-                    </label>
-                    <select
-                        className="input-admin bg-neutral-900 text-white border border-white/40 rounded-md"
-                        value={form.course_id}
-                        disabled={loadingCourses}
-                        onChange={(e) =>
-                            setForm({
-                                ...form,
-                                course_id: e.target.value,
-                            })
-                        }
-                    >
-                        <option value="">-- Chọn course --</option>
-                        {Object.values(coursesMap).map((c) => (
-                            <option key={c.id} value={c.id}>
-                                {c.title}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <p className="text-[11px] text-white/50">
-                    Mỗi user chỉ được enroll một lần cho mỗi course.
-                </p>
-            </div>
-        </BaseFormModal>
-    );
+					<button
+						onClick={onSubmit}
+						disabled={submitting || disableSubmit}
+						className={`px-4 py-2 rounded-md font-medium transition ${
+							submitting || disableSubmit
+								? "bg-blue-500/40 cursor-not-allowed text-white/70"
+								: "bg-blue-600 hover:bg-blue-500 text-white"
+						}`}
+					>
+						{submitting ? "Đang xử lý..." : "Lưu"}
+					</button>
+				</div>
+			</div>
+		</div>
+	);
 }

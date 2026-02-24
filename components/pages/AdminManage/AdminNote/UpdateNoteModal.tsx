@@ -152,7 +152,7 @@ export default function UpdateNoteModal({
                                 content: e.target.value,
                             })
                         }
-                    />
+                    /> 
                 </div>
             </div>
         </BaseFormModal>

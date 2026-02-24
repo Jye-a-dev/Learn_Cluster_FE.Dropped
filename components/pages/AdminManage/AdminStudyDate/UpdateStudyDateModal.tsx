@@ -43,7 +43,7 @@ export default function UpdateStudyDateModal({
 
     const [submitting, setSubmitting] = useState(false);
 
-    /* ===== sync khi mở modal ===== */
+    /* ===== Sync khi mở modal ===== */
     useEffect(() => {
         if (open && studyDate) {
             setForm({
@@ -60,7 +60,15 @@ export default function UpdateStudyDateModal({
 
     if (!open || !studyDate) return null;
 
+    /* ===== Validation ===== */
+    const isInvalid =
+        !form.course_id.trim() ||
+        !form.scheduled_at.trim();
+
+    /* ===== Submit ===== */
     async function handleSubmit() {
+        if (isInvalid) return;
+
         try {
             setSubmitting(true);
 
@@ -78,15 +86,12 @@ export default function UpdateStudyDateModal({
         }
     }
 
-    /* ===== shared styles ===== */
+    /* ===== Shared styles ===== */
     const inputBase =
         "w-full rounded-md bg-slate-900 text-slate-100 border border-slate-600 px-3 py-2 text-sm " +
         "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500";
 
-    const selectBase =
-        "w-full rounded-md bg-slate-900 text-slate-100 border border-slate-600 px-3 py-2 text-sm " +
-        "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500";
-
+    const selectBase = inputBase;
     const labelBase = "text-xs font-semibold text-slate-300";
 
     return (
@@ -94,6 +99,7 @@ export default function UpdateStudyDateModal({
             open={open}
             title="Cập nhật Study Date"
             submitting={submitting}
+            isInvalid={isInvalid}
             onClose={onClose}
             onSubmit={handleSubmit}
         >
@@ -109,7 +115,9 @@ export default function UpdateStudyDateModal({
                         }
                     >
                         <option value="" disabled>
-                            {courseLoading ? "Đang tải khóa học..." : "Chọn khóa học"}
+                            {courseLoading
+                                ? "Đang tải khóa học..."
+                                : "Chọn khóa học"}
                         </option>
                         {Object.values(coursesMap).map((c) => (
                             <option key={c.id} value={c.id}>
@@ -119,7 +127,7 @@ export default function UpdateStudyDateModal({
                     </select>
                 </div>
 
-                {/* ===== Created by ===== */}
+                {/* ===== Created by (readonly) ===== */}
                 <div className="space-y-1.5">
                     <label className={labelBase}>Người tạo</label>
                     <div className="relative">
@@ -142,7 +150,6 @@ export default function UpdateStudyDateModal({
                         </select>
                     </div>
                 </div>
-
 
                 {/* ===== Title ===== */}
                 <div className="space-y-1.5">
@@ -200,7 +207,7 @@ export default function UpdateStudyDateModal({
                 </div>
 
                 <p className="text-xs text-slate-400 border-t border-slate-700 pt-3">
-                    Việc thay đổi thời gian hoặc địa điểm sẽ ảnh hưởng đến toàn bộ học viên.
+                    Thay đổi thời gian hoặc địa điểm sẽ ảnh hưởng đến toàn bộ học viên.
                 </p>
             </div>
         </BaseFormModal>

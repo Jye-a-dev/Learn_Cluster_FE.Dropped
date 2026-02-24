@@ -1,12 +1,15 @@
-// src/components/ui/BaseFormModal.tsx
 "use client";
 
 import BaseModal from "./BaseModal";
+import { FormEvent } from "react";
 
 type Props = {
   open: boolean;
   title: string;
   submitting?: boolean;
+  isInvalid?: boolean;
+  submitLabel?: string;
+  cancelLabel?: string;
   onClose: () => void;
   onSubmit: () => Promise<void>;
   children: React.ReactNode;
@@ -15,33 +18,48 @@ type Props = {
 export default function BaseFormModal({
   open,
   title,
-  submitting,
+  submitting = false,
+  isInvalid = false,
+  submitLabel = "Lưu",
+  cancelLabel = "Huỷ",
   onClose,
   onSubmit,
   children,
 }: Props) {
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (submitting || isInvalid) return;
+    await onSubmit();
+  }
+
   return (
     <BaseModal open={open} onClose={onClose} title={title}>
-      <div className="space-y-5">
-        {children}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <fieldset disabled={submitting} className="space-y-5">
+          {children}
+        </fieldset>
 
         <div className="flex justify-end gap-3 pt-2">
           <button
+            type="button"
             onClick={onClose}
-            className="rounded-lg px-4 py-2 cursor-pointer text-sm text-white/70 hover:bg-red-900/50 hover:text-white"
+            className="rounded-lg px-4 py-2 text-sm text-white/70
+              hover:bg-red-900/50 hover:text-white"
           >
-            Huỷ
+            {cancelLabel}
           </button>
 
           <button
-            disabled={submitting}
-            onClick={onSubmit}
-            className="rounded-lg bg-emerald-600 cursor-pointer px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-60"
+            type="submit"
+            disabled={submitting || isInvalid}
+            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white
+              hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Lưu
+            {submitting ? "Đang lưu..." : submitLabel}
           </button>
         </div>
-      </div>
+      </form>
     </BaseModal>
   );
 }

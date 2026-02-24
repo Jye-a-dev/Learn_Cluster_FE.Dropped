@@ -24,7 +24,7 @@ export default function RolePermissionUpdateModal({
   onClose,
   onSubmit,
 }: Props) {
-  /* ===== hooks ===== */
+  /* ===== Hooks ===== */
   const { rolesMap, loading: roleLoading } = useRolesMap();
   const { permissionsMap, loading: permLoading } = usePermissionsMap();
 
@@ -32,7 +32,7 @@ export default function RolePermissionUpdateModal({
   const [permissionId, setPermissionId] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  /* ===== sync khi mở modal ===== */
+  /* ===== Sync khi mở modal ===== */
   useEffect(() => {
     if (open && item) {
       setRoleId(item.role_id);
@@ -43,15 +43,20 @@ export default function RolePermissionUpdateModal({
   if (!open || !item) return null;
   const rpId = item.id;
 
+  const isInvalid = !roleId || !permissionId;
+
+  /* ===== Submit ===== */
   async function handleSubmit() {
-    if (!roleId || !permissionId) return;
+    if (isInvalid) return;
 
     try {
       setSubmitting(true);
+
       await onSubmit(rpId, {
         role_id: roleId,
         permission_id: permissionId,
       });
+
       onClose();
     } finally {
       setSubmitting(false);
@@ -63,10 +68,11 @@ export default function RolePermissionUpdateModal({
       open={open}
       title="Cập nhật Role – Permission"
       submitting={submitting}
+      isInvalid={isInvalid}
       onClose={onClose}
       onSubmit={handleSubmit}
     >
-      {/* Role */}
+      {/* ===== Role ===== */}
       <div className="space-y-1.5">
         <label className="text-xs font-medium text-white/70">
           Role
@@ -75,29 +81,13 @@ export default function RolePermissionUpdateModal({
         <div className="relative">
           <ShieldCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
 
-          <svg
-            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-
           <select
             value={roleId}
             disabled={roleLoading}
             onChange={(e) => setRoleId(e.target.value)}
-            className="input-admin pl-9 pr-10 border border-cyan-200 rounded-2xl text-white appearance-none cursor-pointer"
+            className="input-admin pl-9 pr-4 border border-white/40 rounded-md text-white appearance-none"
           >
-            <option value="" disabled>
-              Chọn role
-            </option>
+            <option value="">Chọn role</option>
             {Object.values(rolesMap).map((r) => (
               <option key={r.id} value={r.id} className="bg-zinc-900">
                 {r.name}
@@ -107,7 +97,7 @@ export default function RolePermissionUpdateModal({
         </div>
       </div>
 
-      {/* Permission */}
+      {/* ===== Permission ===== */}
       <div className="space-y-1.5">
         <label className="text-xs font-medium text-white/70">
           Permission
@@ -116,29 +106,13 @@ export default function RolePermissionUpdateModal({
         <div className="relative">
           <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
 
-          <svg
-            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-
           <select
             value={permissionId}
             disabled={permLoading}
             onChange={(e) => setPermissionId(e.target.value)}
-            className="input-admin pl-9 pr-10 border border-cyan-200 rounded-2xl text-white appearance-none cursor-pointer"
+            className="input-admin pl-9 pr-4 border border-white/40 rounded-md text-white appearance-none"
           >
-            <option value="" disabled>
-              Chọn permission
-            </option>
+            <option value="">Chọn permission</option>
             {Object.values(permissionsMap).map((p) => (
               <option key={p.id} value={p.id} className="bg-zinc-900">
                 {p.name}
@@ -148,7 +122,7 @@ export default function RolePermissionUpdateModal({
         </div>
       </div>
 
-      {/* Hint */}
+      {/* ===== Hint ===== */}
       <p className="pt-1 text-xs text-white/40">
         Thay đổi Role hoặc Permission sẽ cập nhật ngay quyền truy cập của hệ thống.
       </p>
