@@ -1,5 +1,7 @@
 "use client";
 
+import AdminRoleOverview from "./AdminRoleOverview";
+import AdminRolePermissionOverview from "./AdminRolePermissionOverview";
 import AdminStudyDateLessonOverview from "./AdminStudyDateLessonOverview";
 import AdminStudyDateOverview from "./AdminStudyDateOverview";
 import AdminStudyDateParticipantOverview from "./AdminStudyDateParticipantOverview";
@@ -29,6 +31,8 @@ export default function AdminOverviewContainer() {
           <AdminStudyDateOverview/>
           <AdminStudyDateParticipantOverview/>
           <AdminStudyDateLessonOverview/>
+          <AdminRoleOverview/>
+          <AdminRolePermissionOverview/>
         </div>
       </div>
 
