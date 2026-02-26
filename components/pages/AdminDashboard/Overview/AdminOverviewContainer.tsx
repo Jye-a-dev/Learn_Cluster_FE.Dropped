@@ -1,5 +1,11 @@
 "use client";
 
+import AdminAchievementOverview from "./AdminAchievementOverview";
+import AdminAssignmentOverview from "./AdminAssignmentOverview";
+import AdminChapterOverview from "./AdminChapterOverview";
+import AdminCourseOverview from "./AdminCourseOverview";
+import AdminGradeOverview from "./AdminGradeOverview";
+import AdminLessonOverview from "./AdminLessonOverview";
 import AdminRoleOverview from "./AdminRoleOverview";
 import AdminRolePermissionOverview from "./AdminRolePermissionOverview";
 import AdminStudyDateLessonOverview from "./AdminStudyDateLessonOverview";
@@ -25,13 +31,19 @@ export default function AdminOverviewContainer() {
 
       {/* KPI Section */}
       <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
           <AdminUserOverview />
           <AdminSubmissionOverview/>
           <AdminStudyDateOverview/>
           <AdminStudyDateParticipantOverview/>
+          <AdminLessonOverview/>
           <AdminStudyDateLessonOverview/>
+          <AdminGradeOverview/>
+          <AdminCourseOverview/>
           <AdminRoleOverview/>
+          <AdminAssignmentOverview/>
+          <AdminChapterOverview/>
+          <AdminAchievementOverview/>
           <AdminRolePermissionOverview/>
         </div>
       </div>

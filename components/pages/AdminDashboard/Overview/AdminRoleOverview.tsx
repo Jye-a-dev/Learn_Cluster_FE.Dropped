@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getAdminRoleStats } from "@/hooks/roles/roleOverview";
+import BaseOverview from "@/components/pages/AdminDashboard/Base/BaseOverview";
 
 type Stats = {
   totalUsers: number;
@@ -13,39 +14,17 @@ export default function AdminRoleOverview() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getAdminRoleStats();
-        setStats(data);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
+    getAdminRoleStats()
+      .then(setStats)
+      .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div>Đang tải...</div>;
-  if (!stats) return <div>Không dữ liệu</div>;
-
   return (
-    <div className="bg-slate-800 border text-white border-slate-700 rounded-2xl p-6 shadow-lg">
-      <h2 className="text-lg font-semibold mb-4">
-        Phân bố User theo Role
-      </h2>
-
-      <div className="text-4xl font-bold mb-6">
-        {stats.totalUsers}
-      </div>
-
-      <div className="space-y-2 text-sm">
-        {Object.entries(stats.byRole).map(([role, count]) => (
-          <div key={role} className="flex justify-between">
-            <span>{role}</span>
-            <span className="font-medium">{count}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <BaseOverview
+      title="Phân bố User theo Role"
+      total={stats?.totalUsers ?? 0}
+      loading={loading}
+      breakdown={stats?.byRole}
+    />
   );
 }

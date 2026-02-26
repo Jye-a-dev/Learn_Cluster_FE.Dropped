@@ -1,29 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getUserOverviewStats } from "@/hooks/users/userOverview";
+import { getAchievementOverviewStats } from "@/hooks/achievement/achievementOverviewStats";
 import BaseOverview from "@/components/pages/AdminDashboard/Base/BaseOverview";
 
-type UserOverviewStats = {
+type Stats = {
   total: number;
   growth7: number;
   growth21: number;
   growth30: number;
 };
 
-export default function AdminUserOverview() {
-  const [stats, setStats] = useState<UserOverviewStats | null>(null);
+export default function AdminAchievementOverview() {
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserOverviewStats()
+    getAchievementOverviewStats()
       .then(setStats)
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <BaseOverview
-      title="Tổng người dùng"
+      title="Thành tựu"
       total={stats?.total ?? 0}
       loading={loading}
       growths={[

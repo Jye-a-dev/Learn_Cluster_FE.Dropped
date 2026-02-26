@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getSubmissionOverviewStats } from "@/hooks/submission/submissionOverview";
+import BaseOverview from "@/components/pages/AdminDashboard/Base/BaseOverview";
 
 type Stats = {
   total: number;
@@ -27,50 +28,21 @@ export default function AdminSubmissionOverview() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Đang tải...</div>;
-  if (!stats) return <div>Không có dữ liệu</div>;
-
-  const renderGrowth = (value: number) => {
-    const positive = value >= 0;
-
-    return (
-      <span
-        className={`text-sm font-medium ${
-          positive ? "text-green-400" : "text-red-400"
-        }`}
-      >
-        {positive ? "+" : ""}
-        {value.toFixed(2)}%
-      </span>
-    );
-  };
-
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
-      <h2 className="text-slate-300 text-sm mb-2">
-        Tổng bài nộp
-      </h2>
-
-      <div className="text-3xl font-bold text-white mb-4">
-        {stats.total}
-      </div>
-
-      <div className="space-y-2 text-sm">
-        <div className="flex justify-between text-slate-400">
-          <span>7 ngày</span>
-          {renderGrowth(stats.growth7)}
-        </div>
-
-        <div className="flex justify-between text-slate-400">
-          <span>21 ngày</span>
-          {renderGrowth(stats.growth21)}
-        </div>
-
-        <div className="flex justify-between text-slate-400">
-          <span>30 ngày</span>
-          {renderGrowth(stats.growth30)}
-        </div>
-      </div>
-    </div>
+    <BaseOverview
+      title="Tổng bài nộp"
+      total={stats?.total ?? 0}
+      loading={loading}
+      emptyText="Không có dữ liệu"
+      growths={
+        stats
+          ? [
+              { label: "7 ngày", value: stats.growth7 },
+              { label: "21 ngày", value: stats.growth21 },
+              { label: "30 ngày", value: stats.growth30 },
+            ]
+          : undefined
+      }
+    />
   );
 }

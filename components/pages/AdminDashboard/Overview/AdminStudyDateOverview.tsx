@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getStudyDateOverviewStats } from "@/hooks/study_dates/studyDateOverview";
+import BaseOverview from "@/components/pages/AdminDashboard/Base/BaseOverview";
 
 type Stats = {
   total: number;
@@ -16,66 +17,26 @@ export default function AdminStudyDateOverview() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getStudyDateOverviewStats();
-        setStats(data);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
+    getStudyDateOverviewStats()
+      .then(setStats)
+      .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div>Đang tải...</div>;
-  if (!stats) return <div>Không có dữ liệu</div>;
-
-  const renderGrowth = (value: number) => {
-    const positive = value >= 0;
-
-    return (
-      <span
-        className={`text-sm font-medium ${
-          positive ? "text-green-400" : "text-red-400"
-        }`}
-      >
-        {positive ? "+" : ""}
-        {value.toFixed(2)}%
-      </span>
-    );
-  };
-
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
-      <h2 className="text-slate-300 text-sm mb-2">
-        Lịch học
-      </h2>
-
-      <div className="text-3xl font-bold text-white mb-2">
-        {stats.total}
-      </div>
-
-      <div className="text-xs text-indigo-400 mb-4">
-        Sắp diễn ra: {stats.upcoming}
-      </div>
-
-      <div className="space-y-2 text-sm">
-        <div className="flex justify-between text-slate-400">
-          <span>7 ngày</span>
-          {renderGrowth(stats.growth7)}
+    <BaseOverview
+      title="Lịch học"
+      total={stats?.total ?? 0}
+      loading={loading}
+      extraTop={
+        <div className="text-xs text-indigo-400">
+          Sắp diễn ra: {stats?.upcoming ?? 0}
         </div>
-
-        <div className="flex justify-between text-slate-400">
-          <span>21 ngày</span>
-          {renderGrowth(stats.growth21)}
-        </div>
-
-        <div className="flex justify-between text-slate-400">
-          <span>30 ngày</span>
-          {renderGrowth(stats.growth30)}
-        </div>
-      </div>
-    </div>
+      }
+      growths={[
+        { label: "7 ngày", value: stats?.growth7 ?? 0 },
+        { label: "21 ngày", value: stats?.growth21 ?? 0 },
+        { label: "30 ngày", value: stats?.growth30 ?? 0 },
+      ]}
+    />
   );
 }
