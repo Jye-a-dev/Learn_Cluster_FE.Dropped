@@ -13,7 +13,7 @@ export interface User {
   updated_at?: string;
 }
 export interface UserCount {
-  total: number;
+  total: number; 
 }
 
 

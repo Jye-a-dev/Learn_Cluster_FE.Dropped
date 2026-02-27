@@ -16,38 +16,49 @@ import AdminUserOverview from "./AdminUserOverview";
 
 export default function AdminOverviewContainer() {
   return (
-    <div className="min-h-screen p-8">
-      
-      {/* Header */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-white tracking-tight">
-          Admin Overview
-        </h1>
-        <p className="mt-2 text-slate-400 text-sm">
-          Đành giá tình hình
-        </p>
-        <div className="mt-4 h-0.5 w-16 bg-indigo-500 rounded-full" />
-      </div>
+    <>
+      {/* CORE */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold text-slate-300 mb-5 uppercase tracking-wide">
+          Core Statistics
+        </h2>
 
-      {/* KPI Section */}
-      <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           <AdminUserOverview />
-          <AdminSubmissionOverview/>
-          <AdminStudyDateOverview/>
-          <AdminStudyDateParticipantOverview/>
-          <AdminLessonOverview/>
-          <AdminStudyDateLessonOverview/>
-          <AdminGradeOverview/>
-          <AdminCourseOverview/>
-          <AdminRoleOverview/>
-          <AdminAssignmentOverview/>
-          <AdminChapterOverview/>
-          <AdminAchievementOverview/>
-          <AdminRolePermissionOverview/>
+          <AdminSubmissionOverview />
+          <AdminCourseOverview />
+          <AdminLessonOverview />
         </div>
-      </div>
+      </section>
 
-    </div>
+      {/* LEARNING */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold text-slate-300 mb-5 uppercase tracking-wide">
+          Learning & Activities
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+          <AdminStudyDateOverview />
+          <AdminStudyDateParticipantOverview />
+          <AdminStudyDateLessonOverview />
+          <AdminAssignmentOverview />
+          <AdminGradeOverview />
+          <AdminChapterOverview />
+          <AdminAchievementOverview />
+        </div>
+      </section>
+
+      {/* SYSTEM */}
+      <section>
+        <h2 className="text-lg font-semibold text-slate-300 mb-5 uppercase tracking-wide">
+          System & Permissions
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          <AdminRoleOverview />
+          <AdminRolePermissionOverview />
+        </div>
+      </section>
+    </>
   );
 }

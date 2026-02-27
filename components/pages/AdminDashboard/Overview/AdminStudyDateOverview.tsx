@@ -24,7 +24,7 @@ export default function AdminStudyDateOverview() {
 
   return (
     <BaseOverview
-      title="Lịch học"
+      title="Study Date"
       total={stats?.total ?? 0}
       loading={loading}
       extraTop={
