@@ -6,7 +6,7 @@ import AdminOverviewContainer from "./Overview/AdminOverviewContainer";
 import AdminGraphContainer from "./Graph/AdminGraphContainer";
 
 export default function AdminDashboardContainer() {
-    const [activeTab, setActiveTab] = useState<"overview" | "grade">("overview");
+    const [activeTab, setActiveTab] = useState<"overview" | "Graph">("overview");
 
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-950/20 to-slate-900/40 p-8">
@@ -38,21 +38,21 @@ export default function AdminDashboardContainer() {
                 </button>
 
                 <button
-                    onClick={() => setActiveTab("grade")}
+                    onClick={() => setActiveTab("Graph")}
                     className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-            ${activeTab === "grade"
+            ${activeTab === "Graph"
                             ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
                             : "bg-slate-800 text-slate-300 hover:bg-slate-700"
                         }`}
                 >
-                    Grade Management
+                    Graph
                 </button>
             </div>
 
             {/* Content */}
             <div className="transition-all duration-300">
                 {activeTab === "overview" && <AdminOverviewContainer />}
-                {activeTab === "grade" && <AdminGraphContainer />}
+                {activeTab === "Graph" && <AdminGraphContainer />}
             </div>
         </div>
     );
