@@ -71,7 +71,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 	{
 		label: "Learning Tools",
 		items: [
-			{ label: "Pomodoro Timer", href: "/admin/tools/pomodoro" },
+			{ label: "Pomodoro Timer", href: "/user/tools/pomodoro" },
 			{ label: "Time Tracker", href: "/admin/tools/time-tracker" },
 			{ label: "Calculator", href: "/admin/tools/calculator" },
 		],
