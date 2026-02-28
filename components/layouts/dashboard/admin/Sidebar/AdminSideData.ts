@@ -65,7 +65,7 @@ export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
 			{ label: "Notes", href: "/admin/note", highlight: "lapis" },
 			{ label: "Bookmark", href: "/admin/bookmark", highlight: "lapis" },
 			{ label: "Achievment", href: "/admin/achievment", highlight: "lapis" },
-			{ label: "Nofitication9", href: "/admin/nofitication", highlight: "lapis" },
+			{ label: "Nofitication", href: "/admin/nofitication", highlight: "lapis" },
 		],
 	},
 	{

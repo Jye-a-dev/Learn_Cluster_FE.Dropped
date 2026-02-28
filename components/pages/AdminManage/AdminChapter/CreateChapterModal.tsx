@@ -95,85 +95,91 @@ export default function CreateChapterModal({
 	return (
 		<BaseFormModal
 			open={open}
-			title="Tạo Chapter"
+			title="Create Chapter"
 			submitting={submitting}
 			onClose={onClose}
 			onSubmit={handleSubmit}
 		>
-			{/* Course Dropdown */}
-			<div className="space-y-2">
-				<label className="text-xs font-medium text-white/70">
-					Course
-				</label>
+			<div className="space-y-6">
 
-				<input
-					placeholder="Tìm course theo tên…"
-					className="input-admin text-white border border-white rounded-md"
-					value={searchCourse}
-					onChange={(e) => setSearchCourse(e.target.value)}
-				/>
+				{/* Course Section */}
+				<div className="space-y-3">
+					<label className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+						Select Course
+					</label>
 
-				<select
-					className="input-admin text-white border border-white rounded-md"
-					value={form.course_id}
-					onChange={(e) =>
-						setForm({ ...form, course_id: e.target.value })
-					}
-				>
-					<option value="">-- Chọn course --</option>
-					{filteredCourses.map((c) => (
-						<option key={c.id} value={c.id}>
-							{c.title}
+					<input
+						placeholder="Search course..."
+						className="w-full bg-slate-800 border border-slate-600 
+				text-slate-100 rounded-lg px-3 py-2 text-sm
+				focus:outline-none focus:ring-2 focus:ring-emerald-500
+				transition"
+						value={searchCourse}
+						onChange={(e) => setSearchCourse(e.target.value)}
+					/>
+
+					<select
+						className="w-full bg-slate-800 border border-slate-600 
+				text-slate-100 rounded-lg px-3 py-2 text-sm
+				focus:outline-none focus:ring-2 focus:ring-emerald-500
+				transition"
+						value={form.course_id}
+						onChange={(e) =>
+							setForm({ ...form, course_id: e.target.value })
+						}
+					>
+						<option value="" className="bg-slate-900">
+							-- Choose course --
 						</option>
-					))}
-				</select>
-			</div>
+						{filteredCourses.map((c) => (
+							<option
+								key={c.id}
+								value={c.id}
+								className="bg-slate-900"
+							>
+								{c.title}
+							</option>
+						))}
+					</select>
+				</div>
 
-			{/* Title */}
-			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
-				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
-					<BookOpenIcon className="h-4 w-4 text-white/40" />
-					Title
-				</label>
-				<input
-					className="input-admin text-white border border-white rounded-md"
-					value={form.title}
-					onChange={(e) =>
-						setForm({ ...form, title: e.target.value })
-					}
-				/>
-			</div>
+				{/* Title */}
+				<div className="grid grid-cols-[140px_1fr] items-center gap-4">
+					<label className="flex items-center gap-2 text-sm text-slate-400 font-medium">
+						<BookOpenIcon className="h-4 w-4 text-emerald-400" />
+						Title
+					</label>
+					<input
+						className="bg-slate-800 border border-slate-600
+				text-slate-100 rounded-lg px-3 py-2 text-sm
+				focus:outline-none focus:ring-2 focus:ring-emerald-500
+				transition"
+						value={form.title}
+						onChange={(e) =>
+							setForm({ ...form, title: e.target.value })
+						}
+					/>
+				</div>
 
-			{/* Description */}
-			<div className="grid grid-cols-[140px_1fr] items-start gap-3">
-				<label className="pt-2 text-xs font-medium text-white/70">
-					Description
-				</label>
-				<textarea
-					rows={3}
-					className="input-admin text-white border border-white rounded-md"
-					value={form.description}
-					onChange={(e) =>
-						setForm({ ...form, description: e.target.value })
-					}
-				/>
-			</div>
+				{/* Ordering */}
+				<div className="grid grid-cols-[140px_1fr] items-center gap-4">
+					<label className="flex items-center gap-2 text-sm text-slate-400 font-medium">
+						<ListBulletIcon className="h-4 w-4 text-emerald-400" />
+						Order
+					</label>
+					<input
+						type="number"
+						className="bg-slate-800 border border-slate-600
+				text-slate-100 rounded-lg px-3 py-2 text-sm
+				focus:outline-none focus:ring-2 focus:ring-emerald-500
+				transition"
+						value={form.ordering}
+						onChange={(e) =>
+							setForm({ ...form, ordering: e.target.value })
+						}
+					/>
+				</div>
 
-			{/* Ordering */}
-			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
-				<label className="flex items-center gap-2 text-xs font-medium text-white/70">
-					<ListBulletIcon className="h-4 w-4 text-white/40" />
-					Ordering
-				</label>
-				<input
-					type="number"
-					className="input-admin text-white border border-white rounded-md"
-					value={form.ordering}
-					onChange={(e) =>
-						setForm({ ...form, ordering: e.target.value })
-					}
-				/>
 			</div>
-		</BaseFormModal>
-	);
+		</BaseFormModal>);
 }
