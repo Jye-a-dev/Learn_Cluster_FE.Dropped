@@ -9,7 +9,6 @@ export default function ProgressCircle({ progress }: Props) {
   const normalizedRadius = radius - stroke;
   const circumference = normalizedRadius * 2 * Math.PI;
 
-  // Clamp progress
   const safeProgress = Math.min(Math.max(progress, 0), 100);
 
   const strokeDashoffset =
@@ -22,7 +21,14 @@ export default function ProgressCircle({ progress }: Props) {
       viewBox={`0 0 ${radius * 2} ${radius * 2}`}
       className="transform -rotate-90"
     >
-      {/* Background circle */}
+      <defs>
+        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#10b981" />   {/* emerald-500 */}
+          <stop offset="100%" stopColor="#f59e0b" /> {/* amber-500 */}
+        </linearGradient>
+      </defs>
+
+      {/* Background */}
       <circle
         stroke="#e5e7eb"
         fill="transparent"
@@ -32,9 +38,9 @@ export default function ProgressCircle({ progress }: Props) {
         cy={radius}
       />
 
-      {/* Progress circle */}
+      {/* Progress */}
       <circle
-        stroke="#6366f1"
+        stroke="url(#progressGradient)"
         fill="transparent"
         strokeWidth={stroke}
         strokeDasharray={circumference}

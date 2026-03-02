@@ -107,6 +107,7 @@ export function usePomodoro() {
 	const reset = () => {
 		setIsRunning(false);
 		setTimeLeft(durations[mode]);
+		setCount(0);
 	};
 	const changeMode = (newMode: Mode) => {
 		setMode(newMode);

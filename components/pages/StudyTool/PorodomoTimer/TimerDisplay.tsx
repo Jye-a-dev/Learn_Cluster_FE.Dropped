@@ -22,7 +22,7 @@ export default function TimerDisplay({ timeLeft, mode }: Props) {
     shortBreak:
       "text-teal-400 drop-shadow-[0_0_10px_rgba(13,148,136,0.4)]",
     longBreak:
-      "text-blue-3  00 drop-shadow-[0_0_10px_rgba(37,99,235,0.4)]",
+      "text-blue-300  00 drop-shadow-[0_0_10px_rgba(37,99,235,0.4)]",
   }[mode];
 
   const endingStyle =

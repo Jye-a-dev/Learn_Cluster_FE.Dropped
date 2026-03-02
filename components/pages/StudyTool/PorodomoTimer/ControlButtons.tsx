@@ -5,36 +5,47 @@ type Props = {
   onReset: () => void;
 };
 
+type ButtonConfig = {
+  label: string;
+  onClick: () => void;
+  className: string;
+};
+
 export default function ControlButtons({
   isRunning,
   onStart,
   onPause,
   onReset,
 }: Props) {
+  const buttons = [
+    !isRunning && {
+      label: "Start",
+      onClick: onStart,
+      className: "bg-green-600",
+    },
+    isRunning && {
+      label: "Pause",
+      onClick: onPause,
+      className: "bg-yellow-500",
+    },
+    {
+      label: "Reset",
+      onClick: onReset,
+      className: "bg-red-500",
+    },
+  ].filter((btn): btn is ButtonConfig => Boolean(btn));
+
   return (
     <div className="flex justify-center gap-4 mt-4">
-      {!isRunning ? (
+      {buttons.map((btn, index) => (
         <button
-          onClick={onStart}
-          className="px-6 py-2 bg-green-600 text-white rounded-xl"
+          key={index}
+          onClick={btn.onClick}
+          className={`px-6 py-2 text-white rounded-xl border-white/80 border-2 cursor-pointer ${btn.className}`}
         >
-          Start
+          {btn.label}
         </button>
-      ) : (
-        <button
-          onClick={onPause}
-          className="px-6 py-2 bg-yellow-500 text-white rounded-xl"
-        >
-          Pause
-        </button>
-      )}
-
-      <button
-        onClick={onReset}
-        className="px-6 py-2 bg-red-500 text-white rounded-xl"
-      >
-        Reset
-      </button>
+      ))}
     </div>
   );
 }
