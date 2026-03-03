@@ -1,26 +1,20 @@
 // UserNavData.ts
 
-export interface SideLink {
+export interface SideItem {
   label: string;
-  href: string;
+  href?: string;
   highlight?: "gold" | "emerald" | "lapis" | "ruby";
+  items?: SideItem[];
 }
-
-export interface SideDropdown {
-  label: string;
-  items: SideLink[];
-  
-}
-
-export const USER_SIDE_LINKS: SideLink[] = [
+export const USER_SIDEBAR_ITEMS: SideItem[] = [
+  /* ================= MAIN ================= */
   { label: "My Courses", href: "/user/courses", highlight: "lapis" },
   { label: "Assignments", href: "/user/assignments", highlight: "emerald" },
   { label: "My Calendar", href: "/user/calendar", highlight: "lapis" },
   { label: "Progress & Badges", href: "/user/progress", highlight: "gold" },
-{ label: "Settings", href: "/user/settings", highlight: "ruby" },
-];
+  { label: "Settings", href: "/user/settings", highlight: "ruby" },
 
-export const USER_SIDE_DROPDOWNS: SideDropdown[] = [
+  /* ================= TOOLS ================= */
   {
     label: "Learning Tools",
     items: [
@@ -29,13 +23,14 @@ export const USER_SIDE_DROPDOWNS: SideDropdown[] = [
       { label: "Calculator", href: "/user/tools/calculator" },
     ],
   },
-];
 
-export const USER_KNOWLEDGE_DROPDOWN: SideDropdown = {
-  label: "Knowledge",
-  items: [
-    { label: "My Notes", href: "/user/notes" },
-    { label: "Bookmarks", href: "/user/bookmarks" },
-    { label: "Study History", href: "/user/study-history" },
-  ],
-};
+  /* ================= KNOWLEDGE ================= */
+  {
+    label: "Knowledge",
+    items: [
+      { label: "My Notes", href: "/user/notes" },
+      { label: "Bookmarks", href: "/user/bookmarks" },
+      { label: "Study History", href: "/user/study-history" },
+    ],
+  },
+];

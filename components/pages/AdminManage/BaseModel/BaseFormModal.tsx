@@ -10,6 +10,7 @@ type Props = {
   isInvalid?: boolean;
   submitLabel?: string;
   cancelLabel?: string;
+  scrollBar?: boolean; // NEW
   onClose: () => void;
   onSubmit: () => Promise<void>;
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export default function BaseFormModal({
   isInvalid = false,
   submitLabel = "Lưu",
   cancelLabel = "Huỷ",
+  scrollBar = false, // default
   onClose,
   onSubmit,
   children,
@@ -34,7 +36,12 @@ export default function BaseFormModal({
   }
 
   return (
-    <BaseModal open={open} onClose={onClose} title={title}>
+    <BaseModal
+      open={open}
+      onClose={onClose}
+      title={title}
+      scrollBar={scrollBar}
+    >
       <form onSubmit={handleSubmit} className="space-y-5">
         <fieldset disabled={submitting} className="space-y-5">
           {children}

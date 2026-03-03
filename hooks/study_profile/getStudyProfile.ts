@@ -1,8 +1,15 @@
 import api from "@/hooks/api";
 
 /* =======================
-   TYPE
+   SHARED TYPE
 ======================= */
+
+export type AvailableTime = Record<string, string[]>;
+
+/* =======================
+   ENTITY
+======================= */
+
 export interface StudyProfile {
 	id: string; // UUID
 	user_id: string; // UUID
@@ -10,20 +17,21 @@ export interface StudyProfile {
 	preferred_subject: string | null;
 	level: string | null;
 	learning_goal: string | null;
-	available_time: string | null;
+	available_time: AvailableTime | null;
 	is_active: boolean;
 }
 
 /* =======================
    PAYLOAD
 ======================= */
+
 export type AddStudyProfilePayload = {
 	user_id: string;
 	bio?: string | null;
 	preferred_subject?: string | null;
 	level?: string | null;
 	learning_goal?: string | null;
-	available_time?: string | null;
+	available_time?: AvailableTime | null;
 	is_active?: boolean;
 };
 
@@ -33,7 +41,7 @@ export type UpdateStudyProfilePayload = {
 	preferred_subject: string | null;
 	level: string | null;
 	learning_goal: string | null;
-	available_time: string | null;
+	available_time: AvailableTime | null;
 	is_active: boolean;
 };
 
@@ -43,6 +51,7 @@ export type PatchStudyProfilePayload =
 /* =======================
    QUERY
 ======================= */
+
 export type StudyProfileQuery = {
 	user_id?: string;
 	level?: string;
@@ -52,8 +61,9 @@ export type StudyProfileQuery = {
 };
 
 /* =========================================================
- * GET /api/study_profile
- * ======================================================= */
+   GET /api/study_profile
+========================================================= */
+
 export async function getStudyProfiles(
 	query?: StudyProfileQuery
 ): Promise<StudyProfile[]> {
@@ -64,26 +74,33 @@ export async function getStudyProfiles(
 }
 
 /* =========================================================
- * GET /api/study_profile/count
- * ======================================================= */
+   GET /api/study_profile/count
+========================================================= */
+
 export async function countStudyProfiles(): Promise<number> {
-	const res = await api.get<{ count: number }>("/study_profile/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>(
+		"/study_profile/count"
+	);
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================
- * GET /api/study_profile/:id
- * ======================================================= */
+   GET /api/study_profile/:id
+========================================================= */
+
 export async function getStudyProfile(
 	id: string
 ): Promise<StudyProfile> {
-	const res = await api.get<StudyProfile>(`/study_profile/${id}`);
+	const res = await api.get<StudyProfile>(
+		`/study_profile/${id}`
+	);
 	return res.data;
 }
 
 /* =========================================================
- * GET /api/study_profile/user/:userId
- * ======================================================= */
+   GET /api/study_profile/user/:userId
+========================================================= */
+
 export async function getStudyProfileByUser(
 	userId: string
 ): Promise<StudyProfile> {
@@ -94,8 +111,9 @@ export async function getStudyProfileByUser(
 }
 
 /* =========================================================
- * POST /api/study_profile
- * ======================================================= */
+   POST /api/study_profile
+========================================================= */
+
 export async function addStudyProfile(
 	payload: AddStudyProfilePayload
 ): Promise<StudyProfile> {
@@ -107,8 +125,10 @@ export async function addStudyProfile(
 }
 
 /* =========================================================
- * PUT /api/study_profile/:id
- * ======================================================= */
+   PUT /api/study_profile/:id
+   (Full replace – phải gửi đầy đủ field)
+========================================================= */
+
 export async function updateStudyProfile(
 	id: string,
 	payload: UpdateStudyProfilePayload
@@ -121,8 +141,10 @@ export async function updateStudyProfile(
 }
 
 /* =========================================================
- * PATCH /api/study_profile/:id
- * ======================================================= */
+   PATCH /api/study_profile/:id
+   (Khuyến nghị dùng cho form)
+========================================================= */
+
 export async function patchStudyProfile(
 	id: string,
 	payload: PatchStudyProfilePayload
@@ -135,8 +157,9 @@ export async function patchStudyProfile(
 }
 
 /* =========================================================
- * DELETE /api/study_profile/:id
- * ======================================================= */
+   DELETE /api/study_profile/:id
+========================================================= */
+
 export async function deleteStudyProfile(
 	id: string
 ): Promise<void> {

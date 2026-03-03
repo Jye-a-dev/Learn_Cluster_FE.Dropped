@@ -1,81 +1,95 @@
-// UserNavData.ts
+// AdminSideData.ts
 
-export interface SideLink {
+export interface SideItem {
 	label: string;
-	href: string;
+	href?: string;
 	highlight?: "gold" | "emerald" | "lapis" | "ruby";
+	items?: SideItem[];
 }
 
-export interface SideDropdown {
-	label: string;
-	items: SideLink[];
-}
-
-/* ===================== LINKS (KHÔNG GỘP) ===================== */
-
-export const ADMIN_SIDE_LINKS: SideLink[] = [
+export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
+	/* ================= MAIN ================= */
 	{ label: "Assignments", href: "/admin/assignments", highlight: "emerald" },
 	{ label: "My Calendar", href: "/admin/calendar", highlight: "lapis" },
 	{ label: "Progress & Badges", href: "/admin/progress", highlight: "gold" },
 	{ label: "Settings", href: "/admin/settings", highlight: "ruby" },
-];
 
-/* ===================== DROPDOWNS ===================== */
-
-export const ADMIN_SIDE_DROPDOWNS: SideDropdown[] = [
+	/* ================= COURSE ================= */
 	{
-		label: "Manage Courses",
+		label: "Course Management",
 		items: [
 			{ label: "Courses", href: "/admin/courses", highlight: "lapis" },
-			{ label: "Enrollments", href: "/admin/enrollments", highlight: "emerald" },
-			{ label: "Chapers", href: "/admin/chapters", highlight: "lapis" },
+			{ label: "Chapters", href: "/admin/chapters", highlight: "lapis" },
 			{ label: "Lessons", href: "/admin/lessons", highlight: "gold" },
-			{ label: "Course Instruction", href: "/admin/course_instruction", highlight: "gold" },
+			{ label: "Course Instructions", href: "/admin/course-instruction", highlight: "gold" },
+			{ label: "Enrollments", href: "/admin/enrollments", highlight: "emerald" },
 		],
 	},
+
+	/* ================= USER ================= */
 	{
-		label: "Manage User",
+		label: "User Management",
 		items: [
-			{ label: "Permission", href: "/admin/permissions", highlight: "gold" },
-			{ label: "Roles Permission", href: "/admin/roleallow", highlight: "emerald" },
 			{ label: "Users", href: "/admin/users", highlight: "lapis" },
 			{ label: "Roles", href: "/admin/roles", highlight: "emerald" },
+			{ label: "Permissions", href: "/admin/permissions", highlight: "gold" },
+			{ label: "Role Permissions", href: "/admin/role-permissions", highlight: "emerald" },
 		],
 	},
+
+	/* ================= TASK ================= */
 	{
-		label: "Manage Task",
+		label: "Task Management",
 		items: [
 			{ label: "Assignments", href: "/admin/assignments", highlight: "gold" },
 			{ label: "Submissions", href: "/admin/submissions", highlight: "lapis" },
 			{ label: "Grades", href: "/admin/grades", highlight: "emerald" },
 		],
 	},
+
+	/* ================= STUDY DATE ================= */
 	{
-		label: "Manage Study date",
+		label: "Study Date Management",
 		items: [
-			{ label: "Study dates", href: "/admin/study_dates", highlight: "gold" },
-			{ label: "Participants", href: "/admin/studydate_participants", highlight: "gold" },
-			{ label: "Lesson to study", href: "/admin/studydate_lesson", highlight: "gold" },
+			{ label: "Study Dates", href: "/admin/study-dates", highlight: "gold" },
+			{ label: "Participants", href: "/admin/studydate-participants", highlight: "gold" },
+			{ label: "Lessons to Study", href: "/admin/studydate-lessons", highlight: "gold" },
 		],
 	},
+
+	/* ================= STUDY MATCH ================= */
 	{
-		label: "Manage Messages",
+		label: "Study Match Management",
 		items: [
-			{ label: "Messages", href: "/admin/message", highlight: "gold" },
-			{ label: "Notes", href: "/admin/note", highlight: "lapis" },
-			{ label: "Bookmark", href: "/admin/bookmark", highlight: "lapis" },
-			{ label: "Achievment", href: "/admin/achievment", highlight: "lapis" },
-			{ label: "Nofitication", href: "/admin/nofitication", highlight: "lapis" },
+			{ label: "Profile", href: "/admin/study_profile", highlight: "emerald" },
+			{ label: "Requests", href: "/admin/study-match-requests", highlight: "gold" },
+			{ label: "Reports", href: "/admin/study-match-reports", highlight: "lapis" },
 		],
 	},
+
+	/* ================= MESSAGE ================= */
+	{
+		label: "Message Management",
+		items: [
+			{ label: "Messages", href: "/admin/messages", highlight: "gold" },
+			{ label: "Notes", href: "/admin/notes", highlight: "lapis" },
+			{ label: "Bookmarks", href: "/admin/bookmarks", highlight: "lapis" },
+			{ label: "Achievements", href: "/admin/achievements", highlight: "lapis" },
+			{ label: "Notifications", href: "/admin/notifications", highlight: "lapis" },
+		],
+	},
+
+	/* ================= TOOLS ================= */
 	{
 		label: "Learning Tools",
 		items: [
-			{ label: "Pomodoro Timer", href: "/user/tools/pomodoro" },
+			{ label: "Pomodoro Timer", href: "/admin/tools/pomodoro" },
 			{ label: "Time Tracker", href: "/admin/tools/time-tracker" },
 			{ label: "Calculator", href: "/admin/tools/calculator" },
 		],
 	},
+
+	/* ================= KNOWLEDGE ================= */
 	{
 		label: "Knowledge",
 		items: [
