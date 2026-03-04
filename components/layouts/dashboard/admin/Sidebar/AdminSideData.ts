@@ -62,8 +62,8 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 		label: "Study Match Management",
 		items: [
 			{ label: "Profile", href: "/admin/study_profile", highlight: "emerald" },
-			{ label: "Requests", href: "/admin/study-match-requests", highlight: "gold" },
-			{ label: "Reports", href: "/admin/study-match-reports", highlight: "lapis" },
+			{ label: "Swipe", href: "/admin/study_swipe", highlight: "gold" },
+			{ label: "Match", href: "/admin/study_match", highlight: "lapis" },
 		],
 	},
 

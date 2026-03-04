@@ -44,8 +44,8 @@ export async function getStudyMatches(
  * GET /api/study_match/count
  * ======================================================= */
 export async function countStudyMatches(): Promise<number> {
-	const res = await api.get<{ count: number }>("/study_match/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/study_match/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

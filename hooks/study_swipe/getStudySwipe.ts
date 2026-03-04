@@ -58,8 +58,8 @@ export async function getStudySwipes(
  * GET /api/study_swipe/count
  * ======================================================= */
 export async function countStudySwipes(): Promise<number> {
-	const res = await api.get<{ count: number }>("/study_swipe/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/study_swipe/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

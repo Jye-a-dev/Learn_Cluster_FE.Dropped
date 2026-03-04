@@ -2,7 +2,7 @@
 "use client";
 
 import AdminStudyProfileContainer from "@/components/pages/AdminManage/AdminStudyProfile/AdminStudyProfileContainer";
-export default function AdminStudyProfile() {
+export default function AdminStudyProfilePage() {
 
     return (
         <section className="space-y-6 bg-cyan-400/20 p-3 rounded-2xl">
