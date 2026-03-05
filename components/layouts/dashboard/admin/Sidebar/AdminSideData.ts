@@ -78,12 +78,20 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 			{ label: "Notifications", href: "/admin/notifications", highlight: "lapis" },
 		],
 	},
-
+	{
+		label: "Payments",
+		items: [
+			{ label: "Plans", href: "/admin/plans" },
+			{ label: "Orders", href: "/admin/orders/" },
+			{ label: "Order items ", href: "/admin/order_items"},
+			{ label: "Payments ", href: "/admin/payments"},
+		],
+	},
 	/* ================= TOOLS ================= */
 	{
 		label: "Learning Tools",
 		items: [
-			{ label: "Pomodoro Timer", href: "/admin/tools/pomodoro" },
+			{ label: "Pomodoro Timer", href: "/user/tools/pomodoro" },
 			{ label: "Time Tracker", href: "/admin/tools/time-tracker" },
 			{ label: "Calculator", href: "/admin/tools/calculator" },
 		],

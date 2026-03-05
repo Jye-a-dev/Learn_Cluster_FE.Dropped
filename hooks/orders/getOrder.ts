@@ -63,8 +63,8 @@ export async function getOrders(
  * GET /api/order/count
  * ======================================================= */
 export async function countOrders(): Promise<number> {
-	const res = await api.get<{ count: number }>("/order/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/order/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

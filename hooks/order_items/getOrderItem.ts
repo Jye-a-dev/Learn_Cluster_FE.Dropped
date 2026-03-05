@@ -59,8 +59,8 @@ export async function getOrderItems(
  * GET /api/order_item/count
  * ======================================================= */
 export async function countOrderItems(): Promise<number> {
-	const res = await api.get<{ count: number }>("/order_item/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/order_item/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================

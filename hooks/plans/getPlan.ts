@@ -61,8 +61,8 @@ export async function getPlans(
  * GET /api/plan/count
  * ======================================================= */
 export async function countPlans(): Promise<number> {
-	const res = await api.get<{ count: number }>("/plan/count");
-	return res.data?.count ?? 0;
+	const res = await api.get<{ total: number }>("/plan/count");
+	return res.data?.total ?? 0;
 }
 
 /* =========================================================
