@@ -9,9 +9,7 @@ export interface SideItem {
 
 export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 	/* ================= MAIN ================= */
-	{ label: "Assignments", href: "/admin/assignments", highlight: "emerald" },
 	{ label: "My Calendar", href: "/admin/calendar", highlight: "lapis" },
-	{ label: "Progress & Badges", href: "/admin/progress", highlight: "gold" },
 	{ label: "Settings", href: "/admin/settings", highlight: "ruby" },
 
 	/* ================= COURSE ================= */
@@ -92,7 +90,7 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 		label: "Learning Tools",
 		items: [
 			{ label: "Pomodoro Timer", href: "/user/tools/pomodoro" },
-			{ label: "Time Tracker", href: "/admin/tools/time-tracker" },
+			{ label: "Time Tracker", href: "/user/tools/time_tracker" },
 			{ label: "Calculator", href: "/admin/tools/calculator" },
 		],
 	},
