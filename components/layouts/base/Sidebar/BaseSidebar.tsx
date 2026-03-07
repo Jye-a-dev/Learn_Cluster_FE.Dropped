@@ -31,7 +31,7 @@ function RecursiveMenuItem({ item, level = 0 }: { item: SideItem; level?: number
         {({ open }) => (
           <div className="space-y-1">
             <Disclosure.Button
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition hover:bg-white/15 ${padding}`}
+              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition hover:bg-white/15 ${padding}`}
             >
               <span className="truncate">{item.label}</span>
               <ChevronDownIcon

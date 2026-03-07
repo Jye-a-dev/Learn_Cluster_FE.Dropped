@@ -22,6 +22,11 @@ export default function RedirectPage() {
       return;
     }
 
+     if (roleName === ROLES.TEACHER) {
+      router.replace("/teacher");
+      return;
+    }
+
     if (roleName === ROLES.STUDENT) {
       router.replace("/user");
       return;
