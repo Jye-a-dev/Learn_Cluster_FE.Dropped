@@ -4,7 +4,7 @@ export const ADMIN_NAV_LINKS= [
   { label: "Dashboard", href: "/admin/dashboard", highlight: "emerald" },
   { label: "Courses", href: "admin/courses", highlight: "lapis" },
   { label: "Study Date", href: "admin/studydate", highlight: "gold" },
-  { label: "Notifications", href: "user/notificantions", highlight: "emerald" },
+  { label: "Notifications", href: "user/notifications", highlight: "emerald" },
 ];
 
 export const ADMIN_NAV_DROPDOWNS= [

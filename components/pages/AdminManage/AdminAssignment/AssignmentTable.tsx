@@ -88,7 +88,7 @@ export default function AssignmentTable({
 		<BaseTable
 			data={assignments}
 			columns={columns}
-			wrapperClassName="rounded-xl border border-white/50 overflow-x-auto"
+			wrapperClassName="rounded-xl border border-white/50 "
 			headClassName="border-b border-white/20"
 			rowClassName={() =>
 				"border-t border-white/10 hover:bg-white/5"

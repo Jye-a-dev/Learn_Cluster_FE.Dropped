@@ -1,5 +1,10 @@
-import CourseContainer from "@/components/pages/PublicCourse/CourseContainer";
+import CourseContainer from "@/components/pages/PublicPage/PublicCourse/CourseContainer";
 
 export default function CoursesPage() {
-  return <CourseContainer />;
+  return (
+    <section className="space-y-6 bg-cyan-400/20 p-3 rounded-2xl">
+      <CourseContainer />
+    </section>
+
+  );
 }

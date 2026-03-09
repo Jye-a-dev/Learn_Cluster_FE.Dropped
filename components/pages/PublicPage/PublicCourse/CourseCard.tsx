@@ -9,7 +9,7 @@ export default function CourseCard({ course, onPreview }: Props) {
   return (
     <div
       onClick={onPreview}
-      className="group cursor-pointer bg-white border rounded-2xl p-6 hover:shadow-xl transition flex flex-col"
+      className="group cursor-pointer bg-white/90 border rounded-2xl p-6 hover:shadow-xl transition flex flex-col"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
@@ -27,12 +27,12 @@ export default function CourseCard({ course, onPreview }: Props) {
       </div>
 
       {/* Title */}
-      <h2 className="text-lg font-semibold mb-2 line-clamp-2 group-hover:text-indigo-600 transition">
+      <h2 className="text-lg font-semibold text-emerald-600 mb-2 line-clamp-2 group-hover:text-indigo-600 transition">
         {course.title}
       </h2>
 
       {/* Description */}
-      <p className="text-sm text-gray-600 line-clamp-3 grow">
+      <p className="text-sm text-emerald-600 line-clamp-3 grow">
         {course.description ?? "Chưa có mô tả cho khóa học này."}
       </p>
 
