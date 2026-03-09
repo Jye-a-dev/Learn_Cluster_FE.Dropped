@@ -5,6 +5,7 @@ import { ReactNode } from "react";
    TYPE
 ======================= */
 export interface Course {
+    thumbnail: never;
 	name: ReactNode;
 	id: string; // UUID
 	title: string;
