@@ -1,11 +1,27 @@
 import api from "../api";
 
-export function useGoogleLogin() {
-  const googleLogin = (data: {
-    google_id: string;
-    email: string;
-    name: string;
-  }) => api.post("/auth/google", data);
+interface GoogleLoginInput {
+	credential: string;
+}
 
-  return { googleLogin };
+interface GoogleLoginResponse {
+	message: string;
+	user: {
+		id: string;
+		email: string;
+		name?: string;
+		avatar?: string;
+	};
+}
+
+export function useGoogleLogin() {
+	const googleLogin = async (data: GoogleLoginInput) => {
+		const res = await api.post<GoogleLoginResponse>("/auth/google", data, {
+			withCredentials: true,
+		});
+
+		return res.data;
+	};
+
+	return { googleLogin };
 }
