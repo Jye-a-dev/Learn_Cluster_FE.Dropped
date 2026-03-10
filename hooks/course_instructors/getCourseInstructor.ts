@@ -20,6 +20,11 @@ export type AddCourseInstructorPayload = {
 	role_in_course: "Teacher" | "TA" | "Moderator";
 };
 
+export type CountInstructorResponse = {
+	course_id: string;
+	total_instructors: number;
+};
+
 export type UpdateCourseInstructorPayload = {
 	course_id: string;
 	user_id: string;
@@ -143,6 +148,17 @@ export async function getCourseInstructorsFull(
 		`/course_instructor/course/${course_id}/full`
 	);
 	return res.data ?? [];
+}
+
+
+export async function countInstructorsByCourse(
+	course_id: string
+): Promise<number> {
+	const res = await api.get<CountInstructorResponse>(
+		`/course_instructor/count/${course_id}`
+	);
+
+	return res.data?.total_instructors ?? 0;
 }
 
 /* =========================================================

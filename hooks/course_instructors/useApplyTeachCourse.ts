@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { addCourseInstructor } from "@/hooks/course_instructors/getCourseInstructor ";
+import { addCourseInstructor } from "@/hooks/course_instructors/getCourseInstructor";
 import { useCurrentUser } from "@/hooks/users/useCurrentUser";
 
 export function useApplyTeachCourse() {

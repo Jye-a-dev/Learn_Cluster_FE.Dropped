@@ -101,3 +101,16 @@ export async function patchEnrollment(
 export async function deleteEnrollment(id: string): Promise<void> {
 	await api.delete(`/enrollment/${id}`);
 }
+
+/* =========================================================
+ * GET /api/enrollment/count_students/:course_id
+ * ======================================================= */
+export async function getStudentCountByCourse(
+	course_id: string
+): Promise<number> {
+	const res = await api.get<{ total: number }>(
+		`/enrollment/count_students/${course_id}`
+	);
+
+	return res.data?.total ?? 0;
+}

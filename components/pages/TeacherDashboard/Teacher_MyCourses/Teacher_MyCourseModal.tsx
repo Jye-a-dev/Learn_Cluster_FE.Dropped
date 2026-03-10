@@ -73,7 +73,7 @@ export default function Teacher_MyCourseModal({
         <div className="flex justify-between items-center">
 
           <Link
-            href={`/courses/${course.id}`}
+            href={`/teacher/courses/my/${course.id}`}
             className="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-400 transition"
           >
             Xem chi tiết

@@ -19,7 +19,7 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 			{ label: "Courses", href: "/admin/courses", highlight: "lapis" },
 			{ label: "Chapters", href: "/admin/chapters", highlight: "lapis" },
 			{ label: "Lessons", href: "/admin/lessons", highlight: "gold" },
-			{ label: "Course Instructions", href: "/admin/course-instruction", highlight: "gold" },
+			{ label: "Course Instructions", href: "/admin/course_instruction", highlight: "gold" },
 			{ label: "Enrollments", href: "/admin/enrollments", highlight: "emerald" },
 		],
 	},

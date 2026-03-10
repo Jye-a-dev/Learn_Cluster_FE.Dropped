@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Course } from "@/hooks/courses/getCourse";
 import { useCoursesMap } from "@/hooks/courses/useCoursesMap";
 import { getCoursesByInstructor }
-    from "@/hooks/course_instructors/getCourseInstructor ";
+    from "@/hooks/course_instructors/getCourseInstructor";
 import { useCurrentUser } from "@/hooks/users/useCurrentUser";
 
 import Teacher_MyCourseCard from "./Teacher_MyCourseCard";

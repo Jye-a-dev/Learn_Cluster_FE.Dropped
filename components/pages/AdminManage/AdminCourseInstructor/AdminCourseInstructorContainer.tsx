@@ -8,7 +8,7 @@ import {
 	updateCourseInstructor,
 	deleteCourseInstructor,
 	type CourseInstructor as CourseInstructorApi,
-} from "@/hooks/course_instructors/getCourseInstructor ";
+} from "@/hooks/course_instructors/getCourseInstructor";
 
 import { getCourses } from "@/hooks/courses/getCourse";
 import { getUsers } from "@/hooks/users/getUsers";
