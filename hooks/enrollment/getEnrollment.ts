@@ -114,3 +114,17 @@ export async function getStudentCountByCourse(
 
 	return res.data?.total ?? 0;
 }
+
+/* =========================================================
+ * GET STUDENTS BY COURSE
+ * ======================================================= */
+export async function getStudentsByCourse(
+  course_id: string
+): Promise<Enrollment[]> {
+
+  const res = await api.get<Enrollment[]>("/enrollment", {
+    params: { course_id },
+  });
+
+  return res.data ?? [];
+}

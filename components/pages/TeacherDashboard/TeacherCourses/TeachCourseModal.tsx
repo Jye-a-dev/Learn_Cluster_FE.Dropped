@@ -1,6 +1,8 @@
 "use client";
 
 import { Course } from "@/hooks/courses/getCourse";
+import BaseTeacherModal from "@/components/pages/TeacherDashboard/Base/BaseTeacherModal";
+
 
 type Props = {
   course: Course;
@@ -16,42 +18,40 @@ export default function TeachCourseModal({
   onClose,
 }: Props) {
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <BaseTeacherModal
+      open={true}
+      title="Đăng ký giảng dạy"
+      width="max-w-md"
+      onClose={onClose}
+    >
 
-      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
+      <p className="text-gray-200 mb-4">
+        Bạn muốn đăng ký giảng dạy khóa học:
+      </p>
 
-        <h2 className="text-xl font-semibold mb-3">
-          Đăng ký giảng dạy
-        </h2>
+      <div className="bg-gray-50 p-3 rounded-lg mb-6">
+        <p className="font-medium">{course.title}</p>
+      </div>
 
-        <p className="text-gray-600 mb-4">
-          Bạn muốn đăng ký giảng dạy khóa học:
-        </p>
+      <div className="flex justify-end gap-3">
 
-        <div className="bg-gray-50 p-3 rounded-lg mb-6">
-          <p className="font-medium">{course.title}</p>
-        </div>
+        <button
+          onClick={onClose}
+          className="px-4 py-2 border rounded-lg hover:bg-gray-100 text-white hover:text-red-600"
+        >
+          Hủy
+        </button>
 
-        <div className="flex justify-end gap-3">
-
-          <button
-            onClick={onClose}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-100"
-          >
-            Hủy
-          </button>
-
-          <button
-            onClick={onConfirm}
-            disabled={loading}
-            className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50"
-          >
-            {loading ? "Đang đăng ký..." : "Xác nhận"}
-          </button>
-
-        </div>
+        <button
+          onClick={onConfirm}
+          disabled={loading}
+          className="px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 disabled:opacity-50"
+        >
+          {loading ? "Đang đăng ký..." : "Xác nhận"}
+        </button>
 
       </div>
-    </div>
+
+    </BaseTeacherModal>
   );
 }

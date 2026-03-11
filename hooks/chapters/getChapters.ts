@@ -95,3 +95,13 @@ export async function patchChapter(id: string, payload: PatchChapterPayload): Pr
 export async function deleteChapter(id: string): Promise<void> {
 	await api.delete(`/chapter/${id}`);
 }
+/* =========================================================
+ * COUNT CHAPTER BY COURSE (frontend count)
+ * ======================================================= */
+export async function countChapterByCourse(course_id: string): Promise<number> {
+
+	const chapters = await getChapters({ course_id });
+
+	return chapters.length;
+
+}
