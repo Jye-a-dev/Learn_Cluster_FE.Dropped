@@ -29,7 +29,7 @@ export default function TeachCourseModal({
         Bạn muốn đăng ký giảng dạy khóa học:
       </p>
 
-      <div className="bg-gray-50 p-3 rounded-lg mb-6">
+      <div className="bg-gray-50/20 p-3 rounded-lg mb-6">
         <p className="font-medium">{course.title}</p>
       </div>
 

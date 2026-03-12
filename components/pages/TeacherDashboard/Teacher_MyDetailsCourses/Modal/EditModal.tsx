@@ -1,7 +1,7 @@
 import BaseTeacherModal from "@/components/pages/TeacherDashboard/Base/BaseTeacherModal";
 
-import StudentsManager from "@/components/pages/TeacherDashboard/Teacher_MyIdCourses/Manager/StudentsManager";
-import ChaptersManager from "@/components/pages/TeacherDashboard/Teacher_MyIdCourses/Manager/ChaptersManager";
+import StudentsManager from "@/components/pages/TeacherDashboard/Teacher_MyDetailsCourses/Manager/StudentsManager";
+import ChaptersManager from "@/components/pages/TeacherDashboard/Teacher_MyDetailsCourses/Manager/ChaptersManager";
 
 import { Enrollment } from "@/hooks/enrollment/getEnrollment";
 import { Chapter } from "@/hooks/chapters/getChapters";

@@ -1,5 +1,6 @@
 "use client";
 
+import BaseTeacherList from "@/components/pages/TeacherDashboard/Base/BaseTeacherList";
 import { Enrollment } from "@/hooks/enrollment/getEnrollment";
 import { useUsersMap } from "@/hooks/users/useUsersMap";
 
@@ -11,28 +12,25 @@ export default function StudentList({ students }: Props) {
 
   const { usersMap, loading } = useUsersMap();
 
-  if (loading) {
-    return <div className="text-gray-400 text-sm">Loading students...</div>;
-  }
-
-  if (students.length === 0) {
-    return <div className="text-gray-400 text-sm">No students</div>;
-  }
-
   return (
-    <div className="space-y-3">
-
-      {students.map((s) => {
+    <BaseTeacherList
+      title="Students"
+      items={students}
+      loading={loading}
+      emptyText="No students"
+      renderItem={(s) => {
 
         const user = usersMap[s.user_id];
 
         return (
-          <div
-            key={s.id}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition"
-          >
+          <div className="flex items-center gap-3">
 
-            <div className="w-9 h-9 rounded-full bg-emerald-200 flex items-center justify-center text-sm font-semibold">
+            <div className="
+              w-9 h-9 rounded-full
+              bg-emerald-200
+              flex items-center justify-center
+              text-sm font-semibold
+            ">
               {user?.username?.[0]?.toUpperCase() ?? "U"}
             </div>
 
@@ -50,9 +48,7 @@ export default function StudentList({ students }: Props) {
 
           </div>
         );
-
-      })}
-
-    </div>
+      }}
+    />
   );
 }

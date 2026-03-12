@@ -1,4 +1,4 @@
-export default function CourseLoading() {
+export default function BaseLoading() {
 
   return (
     <div className="animate-pulse space-y-6">

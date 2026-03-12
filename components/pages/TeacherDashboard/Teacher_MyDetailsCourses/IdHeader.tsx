@@ -12,6 +12,7 @@ type Props = {
   onOpenStudents?: () => void;
   onOpenEdit?: () => void;
   onOpenManage?: () => void;
+  onExit?: () => void;
 };
 
 export default function CourseHeader({
@@ -20,6 +21,7 @@ export default function CourseHeader({
   onOpenStudents,
   onOpenEdit,
   onOpenManage,
+  onExit,            // thêm dòng này
 }: Props) {
 
   const studentCount = useStudentCountByCourse(course.id);
@@ -50,6 +52,7 @@ export default function CourseHeader({
           <p className="mt-2 text-cyan-200 max-w-2xl">
             Mô tả: {course.description}
           </p>
+
           <p className="mt-2 text-cyan-200 max-w-2xl">
             Mục tiêu: {course.objective}
           </p>
@@ -58,6 +61,7 @@ export default function CourseHeader({
         <CourseHeaderActions
           onEdit={onOpenEdit}
           onManage={onOpenManage}
+          onExit={onExit}       // truyền xuống
         />
 
       </div>

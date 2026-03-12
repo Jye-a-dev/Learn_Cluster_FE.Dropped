@@ -1,29 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { Course, getCourse } from "@/hooks/courses/getCourse";
-import { CourseInstructor, getInstructorsByCourse }
-  from "@/hooks/course_instructors/getCourseInstructor";
-import { Enrollment, getStudentsByCourse }
-  from "@/hooks/enrollment/getEnrollment";
-import { Chapter, getChaptersByCourse  } from "@/hooks/chapters/getChapters";
+import {
+  CourseInstructor,
+  getInstructorsByCourse,
+  deleteCourseInstructor,
+} from "@/hooks/course_instructors/getCourseInstructor";
+import { useCurrentUser } from "@/hooks/users/useCurrentUser";
+import { Enrollment, getStudentsByCourse } from "@/hooks/enrollment/getEnrollment";
+import { Chapter, getChaptersByCourse } from "@/hooks/chapters/getChapters";
 
 import BaseTeacherContainer from "../Base/BaseTeacherContainer";
 
 import CourseHeader from "./IdHeader";
 import CourseChapterList from "./Lists/IdCourseChapterList";
-import CourseLoading from "./IdLoading";
+import BaseLoading from "../Base/BaseLoading";
 
 import InstructorModal from "./Modal/IdInstructorModal";
 import StudentModal from "./Modal/IdStudentModal";
 import EditModal from "./Modal/EditModal";
 import ManageContentModal from "./Modal/ManageContentModal";
 
+/* =====================================
+   Container
+===================================== */
 export default function TeacherMyCourseDetailContainer() {
 
   const params = useParams();
+  const router = useRouter();
+
   const courseId = params.id as string;
 
   const [course, setCourse] = useState<Course | null>(null);
@@ -38,6 +46,15 @@ export default function TeacherMyCourseDetailContainer() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openManageModal, setOpenManageModal] = useState(false);
 
+  /* =====================================
+     CURRENT USER (example)
+     thay bằng auth context của hệ thống
+  ===================================== */
+  const { user: currentUser } = useCurrentUser();
+
+  /* =====================================
+     FETCH DATA
+  ===================================== */
   useEffect(() => {
 
     if (!courseId) return;
@@ -55,7 +72,7 @@ export default function TeacherMyCourseDetailContainer() {
           getCourse(courseId),
           getInstructorsByCourse(courseId),
           getStudentsByCourse(courseId),
-          getChaptersByCourse (courseId),
+          getChaptersByCourse(courseId),
         ]);
 
         setCourse(courseRes);
@@ -75,7 +92,35 @@ export default function TeacherMyCourseDetailContainer() {
 
   }, [courseId]);
 
-  if (loading) return <CourseLoading />;
+  /* =====================================
+     EXIT COURSE
+  ===================================== */
+  async function handleExitCourse() {
+
+    if (!currentUser) return;
+
+    const myInstructor = instructors.find(
+      (i) => i.user_id === currentUser.id
+    );
+
+    if (!myInstructor) return;
+
+    try {
+
+      await deleteCourseInstructor(myInstructor.id);
+
+      router.push("/teacher/courses/my");
+
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+  /* =====================================
+     LOADING
+  ===================================== */
+  if (loading) return <BaseLoading />;
 
   if (!course) {
     return (
@@ -85,6 +130,9 @@ export default function TeacherMyCourseDetailContainer() {
     );
   }
 
+  /* =====================================
+     UI
+  ===================================== */
   return (
     <BaseTeacherContainer
       title={course.title}
@@ -99,24 +147,28 @@ export default function TeacherMyCourseDetailContainer() {
           onOpenStudents={() => setOpenStudentModal(true)}
           onOpenEdit={() => setOpenEditModal(true)}
           onOpenManage={() => setOpenManageModal(true)}
+          onExit={handleExitCourse}
         />
 
         <CourseChapterList courseId={courseId} />
 
       </div>
 
+      {/* Instructor Modal */}
       <InstructorModal
         open={openInstructorModal}
         instructors={instructors}
         onClose={() => setOpenInstructorModal(false)}
       />
 
+      {/* Student Modal */}
       <StudentModal
         open={openStudentModal}
         students={students}
         onClose={() => setOpenStudentModal(false)}
       />
 
+      {/* Edit Modal */}
       <EditModal
         open={openEditModal}
         courseId={courseId}
@@ -125,6 +177,7 @@ export default function TeacherMyCourseDetailContainer() {
         onClose={() => setOpenEditModal(false)}
       />
 
+      {/* Manage Content Modal */}
       <ManageContentModal
         open={openManageModal}
         course={course}

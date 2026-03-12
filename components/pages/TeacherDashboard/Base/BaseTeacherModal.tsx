@@ -37,7 +37,7 @@ export default function BaseTeacherModal({
           shadow-2xl
           max-h-[80vh]
           overflow-y-auto
-          p-6
+          p-6 m-2
         `}
       >
 
@@ -63,7 +63,7 @@ export default function BaseTeacherModal({
         </div>
 
         {/* content */}
-        <div className="text-emerald-800">
+        <div className="text-emerald-200 p-2 hover:text-emerald-700 border-2 rounded-2xl">
           {children}
         </div>
 

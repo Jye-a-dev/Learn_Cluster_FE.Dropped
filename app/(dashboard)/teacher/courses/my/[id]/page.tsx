@@ -1,7 +1,7 @@
 "use client";
 
-import Teacher_MyIdCourseDetailContainer from "@/components/pages/TeacherDashboard/Teacher_MyIdCourses/IdContainer";
+import Teacher_MyIdCourseDetailContainer from "@/components/pages/TeacherDashboard/Teacher_MyDetailsCourses/TeacherMyCourseDetailContainer";
 
-export default function TeacherMyIdCoursePage() {
+export default function TeacherDetailCoursePage() {
   return <Teacher_MyIdCourseDetailContainer/>;
 }

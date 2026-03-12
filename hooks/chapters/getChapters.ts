@@ -100,7 +100,7 @@ export async function deleteChapter(id: string): Promise<void> {
  * ======================================================= */
 export async function countChapterByCourse(course_id: string): Promise<number> {
 
-	const chapters = await getChapters({ course_id });
+	const chapters = await getChaptersByCourse(course_id );
 
 	return chapters.length;
 
