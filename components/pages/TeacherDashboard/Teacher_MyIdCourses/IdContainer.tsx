@@ -8,7 +8,7 @@ import { CourseInstructor, getInstructorsByCourse }
   from "@/hooks/course_instructors/getCourseInstructor";
 import { Enrollment, getStudentsByCourse }
   from "@/hooks/enrollment/getEnrollment";
-import { Chapter, getChapters } from "@/hooks/chapters/getChapters";
+import { Chapter, getChaptersByCourse  } from "@/hooks/chapters/getChapters";
 
 import BaseTeacherContainer from "../Base/BaseTeacherContainer";
 
@@ -55,7 +55,7 @@ export default function TeacherMyCourseDetailContainer() {
           getCourse(courseId),
           getInstructorsByCourse(courseId),
           getStudentsByCourse(courseId),
-          getChapters({ course_id: courseId }),
+          getChaptersByCourse (courseId),
         ]);
 
         setCourse(courseRes);

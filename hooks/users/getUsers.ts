@@ -33,7 +33,7 @@ export async function getUserCount(): Promise<number> {
 
 /** GET /api/user/:id */
 export async function getUser(id: string): Promise<User> {
-  const res = await api.get<User>(`/user/${id}`);
+  const res = await api.get<User>(`/user/id/${id}`);
   return res.data;
 }
 
@@ -75,7 +75,7 @@ export async function updateUser(
   id: string,
   payload: Partial<Omit<User, "id">>
 ): Promise<User> {
-  const res = await api.put<User>(`/user/${id}`, payload);
+  const res = await api.put<User>(`/user/id/${id}`, payload);
   return res.data;
 }
 
@@ -84,11 +84,11 @@ export async function patchUser(
   id: string,
   payload: Partial<Omit<User, "id">>
 ): Promise<User> {
-  const res = await api.patch<User>(`/user/${id}`, payload);
+  const res = await api.patch<User>(`/user/id/${id}`, payload);
   return res.data;
 }
 
 /** DELETE /api/user/:id */
 export async function deleteUser(id: string): Promise<void> {
-  await api.delete(`/user/${id}`);
+  await api.delete(`/user/id/${id}`);
 }

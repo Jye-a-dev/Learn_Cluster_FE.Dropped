@@ -75,7 +75,7 @@ export async function countGrades(
 export async function getGrade(
 	id: string
 ): Promise<Grade> {
-	const res = await api.get<Grade>(`/grade/${id}`);
+	const res = await api.get<Grade>(`/grade/id/${id}`);
 	return res.data;
 }
 
@@ -100,7 +100,7 @@ export async function updateGrade(
 	payload: UpdateGradePayload
 ): Promise<Grade> {
 	const res = await api.put<Grade>(
-		`/grade/${id}`,
+		`/grade/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -112,7 +112,7 @@ export async function updateGrade(
 export async function deleteGrade(
 	id: string
 ): Promise<void> {
-	await api.delete(`/grade/${id}`);
+	await api.delete(`/grade/id/${id}`);
 }
 
 /* =========================================================

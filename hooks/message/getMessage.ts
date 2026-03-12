@@ -51,7 +51,7 @@ export async function getMessageCount(): Promise<number> {
  * GET /api/message/:id
  * ======================================================= */
 export async function getMessage(id: string): Promise<MessageBE> {
-	const res = await api.get<MessageBE>(`/message/${id}`);
+	const res = await api.get<MessageBE>(`/message/id/${id}`);
 	return res.data;
 }
 
@@ -85,7 +85,7 @@ export async function addMessage(payload: AddMessagePayload): Promise<{ id: stri
  * PUT /api/message/:id
  * ======================================================= */
 export async function updateMessage(id: string, payload: UpdateMessagePayload): Promise<{ message: string }> {
-	const res = await api.put<{ message: string }>(`/message/${id}`, payload);
+	const res = await api.put<{ message: string }>(`/message/id/${id}`, payload);
 	return res.data;
 }
 
@@ -93,7 +93,7 @@ export async function updateMessage(id: string, payload: UpdateMessagePayload): 
  * PATCH /api/message/:id
  * ======================================================= */
 export async function patchMessage(id: string, payload: PatchMessagePayload): Promise<{ message: string }> {
-	const res = await api.patch<{ message: string }>(`/message/${id}`, payload);
+	const res = await api.patch<{ message: string }>(`/message/id/${id}`, payload);
 	return res.data;
 }
 
@@ -101,5 +101,5 @@ export async function patchMessage(id: string, payload: PatchMessagePayload): Pr
  * DELETE /api/message/:id
  * ======================================================= */
 export async function deleteMessage(id: string): Promise<void> {
-	await api.delete(`/message/${id}`);
+	await api.delete(`/message/id/${id}`);
 }

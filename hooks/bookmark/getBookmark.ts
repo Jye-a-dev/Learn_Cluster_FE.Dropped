@@ -56,7 +56,7 @@ export async function getBookmarks(query?: BookmarkQuery): Promise<BookmarkBE[]>
  * GET /api/bookmark/:id
  * ======================================================= */
 export async function getBookmark(id: string): Promise<BookmarkBE> {
-	const res = await api.get<BookmarkBE>(`/bookmark/${id}`);
+	const res = await api.get<BookmarkBE>(`/bookmark/id/${id}`);
 	return res.data;
 }
 
@@ -112,14 +112,14 @@ export async function updateBookmark(id: string, payload: UpdateBookmarkPayload)
  * PATCH /api/bookmark/:id
  * ======================================================= */
 export async function patchBookmark(id: string, payload: PatchBookmarkPayload): Promise<void> {
-	await api.patch(`/bookmark/${id}`, payload);
+	await api.patch(`/bookmark/id/${id}`, payload);
 }
 
 /* =========================================================
  * DELETE /api/bookmark/:id
  * ======================================================= */
 export async function deleteBookmark(id: string): Promise<void> {
-	await api.delete(`/bookmark/${id}`);
+	await api.delete(`/bookmark/id/${id}`);
 }
 
 /* =========================================================

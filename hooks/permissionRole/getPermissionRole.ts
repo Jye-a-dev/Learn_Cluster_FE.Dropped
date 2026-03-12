@@ -49,7 +49,7 @@ export async function getRolePermissions(query?: RolePermissionQuery): Promise<R
  * GET /api/role_permission/:id
  * ======================================================= */
 export async function getRolePermission(id: string): Promise<RolePermission> {
-	const res = await api.get<RolePermission>(`/role_permission/${id}`);
+	const res = await api.get<RolePermission>(`/role_permission/id/${id}`);
 	return res.data;
 }
 
@@ -65,7 +65,7 @@ export async function getPermissionsByRole(roleId: string): Promise<RolePermissi
  * GET /api/role_permission/permission/:permission_id
  * ======================================================= */
 export async function getRolesByPermission(permissionId: string): Promise<RolePermission[]> {
-	const res = await api.get<RolePermission[]>(`/role_permission/permission/${permissionId}`);
+	const res = await api.get<RolePermission[]>(`/role_permission/permission/id/${permissionId}`);
 	return res.data ?? [];
 }
 
@@ -89,7 +89,7 @@ export async function addRolePermissions(payload: AddRolePermissionPayload[]): P
  * PUT /api/role_permission/:id
  * ======================================================= */
 export async function updateRolePermission(id: string, payload: UpdateRolePermissionPayload): Promise<RolePermission> {
-	const res = await api.put<RolePermission>(`/role_permission/${id}`, payload);
+	const res = await api.put<RolePermission>(`/role_permission/id/${id}`, payload);
 	return res.data;
 }
 
@@ -97,7 +97,7 @@ export async function updateRolePermission(id: string, payload: UpdateRolePermis
  * PATCH /api/role_permission/:id
  * ======================================================= */
 export async function patchRolePermission(id: string, payload: PatchRolePermissionPayload): Promise<RolePermission> {
-	const res = await api.patch<RolePermission>(`/role_permission/${id}`, payload);
+	const res = await api.patch<RolePermission>(`/role_permission/id/${id}`, payload);
 	return res.data;
 }
 
@@ -105,7 +105,7 @@ export async function patchRolePermission(id: string, payload: PatchRolePermissi
  * DELETE /api/role_permission/:id
  * ======================================================= */
 export async function deleteRolePermission(id: string): Promise<void> {
-	await api.delete(`/role_permission/${id}`);
+	await api.delete(`/role_permission/id/${id}`);
 }
 
 /* =========================================================

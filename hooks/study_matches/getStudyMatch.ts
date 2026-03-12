@@ -54,7 +54,7 @@ export async function countStudyMatches(): Promise<number> {
 export async function getStudyMatch(
 	id: string
 ): Promise<StudyMatch> {
-	const res = await api.get<StudyMatch>(`/study_match/${id}`);
+	const res = await api.get<StudyMatch>(`/study_match/id/${id}`);
 	return res.data;
 }
 
@@ -77,5 +77,5 @@ export async function addStudyMatch(
 export async function deleteStudyMatch(
 	id: string
 ): Promise<void> {
-	await api.delete(`/study_match/${id}`);
+	await api.delete(`/study_match/id/${id}`);
 }

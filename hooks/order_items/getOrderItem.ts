@@ -69,7 +69,7 @@ export async function countOrderItems(): Promise<number> {
 export async function getOrderItem(
 	id: string
 ): Promise<OrderItem> {
-	const res = await api.get<OrderItem>(`/order_item/${id}`);
+	const res = await api.get<OrderItem>(`/order_item/id/${id}`);
 	return res.data;
 }
 
@@ -106,7 +106,7 @@ export async function updateOrderItem(
 	payload: UpdateOrderItemPayload
 ): Promise<OrderItem> {
 	const res = await api.put<OrderItem>(
-		`/order_item/${id}`,
+		`/order_item/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -120,7 +120,7 @@ export async function patchOrderItem(
 	payload: PatchOrderItemPayload
 ): Promise<OrderItem> {
 	const res = await api.patch<OrderItem>(
-		`/order_item/${id}`,
+		`/order_item/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -132,5 +132,5 @@ export async function patchOrderItem(
 export async function deleteOrderItem(
 	id: string
 ): Promise<void> {
-	await api.delete(`/order_item/${id}`);
+	await api.delete(`/order_item/id/${id}`);
 }

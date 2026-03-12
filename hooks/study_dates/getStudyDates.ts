@@ -104,7 +104,7 @@ export async function updateStudyDate(
 	id: string,
 	body: Omit<StudyDateBE, "id">
 ): Promise<void> {
-	await api.put(`/study_date/${id}`, body);
+	await api.put(`/study_date/id/${id}`, body);
 }
 
 /** PATCH /api/study_date/:id */
@@ -112,12 +112,12 @@ export async function patchStudyDate(
 	id: string,
 	body: Partial<Omit<StudyDateBE, "id">>
 ): Promise<void> {
-	await api.patch(`/study_date/${id}`, body);
+	await api.patch(`/study_date/id/${id}`, body);
 }
 
 /** DELETE /api/study_date/:id */
 export async function deleteStudyDate(
 	id: string
 ): Promise<void> {
-	await api.delete(`/study_date/${id}`);
+	await api.delete(`/study_date/id/${id}`);
 }

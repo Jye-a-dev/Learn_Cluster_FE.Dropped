@@ -48,7 +48,7 @@ export async function getAchievementCount(): Promise<number> {
  * GET /api/achievement/:id
  * ======================================================= */
 export async function getAchievement(id: string): Promise<AchievementBE> {
-	const res = await api.get<AchievementBE>(`/achievement/${id}`);
+	const res = await api.get<AchievementBE>(`/achievement/id/${id}`);
 	return res.data;
 }
 
@@ -79,21 +79,21 @@ export async function bulkAddAchievement(payload: AddAchievementPayload[]): Prom
  * PUT /api/achievement/:id
  * ======================================================= */
 export async function updateAchievement(id: string, payload: UpdateAchievementPayload): Promise<void> {
-	await api.put(`/achievement/${id}`, payload);
+	await api.put(`/achievement/id/${id}`, payload);
 }
 
 /* =========================================================
  * PATCH /api/achievement/:id
  * ======================================================= */
 export async function patchAchievement(id: string, payload: PatchAchievementPayload): Promise<void> {
-	await api.patch(`/achievement/${id}`, payload);
+	await api.patch(`/achievement/id/${id}`, payload);
 }
 
 /* =========================================================
  * DELETE /api/achievement/:id
  * ======================================================= */
 export async function deleteAchievement(id: string): Promise<void> {
-	await api.delete(`/achievement/${id}`);
+	await api.delete(`/achievement/id/${id}`);
 }
 
 /* =========================================================

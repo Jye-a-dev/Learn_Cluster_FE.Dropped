@@ -81,7 +81,7 @@ export async function getLessonCount(query?: LessonQuery): Promise<number> {
  * GET /api/lesson/:id
  * ======================================================= */
 export async function getLesson(id: string): Promise<LessonBE> {
-	const res = await api.get<LessonBE>(`/lesson/${id}`);
+	const res = await api.get<LessonBE>(`/lesson/id/${id}`);
 	return res.data;
 }
 
@@ -114,7 +114,7 @@ export async function addLesson(payload: AddLessonPayload): Promise<LessonBE> {
  * PUT /api/lesson/:id
  * ======================================================= */
 export async function updateLesson(id: string, payload: UpdateLessonPayload): Promise<LessonBE> {
-	const res = await api.put<LessonBE>(`/lesson/${id}`, payload);
+	const res = await api.put<LessonBE>(`/lesson/id/${id}`, payload);
 	return res.data;
 }
 
@@ -122,7 +122,7 @@ export async function updateLesson(id: string, payload: UpdateLessonPayload): Pr
  * PATCH /api/lesson/:id
  * ======================================================= */
 export async function patchLesson(id: string, payload: PatchLessonPayload): Promise<LessonBE> {
-	const res = await api.patch<LessonBE>(`/lesson/${id}`, payload);
+	const res = await api.patch<LessonBE>(`/lesson/id/${id}`, payload);
 	return res.data;
 }
 
@@ -130,7 +130,7 @@ export async function patchLesson(id: string, payload: PatchLessonPayload): Prom
  * DELETE /api/lesson/:id
  * ======================================================= */
 export async function deleteLesson(id: string): Promise<void> {
-	await api.delete(`/lesson/${id}`);
+	await api.delete(`/lesson/id/${id}`);
 }
 
 /* =========================================================

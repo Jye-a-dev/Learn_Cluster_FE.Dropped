@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chapter, getChapters } from "@/hooks/chapters/getChapters";
+import { Chapter, getChaptersByCourse } from "@/hooks/chapters/getChapters";
 
 type Props = {
   courseId: string;
@@ -17,9 +17,10 @@ export default function CourseChapterList({ courseId }: Props) {
     if (!courseId) return;
 
     async function fetchChapters() {
+
       try {
 
-        const res = await getChapters({ course_id: courseId });
+        const res = await getChaptersByCourse(courseId);
 
         const sorted = res.sort((a, b) => a.ordering - b.ordering);
 
@@ -30,6 +31,7 @@ export default function CourseChapterList({ courseId }: Props) {
       } finally {
         setLoading(false);
       }
+
     }
 
     fetchChapters();
@@ -58,7 +60,7 @@ export default function CourseChapterList({ courseId }: Props) {
       {/* Header */}
       <div className="px-6 py-4 border-b flex items-center justify-between">
         <h2 className="font-semibold text-lg">
-         Chương
+          Chương
         </h2>
 
         <span className="text-sm text-gray-400">

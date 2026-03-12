@@ -22,7 +22,7 @@ export async function getPermissions(params?: {
 
 /** GET /api/permission/:id */
 export async function getPermission(id: number): Promise<PermissionBE> {
-  const res = await api.get<PermissionBE>(`/permission/${id}`);
+  const res = await api.get<PermissionBE>(`/permission/id/${id}`);
   return res.data;
 }
 
@@ -48,10 +48,10 @@ export async function updatePermission(
   id: number,
   body: Partial<Omit<PermissionBE, "id">>
 ): Promise<void> {
-  await api.put(`/permission/${id}`, body);
+  await api.put(`/permission/id/${id}`, body);
 }
 
 /** DELETE /api/permission/:id */
 export async function deletePermission(id: number): Promise<void> {
-  await api.delete(`/permission/${id}`);
+  await api.delete(`/permission/id/${id}`);
 }

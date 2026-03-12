@@ -36,7 +36,7 @@ export async function getRoleCount(): Promise<number> {
  * GET /api/role/:id
  * ======================================================= */
 export async function getRole(roleId: string): Promise<Role> {
-	const res = await api.get<Role>(`/role/${roleId}`);
+	const res = await api.get<Role>(`/role/id/${roleId}`);
 	return res.data;
 }
 
@@ -53,7 +53,7 @@ export async function createRole(payload: CreateRolePayload): Promise<Role> {
  * (update full)
  * ======================================================= */
 export async function updateRole(roleId: string, payload: CreateRolePayload): Promise<Role> {
-	const res = await api.put<Role>(`/role/${roleId}`, payload);
+	const res = await api.put<Role>(`/role/id/${roleId}`, payload);
 	return res.data;
 }
 
@@ -62,7 +62,7 @@ export async function updateRole(roleId: string, payload: CreateRolePayload): Pr
  * (update partial)
  * ======================================================= */
 export async function patchRole(roleId: string, payload: UpdateRolePayload): Promise<Role> {
-	const res = await api.patch<Role>(`/role/${roleId}`, payload);
+	const res = await api.patch<Role>(`/role/id/${roleId}`, payload);
 	return res.data;
 }
 
@@ -70,7 +70,7 @@ export async function patchRole(roleId: string, payload: UpdateRolePayload): Pro
  * DELETE /api/role/:id
  * ======================================================= */
 export async function deleteRole(roleId: string): Promise<void> {
-	await api.delete(`/role/${roleId}`);
+	await api.delete(`/role/id/${roleId}`);
 }
 
 /* =========================================================

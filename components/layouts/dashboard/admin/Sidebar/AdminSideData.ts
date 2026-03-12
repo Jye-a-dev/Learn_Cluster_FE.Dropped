@@ -49,9 +49,9 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 	{
 		label: "Study Date Management",
 		items: [
-			{ label: "Study Dates", href: "/admin/study-dates", highlight: "gold" },
-			{ label: "Participants", href: "/admin/studydate-participants", highlight: "gold" },
-			{ label: "Lessons to Study", href: "/admin/studydate-lessons", highlight: "gold" },
+			{ label: "Study Dates", href: "/admin/study_dates", highlight: "gold" },
+			{ label: "Participants", href: "/admin/studydate_participants", highlight: "gold" },
+			{ label: "Lessons to Study", href: "/admin/studydate_lesson", highlight: "gold" },
 		],
 	},
 
@@ -72,7 +72,7 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 			{ label: "Messages", href: "/admin/messages", highlight: "gold" },
 			{ label: "Notes", href: "/admin/notes", highlight: "lapis" },
 			{ label: "Bookmarks", href: "/admin/bookmarks", highlight: "lapis" },
-			{ label: "Achievements", href: "/admin/achievements", highlight: "lapis" },
+			{ label: "Achievement", href: "/admin/achievement", highlight: "lapis" },
 			{ label: "Notifications", href: "/admin/notifications", highlight: "lapis" },
 		],
 	},

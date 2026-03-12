@@ -61,7 +61,7 @@ export async function getChapterCount(query?: ChapterQuery): Promise<number> {
  * GET /api/chapter/:id
  * ======================================================= */
 export async function getChapter(id: string): Promise<Chapter> {
-	const res = await api.get<Chapter>(`/chapter/${id}`);
+	const res = await api.get<Chapter>(`/chapter/id/${id}`);
 	return res.data;
 }
 
@@ -77,7 +77,7 @@ export async function addChapter(payload: AddChapterPayload): Promise<Chapter> {
  * PUT /api/chapter/:id
  * ======================================================= */
 export async function updateChapter(id: string, payload: UpdateChapterPayload): Promise<Chapter> {
-	const res = await api.put<Chapter>(`/chapter/${id}`, payload);
+	const res = await api.put<Chapter>(`/chapter/id/${id}`, payload);
 	return res.data;
 }
 
@@ -85,7 +85,7 @@ export async function updateChapter(id: string, payload: UpdateChapterPayload): 
  * PATCH /api/chapter/:id
  * ======================================================= */
 export async function patchChapter(id: string, payload: PatchChapterPayload): Promise<Chapter> {
-	const res = await api.patch<Chapter>(`/chapter/${id}`, payload);
+	const res = await api.patch<Chapter>(`/chapter/id/${id}`, payload);
 	return res.data;
 }
 
@@ -93,7 +93,7 @@ export async function patchChapter(id: string, payload: PatchChapterPayload): Pr
  * DELETE /api/chapter/:id
  * ======================================================= */
 export async function deleteChapter(id: string): Promise<void> {
-	await api.delete(`/chapter/${id}`);
+	await api.delete(`/chapter/id/${id}`);
 }
 /* =========================================================
  * COUNT CHAPTER BY COURSE (frontend count)
@@ -104,4 +104,18 @@ export async function countChapterByCourse(course_id: string): Promise<number> {
 
 	return chapters.length;
 
+}
+
+/* =========================================================
+ * GET /api/chapter/course/:course_id
+ * ======================================================= */
+export async function getChaptersByCourse(
+	course_id: string
+): Promise<Chapter[]> {
+
+	const res = await api.get<Chapter[]>(
+		`/chapter/course/${course_id}`
+	);
+
+	return res.data ?? [];
 }

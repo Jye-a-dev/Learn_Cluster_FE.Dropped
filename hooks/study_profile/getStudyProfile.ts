@@ -92,7 +92,7 @@ export async function getStudyProfile(
 	id: string
 ): Promise<StudyProfile> {
 	const res = await api.get<StudyProfile>(
-		`/study_profile/${id}`
+		`/study_profile/id/${id}`
 	);
 	return res.data;
 }
@@ -134,7 +134,7 @@ export async function updateStudyProfile(
 	payload: UpdateStudyProfilePayload
 ): Promise<StudyProfile> {
 	const res = await api.put<StudyProfile>(
-		`/study_profile/${id}`,
+		`/study_profile/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -150,7 +150,7 @@ export async function patchStudyProfile(
 	payload: PatchStudyProfilePayload
 ): Promise<StudyProfile> {
 	const res = await api.patch<StudyProfile>(
-		`/study_profile/${id}`,
+		`/study_profile/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -163,5 +163,5 @@ export async function patchStudyProfile(
 export async function deleteStudyProfile(
 	id: string
 ): Promise<void> {
-	await api.delete(`/study_profile/${id}`);
+	await api.delete(`/study_profile/id/${id}`);
 }

@@ -95,21 +95,6 @@ export default function UpdateChapterModal({
 				/>
 			</div>
 
-			{/* Description */}
-			<div className="grid grid-cols-[140px_1fr] items-start gap-3">
-				<label className="pt-2 text-xs font-medium text-white/70">
-					Description
-				</label>
-				<textarea
-					rows={3}
-					className="input-admin text-white border border-white rounded-md"
-					value={form.description ?? ""}
-					onChange={(e) =>
-						setForm({ ...form, description: e.target.value })
-					}
-				/>
-			</div>
-
 			{/* Order */}
 			<div className="grid grid-cols-[140px_1fr] items-center gap-3">
 				<label className="flex items-center gap-2 text-xs font-medium text-white/70">

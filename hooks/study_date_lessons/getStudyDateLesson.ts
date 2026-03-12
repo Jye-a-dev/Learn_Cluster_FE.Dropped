@@ -28,7 +28,7 @@ export async function getStudyDateLessons(query?: StudyDateLessonQuery): Promise
 
 /** GET /api/study_date_lesson/:id */
 export async function getStudyDateLesson(id: string): Promise<StudyDateLessonBE> {
-	const res = await api.get<StudyDateLessonBE>(`/study_date_lesson/${id}`);
+	const res = await api.get<StudyDateLessonBE>(`/study_date_lesson/id/${id}`);
 	return res.data;
 }
 
@@ -48,15 +48,15 @@ export async function createStudyDateLesson(body: Omit<StudyDateLessonBE, "id">)
 
 /** PUT /api/study_date_lesson/:id */
 export async function updateStudyDateLesson(id: string, body: Omit<StudyDateLessonBE, "id">): Promise<void> {
-	await api.put(`/study_date_lesson/${id}`, body);
+	await api.put(`/study_date_lesson/id/${id}`, body);
 }
 
 /** PATCH /api/study_date_lesson/:id */
 export async function patchStudyDateLesson(id: string, body: Partial<Omit<StudyDateLessonBE, "id">>): Promise<void> {
-	await api.patch(`/study_date_lesson/${id}`, body);
+	await api.patch(`/study_date_lesson/id/${id}`, body);
 }
 
 /** DELETE /api/study_date_lesson/:id */
 export async function deleteStudyDateLesson(id: string): Promise<void> {
-	await api.delete(`/study_date_lesson/${id}`);
+	await api.delete(`/study_date_lesson/id/${id}`);
 }

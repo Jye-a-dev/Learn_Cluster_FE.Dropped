@@ -34,7 +34,7 @@ export async function getSubmissions(
 export async function getSubmission(
 	id: string
 ): Promise<SubmissionBE> {
-	const res = await api.get<SubmissionBE>(`/submission/${id}`);
+	const res = await api.get<SubmissionBE>(`/submission/id/${id}`);
 	return res.data;
 }
 
@@ -128,7 +128,7 @@ export async function updateSubmission(
 	id: string,
 	body: Partial<Omit<SubmissionBE, "id" | "assignment_id" | "student_id" | "submitted_at">>
 ): Promise<void> {
-	await api.put(`/submission/${id}`, body);
+	await api.put(`/submission/id/${id}`, body);
 }
 
 /** PATCH /api/submission/:id */
@@ -136,12 +136,12 @@ export async function patchSubmission(
 	id: string,
 	body: Partial<Omit<SubmissionBE, "id" | "submitted_at">>
 ): Promise<void> {
-	await api.patch(`/submission/${id}`, body);
+	await api.patch(`/submission/id/${id}`, body);
 }
 
 /** DELETE /api/submission/:id */
 export async function deleteSubmission(
 	id: string
 ): Promise<void> {
-	await api.delete(`/submission/${id}`);
+	await api.delete(`/submission/id/${id}`);
 }

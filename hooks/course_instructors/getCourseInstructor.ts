@@ -62,7 +62,7 @@ export async function getCourseInstructors(
 export async function getCourseInstructor(
 	id: string
 ): Promise<CourseInstructor> {
-	const res = await api.get<CourseInstructor>(`/course_instructor/${id}`);
+	const res = await api.get<CourseInstructor>(`/course_instructor/id/${id}`);
 	return res.data;
 }
 
@@ -87,7 +87,7 @@ export async function updateCourseInstructor(
 	payload: UpdateCourseInstructorPayload
 ): Promise<CourseInstructor> {
 	const res = await api.put<CourseInstructor>(
-		`/course_instructor/${id}`,
+		`/course_instructor/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -101,7 +101,7 @@ export async function patchCourseInstructor(
 	payload: PatchCourseInstructorPayload
 ): Promise<CourseInstructor> {
 	const res = await api.patch<CourseInstructor>(
-		`/course_instructor/${id}`,
+		`/course_instructor/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -111,7 +111,7 @@ export async function patchCourseInstructor(
  * DELETE /api/course_instructor/:id
  * ======================================================= */
 export async function deleteCourseInstructor(id: string): Promise<void> {
-	await api.delete(`/course_instructor/${id}`);
+	await api.delete(`/course_instructor/id/${id}`);
 }
 
 /* =========================================================

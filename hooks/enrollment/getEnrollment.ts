@@ -59,7 +59,7 @@ export async function getEnrollmentCount(): Promise<number> {
  * GET /api/enrollment/:id
  * ======================================================= */
 export async function getEnrollment(id: string): Promise<Enrollment> {
-	const res = await api.get<Enrollment>(`/enrollment/${id}`);
+	const res = await api.get<Enrollment>(`/enrollment/id/${id}`);
 	return res.data;
 }
 
@@ -80,7 +80,7 @@ export async function updateEnrollment(
 	id: string,
 	payload: UpdateEnrollmentPayload
 ): Promise<Enrollment> {
-	const res = await api.put<Enrollment>(`/enrollment/${id}`, payload);
+	const res = await api.put<Enrollment>(`/enrollment/id/${id}`, payload);
 	return res.data;
 }
 
@@ -91,7 +91,7 @@ export async function patchEnrollment(
 	id: string,
 	payload: PatchEnrollmentPayload
 ): Promise<Enrollment> {
-	const res = await api.patch<Enrollment>(`/enrollment/${id}`, payload);
+	const res = await api.patch<Enrollment>(`/enrollment/id/${id}`, payload);
 	return res.data;
 }
 
@@ -99,7 +99,7 @@ export async function patchEnrollment(
  * DELETE /api/enrollment/:id
  * ======================================================= */
 export async function deleteEnrollment(id: string): Promise<void> {
-	await api.delete(`/enrollment/${id}`);
+	await api.delete(`/enrollment/id/${id}`);
 }
 
 /* =========================================================

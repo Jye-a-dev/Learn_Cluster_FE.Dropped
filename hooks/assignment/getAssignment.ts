@@ -35,7 +35,7 @@ export async function getAssignments(
 export async function getAssignment(
 	id: string
 ): Promise<AssignmentBE> {
-	const res = await api.get<AssignmentBE>(`/assignment/${id}`);
+	const res = await api.get<AssignmentBE>(`/assignment/id/${id}`);
 	return res.data;
 }
 
@@ -68,14 +68,14 @@ export async function updateAssignment(
 	id: string,
 	body: Partial<Omit<AssignmentBE, "id" | "course_id">>
 ): Promise<void> {
-	await api.put(`/assignment/${id}`, body);
+	await api.put(`/assignment/id/${id}`, body);
 }
 
 /** DELETE /api/assignment/:id */
 export async function deleteAssignment(
 	id: string
 ): Promise<void> {
-	await api.delete(`/assignment/${id}`);
+	await api.delete(`/assignment/id/${id}`);
 }
 
 /** DELETE /api/assignment/course/:courseId */

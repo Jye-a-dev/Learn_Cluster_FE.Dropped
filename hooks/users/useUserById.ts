@@ -25,7 +25,7 @@ export function useUserById(id?: string) {
       try {
         setLoading(true);
 
-        const res = await api.get<User>(`/user/${id}`, {
+        const res = await api.get<User>(`/user/id/${id}`, {
           withCredentials: true,
         });
 

@@ -49,7 +49,7 @@ export async function getNotes(
 export async function getNote(
 	id: string
 ): Promise<NoteBE> {
-	const res = await api.get<NoteBE>(`/note/${id}`);
+	const res = await api.get<NoteBE>(`/note/id/${id}`);
 	return res.data;
 }
 
@@ -92,7 +92,7 @@ export async function updateNote(
 	id: string,
 	body: UpdateNotePayload
 ): Promise<void> {
-	await api.put(`/note/${id}`, body);
+	await api.put(`/note/id/${id}`, body);
 }
 
 /** PATCH /api/note/:id */
@@ -100,12 +100,12 @@ export async function patchNote(
 	id: string,
 	body: PatchNotePayload
 ): Promise<void> {
-	await api.patch(`/note/${id}`, body);
+	await api.patch(`/note/id/${id}`, body);
 }
 
 /** DELETE /api/note/:id */
 export async function deleteNote(
 	id: string
 ): Promise<void> {
-	await api.delete(`/note/${id}`);
+	await api.delete(`/note/id/${id}`);
 }

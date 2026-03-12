@@ -79,7 +79,7 @@ export async function countPayments(): Promise<number> {
 export async function getPayment(
 	id: string
 ): Promise<Payment> {
-	const res = await api.get<Payment>(`/payment/${id}`);
+	const res = await api.get<Payment>(`/payment/id/${id}`);
 	return res.data;
 }
 
@@ -116,7 +116,7 @@ export async function updatePayment(
 	payload: UpdatePaymentPayload
 ): Promise<Payment> {
 	const res = await api.put<Payment>(
-		`/payment/${id}`,
+		`/payment/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -142,5 +142,5 @@ export async function patchPayment(
 export async function deletePayment(
 	id: string
 ): Promise<void> {
-	await api.delete(`/payment/${id}`);
+	await api.delete(`/payment/id/${id}`);
 }

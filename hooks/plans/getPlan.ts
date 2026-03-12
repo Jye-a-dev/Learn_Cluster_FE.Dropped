@@ -71,7 +71,7 @@ export async function countPlans(): Promise<number> {
 export async function getPlan(
 	id: string
 ): Promise<Plan> {
-	const res = await api.get<Plan>(`/plan/${id}`);
+	const res = await api.get<Plan>(`/plan/id/${id}`);
 	return res.data;
 }
 
@@ -96,7 +96,7 @@ export async function updatePlan(
 	payload: UpdatePlanPayload
 ): Promise<Plan> {
 	const res = await api.put<Plan>(
-		`/plan/${id}`,
+		`/plan/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -110,7 +110,7 @@ export async function patchPlan(
 	payload: PatchPlanPayload
 ): Promise<Plan> {
 	const res = await api.patch<Plan>(
-		`/plan/${id}`,
+		`/plan/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -122,5 +122,5 @@ export async function patchPlan(
 export async function deletePlan(
 	id: string
 ): Promise<void> {
-	await api.delete(`/plan/${id}`);
+	await api.delete(`/plan/id/${id}`);
 }

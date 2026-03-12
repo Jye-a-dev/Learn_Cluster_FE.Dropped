@@ -73,7 +73,7 @@ export async function countOrders(): Promise<number> {
 export async function getOrder(
 	id: string
 ): Promise<Order> {
-	const res = await api.get<Order>(`/order/${id}`);
+	const res = await api.get<Order>(`/order/id/${id}`);
 	return res.data;
 }
 
@@ -110,7 +110,7 @@ export async function updateOrder(
 	payload: UpdateOrderPayload
 ): Promise<Order> {
 	const res = await api.put<Order>(
-		`/order/${id}`,
+		`/order/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -124,7 +124,7 @@ export async function patchOrder(
 	payload: PatchOrderPayload
 ): Promise<Order> {
 	const res = await api.patch<Order>(
-		`/order/${id}`,
+		`/order/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -136,5 +136,5 @@ export async function patchOrder(
 export async function deleteOrder(
 	id: string
 ): Promise<void> {
-	await api.delete(`/order/${id}`);
+	await api.delete(`/order/id/${id}`);
 }

@@ -1,97 +1,95 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import BaseFormModal from "../BaseModel/BaseFormModal";
+
+import type {
+	Enrollment,
+	UpdateEnrollmentPayload,
+} from "./EnrollmentUiTypes";
 
 type Props = {
 	open: boolean;
-	title: string;
-	submitting?: boolean;
-	disableSubmit?: boolean;
+	enrollment: Enrollment | null;
 	onClose: () => void;
-	onSubmit: () => void;
-	children: React.ReactNode;
+	onSubmit: (id: string, data: UpdateEnrollmentPayload) => void | Promise<void>;
 };
 
-export default function BaseFormModal({
+export default function UpdateEnrollmentModal({
 	open,
-	title,
-	submitting = false,
-	disableSubmit = false,
+	enrollment,
 	onClose,
 	onSubmit,
-	children,
 }: Props) {
+	const [userId, setUserId] = useState("");
+	const [courseId, setCourseId] = useState("");
+	const [submitting, setSubmitting] = useState(false);
+
 	/* =========================
-	   ESC CLOSE
+	   LOAD DATA
 	========================= */
 	useEffect(() => {
-		if (!open) return;
+		if (!enrollment) return;
 
-		function handleKeyDown(e: KeyboardEvent) {
-			if (e.key === "Escape") {
-				onClose();
-			}
+		setUserId(enrollment.user_id);
+		setCourseId(enrollment.course_id);
+	}, [enrollment]);
+
+	/* =========================
+	   SUBMIT WRAPPER
+	========================= */
+	async function handleSubmit() {
+		if (!enrollment) return;
+
+		try {
+			setSubmitting(true);
+
+			await onSubmit(enrollment.id, {
+				user_id: userId,
+				course_id: courseId,
+			});
+
+			onClose();
+		} finally {
+			setSubmitting(false);
 		}
-
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [open, onClose]);
-
-	if (!open) return null;
+	}
 
 	return (
-		<div
-			className="fixed inset-0 z-50 flex items-center justify-center"
-			onClick={onClose}
+		<BaseFormModal
+			open={open}
+			title="Cập nhật Enrollment"
+			onClose={onClose}
+			onSubmit={handleSubmit}
+			submitting={submitting}
 		>
-			{/* Overlay */}
-			<div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+			<div className="space-y-4">
+				{/* USER ID */}
+				<div className="space-y-1">
+					<label className="text-sm text-white/70">User ID</label>
 
-			{/* Modal */}
-			<div
-				className="relative z-10 w-full max-w-lg rounded-xl bg-neutral-900 border border-white/10 shadow-xl p-6 space-y-6"
-				onClick={(e) => e.stopPropagation()}
-			>
-				{/* ===== HEADER ===== */}
-				<div className="flex items-center justify-between">
-					<h2 className="text-lg font-semibold text-white">
-						{title}
-					</h2>
-
-					<button
-						onClick={onClose}
-						className="text-white/50 hover:text-white transition"
-					>
-						✕
-					</button>
+					<input
+						disabled
+						value={userId}
+						onChange={(e) => setUserId(e.target.value)}
+						className="w-full rounded-md bg-neutral-800 border border-white/10 px-3 py-2 text-white"
+						placeholder="Nhập user id"
+					/>
 				</div>
 
-				{/* ===== BODY ===== */}
-				<div>{children}</div>
+				{/* COURSE ID */}
+				<div className="space-y-1">
+					<label className="text-sm text-white/70">Course ID</label>
 
-				{/* ===== FOOTER ===== */}
-				<div className="flex justify-end gap-3 pt-4 border-t border-white/10">
-					<button
-						onClick={onClose}
-						className="px-4 py-2 rounded-md bg-white/10 text-white hover:bg-white/20 transition"
-						disabled={submitting}
-					>
-						Huỷ
-					</button>
-
-					<button
-						onClick={onSubmit}
-						disabled={submitting || disableSubmit}
-						className={`px-4 py-2 rounded-md font-medium transition ${
-							submitting || disableSubmit
-								? "bg-blue-500/40 cursor-not-allowed text-white/70"
-								: "bg-blue-600 hover:bg-blue-500 text-white"
-						}`}
-					>
-						{submitting ? "Đang xử lý..." : "Lưu"}
-					</button>
+					<input
+						disabled
+						value={courseId}
+						onChange={(e) => setCourseId(e.target.value)}
+						className="w-full rounded-md bg-neutral-800 border border-white/10 px-3 py-2 text-white"
+						placeholder="Nhập course id"
+					/>
 				</div>
 			</div>
-		</div>
+		</BaseFormModal>
 	);
 }

@@ -125,7 +125,7 @@ export async function bulkMarkNotificationRead(
 export async function deleteNotification(
   id: string
 ): Promise<void> {
-  await api.delete(`/notification/${id}`);
+  await api.delete(`/notification/id/${id}`);
 }
 
 /* =========================================================

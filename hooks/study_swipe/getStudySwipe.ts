@@ -68,7 +68,7 @@ export async function countStudySwipes(): Promise<number> {
 export async function getStudySwipe(
 	id: string
 ): Promise<StudySwipe> {
-	const res = await api.get<StudySwipe>(`/study_swipe/${id}`);
+	const res = await api.get<StudySwipe>(`/study_swipe/id/${id}`);
 	return res.data;
 }
 
@@ -93,7 +93,7 @@ export async function updateStudySwipe(
 	payload: UpdateStudySwipePayload
 ): Promise<StudySwipe> {
 	const res = await api.put<StudySwipe>(
-		`/study_swipe/${id}`,
+		`/study_swipe/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -107,7 +107,7 @@ export async function patchStudySwipe(
 	payload: PatchStudySwipePayload
 ): Promise<StudySwipe> {
 	const res = await api.patch<StudySwipe>(
-		`/study_swipe/${id}`,
+		`/study_swipe/id/${id}`,
 		payload
 	);
 	return res.data;
@@ -119,5 +119,5 @@ export async function patchStudySwipe(
 export async function deleteStudySwipe(
 	id: string
 ): Promise<void> {
-	await api.delete(`/study_swipe/${id}`);
+	await api.delete(`/study_swipe/id/${id}`);
 }

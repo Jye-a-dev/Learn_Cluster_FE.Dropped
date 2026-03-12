@@ -68,7 +68,7 @@ export async function getCourseCount(): Promise<number> {
  * GET /api/course/:id
  * ======================================================= */
 export async function getCourse(id: string): Promise<Course> {
-	const res = await api.get<Course>(`/course/${id}`);
+	const res = await api.get<Course>(`/course/id/${id}`);
 	return res.data;
 }
 
@@ -84,7 +84,7 @@ export async function addCourse(payload: AddCoursePayload): Promise<Course> {
  * PUT /api/course/:id
  * ======================================================= */
 export async function updateCourse(id: string, payload: UpdateCoursePayload): Promise<Course> {
-	const res = await api.put<Course>(`/course/${id}`, payload);
+	const res = await api.put<Course>(`/course/id/${id}`, payload);
 	return res.data;
 }
 
@@ -92,7 +92,7 @@ export async function updateCourse(id: string, payload: UpdateCoursePayload): Pr
  * PATCH /api/course/:id
  * ======================================================= */
 export async function patchCourse(id: string, payload: PatchCoursePayload): Promise<Course> {
-	const res = await api.patch<Course>(`/course/${id}`, payload);
+	const res = await api.patch<Course>(`/course/id/${id}`, payload);
 	return res.data;
 }
 
@@ -100,5 +100,5 @@ export async function patchCourse(id: string, payload: PatchCoursePayload): Prom
  * DELETE /api/course/:id
  * ======================================================= */
 export async function deleteCourse(id: string): Promise<void> {
-	await api.delete(`/course/${id}`);
+	await api.delete(`/course/id/${id}`);
 }
