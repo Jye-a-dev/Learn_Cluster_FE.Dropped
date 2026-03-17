@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import BaseTeacherList from "@/components/pages/TeacherDashboard/Base/BaseTeacherList";
-import { Chapter, getChaptersByCourse } from "@/hooks/chapters/getChapters";
+import { useChaptersByCourse } from "@/hooks/chapters/useChapter_swr";
 
 type Props = {
   courseId: string;
@@ -14,34 +13,10 @@ export default function CourseChapterList({ courseId }: Props) {
 
   const router = useRouter();
 
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-
-    if (!courseId) return;
-
-    async function fetchChapters() {
-
-      try {
-
-        const res = await getChaptersByCourse(courseId);
-
-        const sorted = res.sort((a, b) => a.ordering - b.ordering);
-
-        setChapters(sorted);
-
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-
-    }
-
-    fetchChapters();
-
-  }, [courseId]);
+  const {
+    chapters,
+    isLoading,
+  } = useChaptersByCourse(courseId);
 
   function handleOpenChapter(id: string) {
     router.push(`/teacher/chapter/${id}`);
@@ -49,9 +24,10 @@ export default function CourseChapterList({ courseId }: Props) {
 
   return (
     <BaseTeacherList
+      layout="grid"
       title="Chương"
       items={chapters}
-      loading={loading}
+      loading={isLoading}
       emptyText="No chapters available"
       renderItem={(chapter) => (
 
@@ -67,23 +43,18 @@ export default function CourseChapterList({ courseId }: Props) {
           "
         >
 
-          {/* Chapter number */}
-          <div
-            className="
-              flex items-center justify-center
-              w-10 h-10
-              rounded-full
-              bg-cyan-50
-              text-cyan-600
-              font-semibold text-sm
-            "
-          >
+          <div className="
+            flex items-center justify-center
+            w-10 h-10
+            rounded-full
+            bg-cyan-50
+            text-cyan-600
+            font-semibold text-sm
+          ">
             {chapter.ordering}
           </div>
 
-          {/* Content */}
           <div className="flex-1">
-
             <div className="font-medium text-gray-700">
               {chapter.title}
             </div>
@@ -93,7 +64,6 @@ export default function CourseChapterList({ courseId }: Props) {
                 {chapter.description}
               </div>
             )}
-
           </div>
 
         </div>

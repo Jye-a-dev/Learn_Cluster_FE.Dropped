@@ -16,12 +16,14 @@ import type { LessonContentType } from "@/components/pages/AdminManage/AdminLess
 type Props = {
   open: boolean;
   chapterId: string;
+  onUpdated: () => void;
   onClose: () => void;
 };
 
 export default function ManageLessonsModal({
   open,
   chapterId,
+  onUpdated,
   onClose,
 }: Props) {
   const [lessons, setLessons] = useState<LessonBE[]>([]);
@@ -69,6 +71,7 @@ export default function ManageLessonsModal({
       });
 
       setLessons((prev) => [...prev, newLesson]);
+      onUpdated?.()
       setForm({ title: "", type: "video", url: "", text: "" });
     } finally {
       setSaving(false);
@@ -79,6 +82,7 @@ export default function ManageLessonsModal({
   const handleDelete = async (id: string) => {
     await deleteLesson(id);
     setLessons((prev) => prev.filter((l) => l.id !== id));
+    onUpdated?.()
   };
 
   /* MOVE */
@@ -93,6 +97,7 @@ export default function ManageLessonsModal({
     await Promise.all(
       arr.map((l, idx) => updateLessonOrder(l.id, { ordering: idx + 1 }))
     );
+    onUpdated?.()
   };
 
   return (
@@ -153,7 +158,7 @@ export default function ManageLessonsModal({
         </div>
 
         {/* RIGHT: LIST */}
-        <div className="space-y-2 max-h-100 overflow-y-auto">
+        <div className="space-y-2    overflow-y-auto">
           {loading && <p>Loading...</p>}
 
           {lessons.map((l, i) => (

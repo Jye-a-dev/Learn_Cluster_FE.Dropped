@@ -20,7 +20,9 @@ export default function ChapterLessonList({ lessons }: Props) {
   );
 
   return (
+
     <BaseTeacherList
+      layout="grid"
       title="Bài học"
       items={sortedLessons}
       emptyText="No lessons available"
@@ -29,25 +31,28 @@ export default function ChapterLessonList({ lessons }: Props) {
         <div
           onClick={() => router.push(`/teacher/lesson/${lesson.id}`)}
           className="
-            flex gap-4
-            hover:bg-emerald-100/20
-            rounded-xl
-            transition
-            p-2
-            cursor-pointer
-          "
+              flex gap-4
+               w-full  
+              hover:bg-emerald-700/20
+              rounded-xl
+              transition
+              p-2
+              cursor-pointer
+              border border-gray-200
+              h-full
+            "
         >
 
           {/* Lesson number */}
           <div
             className="
-              flex items-center justify-center
-              w-10 h-10
-              rounded-full
-              bg-indigo-50
-              text-indigo-600
-              font-semibold text-sm
-            "
+                flex items-center justify-center
+                w-10 h-10
+                rounded-full
+                bg-indigo-50
+                text-indigo-600
+                font-semibold text-sm
+              "
           >
             {lesson.ordering}
           </div>
@@ -59,7 +64,7 @@ export default function ChapterLessonList({ lessons }: Props) {
               {lesson.title}
             </div>
 
-            <div className="text-xs text-gray-400 mt-1">
+            <div className="text-xs text-emerald-900 mt-1">
               {lesson.content_type}
             </div>
 
@@ -69,5 +74,6 @@ export default function ChapterLessonList({ lessons }: Props) {
 
       )}
     />
+
   );
 }

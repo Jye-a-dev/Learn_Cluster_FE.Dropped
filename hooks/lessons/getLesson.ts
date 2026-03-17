@@ -145,6 +145,6 @@ export async function getLessonsByChapter(chapter_id: string): Promise<LessonBE[
  * PATCH /api/lesson/:id/order
  * ======================================================= */
 export async function updateLessonOrder(id: string, payload: UpdateLessonOrderPayload): Promise<LessonBE> {
-	const res = await api.patch<LessonBE>(`/lesson/${id}/order`, payload);
+	const res = await api.patch<LessonBE>(`/lesson/id/${id}/order`, payload);
 	return res.data;
 }

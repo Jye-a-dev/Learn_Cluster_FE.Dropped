@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
+
 import ManageLessonsModal from "./Modal/ManageLessonsModal";
-import { Chapter, getChapter } from "@/hooks/chapters/getChapters";
-import { LessonBE, getLessonsByChapter } from "@/hooks/lessons/getLesson";
+import EditChapterModal from "./Modal/EditChapterModal";
+
+import { useChapterDetail, useLessonsByChapter } from "@/hooks/chapters/useChapter_swr";
 
 import BaseTeacherContainer from "@/components/pages/TeacherDashboard/Base/BaseTeacherContainer";
-import EditChapterModal from "./Modal/EditChapterModal";
 import ChapterHeader from "./IdHeader";
 import ChapterLessonList from "./List/IdChapterLessonList";
 import BaseLoading from "../Base/BaseLoading";
@@ -18,42 +19,30 @@ import BaseLoading from "../Base/BaseLoading";
 export default function TeacherChapterDetailContainer() {
 
   const params = useParams();
-
   const chapterId = params.id as string;
+
   const [openManage, setOpenManage] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [chapter, setChapter] = useState<Chapter | null>(null);
-  const [lessons, setLessons] = useState<LessonBE[]>([]);
-
-  const [loading, setLoading] = useState(true);
 
   /* =====================================
-     FETCH DATA
+     SWR DATA
   ===================================== */
-  useEffect(() => {
-    if (!chapterId) return;
+  const {
+    chapter,
+    isLoading: chapterLoading,
+    mutate: mutateChapter,
+  } = useChapterDetail(chapterId);
 
-    const fetchData = async () => {
-      try {
-        const chapterRes = await getChapter(chapterId);
-        setChapter(chapterRes);
-
-        const lessonRes = await getLessonsByChapter(chapterId);
-        setLessons(lessonRes.sort((a, b) => a.ordering - b.ordering));
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [chapterId]);
+  const {
+    lessons,
+    isLoading: lessonLoading,
+    mutate: mutateLessons,
+  } = useLessonsByChapter(chapterId);
 
   /* =====================================
      LOADING
   ===================================== */
-  if (loading) return <BaseLoading />;
+  if (chapterLoading || lessonLoading) return <BaseLoading />;
 
   if (!chapter) {
     return (
@@ -86,19 +75,24 @@ export default function TeacherChapterDetailContainer() {
 
       </div>
 
+      {/* EDIT CHAPTER */}
       <EditChapterModal
         open={openEdit}
         chapter={chapter}
         onClose={() => setOpenEdit(false)}
-        onUpdated={(updated) => {
-          setChapter(updated);
+        onUpdated={() => {
+          mutateChapter();
         }}
       />
 
+      {/* MANAGE LESSON */}
       <ManageLessonsModal
         open={openManage}
         chapterId={chapterId}
         onClose={() => setOpenManage(false)}
+        onUpdated={() => {
+          mutateLessons();
+        }}
       />
 
     </BaseTeacherContainer>

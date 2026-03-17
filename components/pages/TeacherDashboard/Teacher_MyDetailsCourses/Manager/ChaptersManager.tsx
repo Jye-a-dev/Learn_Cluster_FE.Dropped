@@ -17,7 +17,6 @@ type Props = {
 };
 
 export default function ChaptersManager({ courseId, chapters }: Props) {
-
   const [title, setTitle] = useState("");
 
   return (
@@ -25,7 +24,6 @@ export default function ChaptersManager({ courseId, chapters }: Props) {
       data={chapters}
       fetchData={() => getChapters({ course_id: courseId })}
       onAdd={async () => {
-
         if (!title.trim()) return;
 
         await addChapter({
@@ -37,27 +35,47 @@ export default function ChaptersManager({ courseId, chapters }: Props) {
         setTitle("");
       }}
       renderItem={(c: Chapter, refresh) => (
-
         <div className="flex items-center justify-between px-3 py-2 gap-3">
 
-          {/* ORDERING */}
-          <input
-            type="number"
-            value={c.ordering}
-            className="w-14 border text-white rounded-md px-2 py-1 text-sm"
-            onChange={async (e) => {
+          {/* ORDERING - CUSTOM BUTTON */}
+          <div className="flex items-center gap-1">
 
-              const newOrder = Number(e.target.value);
+            {/* UP */}
+            <button
+              onClick={async () => {
+                if (c.ordering <= 1) return;
 
-              if (!newOrder) return;
+                await patchChapter(c.id, {
+                  ordering: c.ordering - 1,
+                });
 
-              await patchChapter(c.id, {
-                ordering: newOrder,
-              });
+                await refresh();
+              }}
+              className="px-2 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
+            >
+              ↑
+            </button>
 
-              await refresh();
-            }}
-          />
+            {/* CURRENT ORDER */}
+            <span className="w-6 text-center text-sm text-white">
+              {c.ordering}
+            </span>
+
+            {/* DOWN */}
+            <button
+              onClick={async () => {
+                await patchChapter(c.id, {
+                  ordering: c.ordering + 1,
+                });
+
+                await refresh();
+              }}
+              className="px-2 py-1 bg-gray-700 text-white rounded hover:bg-gray-600"
+            >
+              ↓
+            </button>
+
+          </div>
 
           {/* TITLE */}
           <span className="flex-1 text-sm text-gray-200">
@@ -76,7 +94,6 @@ export default function ChaptersManager({ courseId, chapters }: Props) {
           </button>
 
         </div>
-
       )}
       renderAdd={(handleAdd) => (
         <>
