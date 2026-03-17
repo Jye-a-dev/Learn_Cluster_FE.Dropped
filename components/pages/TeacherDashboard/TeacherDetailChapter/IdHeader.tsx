@@ -22,12 +22,8 @@ export default function ChapterHeader({
   const lessonCount = useLessonCountByChapter(chapter.id);
 
   const stats = [
-    { label: "Lessons", value: lessonCount },
-    { label: "Order", value: chapter.ordering },
-    {
-      label: "Created",
-      value: new Date(chapter.created_at ?? "").toLocaleDateString(),
-    },
+    { label: "Bài học", value: lessonCount },
+    { label: "Thứ tự", value: chapter.ordering },
   ];
 
   return (
@@ -57,7 +53,7 @@ export default function ChapterHeader({
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8 text-sm">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 mt-8 text-sm">
 
         {stats.map((item) => (
           <div

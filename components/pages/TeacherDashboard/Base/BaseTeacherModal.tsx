@@ -63,7 +63,7 @@ export default function BaseTeacherModal({
         </div>
 
         {/* content */}
-        <div className="text-emerald-200 p-2 hover:text-emerald-700 border-2 rounded-2xl">
+        <div className="text-emerald-200 p-2 border-2 rounded-2xl">
           {children}
         </div>
 
