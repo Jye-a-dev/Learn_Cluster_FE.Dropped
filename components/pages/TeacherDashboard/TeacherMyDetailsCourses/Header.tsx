@@ -1,10 +1,11 @@
 "use client";
 
-import CourseHeaderActions from "./IdHeaderActions";
+import CourseHeaderActions from "./HeaderActions";
 import { Course } from "@/hooks/courses/getCourse";
 import { useInstructorCount } from "@/hooks/course_instructors/countCourseInstructor";
 import { useStudentCountByCourse } from "@/hooks/enrollment/countStudentCountByCourse";
 import { useChapterCount } from "@/hooks/chapters/useChapterCount";
+import { useAssignmentCount } from "@/hooks/assignment/useAssignmentCount";
 
 type Props = {
   course: Course;
@@ -27,10 +28,12 @@ export default function CourseHeader({
   const studentCount = useStudentCountByCourse(course.id);
   const instructorCount = useInstructorCount(course.id);
   const chapterCount = useChapterCount(course.id);
+  const assignmentCount = useAssignmentCount(course.id);
 
   const stats = [
     { label: "Instructors", value: instructorCount },
     { label: "Students", value: studentCount },
+     { label: "Assignments", value: assignmentCount },
     { label: "Chapters", value: chapterCount },
     {
       label: "Created",

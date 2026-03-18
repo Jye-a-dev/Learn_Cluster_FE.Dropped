@@ -38,7 +38,7 @@ export default function BaseTeacherManage<T>({
   return (
     <div className="space-y-3">
 
-      <div className="border rounded-lg max-h-64 overflow-auto divide-y">
+      <div className="border rounded-lg max-h-64 overflow-auto divide-y no-scrollbar">
         {list.map((item, i) => (
           <div key={i}>{renderItem(item, refresh)}</div>
         ))}

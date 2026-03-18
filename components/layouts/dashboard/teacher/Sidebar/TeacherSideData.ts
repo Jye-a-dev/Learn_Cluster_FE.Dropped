@@ -15,7 +15,6 @@ export const TEACHER_SIDEBAR_ITEMS: SideItem[] = [
 		items: [
 			{ label: "Courses", href: "/teacher/courses", highlight: "lapis" },
 			{ label: "My Course", href: "/teacher/courses/my", highlight: "emerald" },
-			{ label: "Enrollments", href: "/teacher/enrollments", highlight: "gold" },
 		],
 	},
 

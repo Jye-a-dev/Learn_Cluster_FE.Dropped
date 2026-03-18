@@ -1,7 +1,7 @@
 "use client";
 
 import BaseTeacherModal from "@/components/pages/TeacherDashboard/Base/BaseTeacherModal";
-import StudentList from "../Lists/IdStudentList";
+import StudentList from "../Lists/StudentList";
 import { Enrollment } from "@/hooks/enrollment/getEnrollment";
 
 type Props = {

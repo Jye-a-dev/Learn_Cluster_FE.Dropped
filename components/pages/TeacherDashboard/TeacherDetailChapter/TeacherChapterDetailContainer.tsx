@@ -7,7 +7,6 @@ import ManageLessonsModal from "./Modal/ManageLessonsModal";
 import EditChapterModal from "./Modal/EditChapterModal";
 
 import { useChapterDetail, useLessonsByChapter } from "@/hooks/chapters/useChapter_swr";
-
 import BaseTeacherContainer from "@/components/pages/TeacherDashboard/Base/BaseTeacherContainer";
 import ChapterHeader from "./IdHeader";
 import ChapterLessonList from "./List/IdChapterLessonList";
@@ -20,7 +19,7 @@ export default function TeacherChapterDetailContainer() {
 
   const params = useParams();
   const chapterId = params.id as string;
-
+  
   const [openManage, setOpenManage] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 

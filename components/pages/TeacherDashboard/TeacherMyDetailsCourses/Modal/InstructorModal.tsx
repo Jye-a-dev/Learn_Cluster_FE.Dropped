@@ -1,7 +1,7 @@
 "use client";
 
 import BaseTeacherModal from "@/components/pages/TeacherDashboard/Base/BaseTeacherModal";
-import InstructorList from "../Lists/IdInstructorList";
+import InstructorList from "../Lists/InstructorList";
 import { CourseInstructor } from "@/hooks/course_instructors/getCourseInstructor";
 
 type Props = {

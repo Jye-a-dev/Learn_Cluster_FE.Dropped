@@ -3,6 +3,7 @@ import api from "@/hooks/api";
 
 /* ===================== BE MODEL ===================== */
 export interface AssignmentBE {
+    ordering: number;
 	id: string;
 	course_id: string;
 	title?: string | null;
