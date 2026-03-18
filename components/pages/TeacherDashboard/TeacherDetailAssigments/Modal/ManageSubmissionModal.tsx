@@ -1,165 +1,221 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import BaseTeacherModal from "@/components/pages/TeacherDashboard/Base/BaseTeacherModal";
-
 import {
-  AssignmentBE,
-  updateAssignment,
-} from "@/hooks/assignment/getAssignment";
+  SubmissionBE,
+  getSubmissionsByAssignment,
+  createSubmission,
+  patchSubmission,
+  deleteSubmission,
+} from "@/hooks/submission/getSubmission";
+import { getStudentsByCourse, type Enrollment } from "@/hooks/enrollment/getEnrollment";
+import { useUsersMap } from "@/hooks/users/useUsersMap";
 
 type Props = {
   open: boolean;
-  assignment: AssignmentBE;
+  assignmentId: string;
+  courseId: string;
+  onUpdated: () => void;
   onClose: () => void;
-  onOpenDelete?: () => void;
-  onUpdated?: () => void;
 };
 
-export default function ManageAssignmentModal({
+export default function ManageSubmissionModal({
   open,
-  assignment,
-  onClose,
-  onOpenDelete,
+  assignmentId,
+  courseId,
   onUpdated,
+  onClose,
 }: Props) {
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const { usersMap, loading: usersLoading } = useUsersMap();
+  const [submissions, setSubmissions] = useState<SubmissionBE[]>([]);
+  const [students, setStudents] = useState<Enrollment[]>([]);
   const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    student_id: "",
+    file_url: "",
+    text_submission: "",
+  });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
-  /* =========================
-     INIT DATA
-  ========================= */
+  // Fetch submissions
   useEffect(() => {
-    if (!assignment) return;
+    if (!open || !assignmentId) return;
 
-    setTitle(assignment.title ?? "");
-    setDescription(assignment.description ?? "");
-    setFileUrl(assignment.file_url ?? "");
-    setDeadline(
-      assignment.deadline
-        ? assignment.deadline.slice(0, 16) // format for input datetime-local
-        : ""
-    );
-  }, [assignment]);
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await getSubmissionsByAssignment(assignmentId);
+        setSubmissions(data);
+      } catch (err) {
+        console.error("Failed to fetch submissions", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [open, assignmentId]);
 
-  /* =========================
-     UPDATE
-  ========================= */
+  // Fetch students enrolled in course
+  useEffect(() => {
+    if (!open || !courseId) return;
+
+    (async () => {
+      try {
+        const data = await getStudentsByCourse(courseId);
+        setStudents(data);
+      } catch (err) {
+        console.error("Failed to fetch students", err);
+      }
+    })();
+  }, [open, courseId]);
+
   const handleSave = async () => {
-    try {
-      setLoading(true);
+    if (!form.student_id) return;
 
-      await updateAssignment(assignment.id, {
-        title,
-        description,
-        file_url: fileUrl,
-        deadline: deadline || null,
-      });
+    try {
+      setSaving(true);
+
+      if (editingId) {
+        await patchSubmission(editingId, {
+          file_url: form.file_url || null,
+          text_submission: form.text_submission || null,
+        });
+        setSubmissions((prev) =>
+          prev.map((s) =>
+            s.id === editingId
+              ? { ...s, file_url: form.file_url || null, text_submission: form.text_submission || null }
+              : s
+          )
+        );
+      } else {
+        const id = await createSubmission({
+          assignment_id: assignmentId,
+          student_id: form.student_id,
+          file_url: form.file_url || null,
+          text_submission: form.text_submission || null,
+        });
+
+        const newSubmission: SubmissionBE = {
+          id,
+          assignment_id: assignmentId,
+          student_id: form.student_id,
+          file_url: form.file_url || null,
+          text_submission: form.text_submission || null,
+        };
+
+        setSubmissions((prev) => [...prev, newSubmission]);
+      }
 
       onUpdated?.();
-      onClose();
-
-    } catch (err) {
-      console.error(err);
+      setForm({ student_id: "", file_url: "", text_submission: "" });
+      setEditingId(null);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  /* =========================
-     DELETE
-  ========================= */
+  const handleDelete = async (id: string) => {
+    await deleteSubmission(id);
+    setSubmissions((prev) => prev.filter((s) => s.id !== id));
+    if (editingId === id) {
+      setForm({ student_id: "", file_url: "", text_submission: "" });
+      setEditingId(null);
+    }
+    onUpdated?.();
+  };
 
+  const handleEdit = (submission: SubmissionBE) => {
+    setForm({
+      student_id: submission.student_id,
+      file_url: submission.file_url || "",
+      text_submission: submission.text_submission || "",
+    });
+    setEditingId(submission.id);
+  };
 
-  /* =========================
-     UI
-  ========================= */
+  const isLoading = loading || usersLoading;
+
   return (
-    <BaseTeacherModal
-      open={open}
-      title="Manage Assignment"
-      width="w-140"
-      onClose={onClose}
-    >
-      <div className="space-y-5">
-
-        {/* TITLE */}
-        <div>
-          <label className="text-sm font-medium">Title</label>
-          <input
-            className="w-full mt-1 px-3 py-2 border rounded-lg"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* DESCRIPTION */}
-        <div>
-          <label className="text-sm font-medium">Description</label>
-          <textarea
-            className="w-full mt-1 px-3 py-2 border rounded-lg"
-            rows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {/* FILE URL */}
-        <div>
-          <label className="text-sm font-medium">File URL</label>
-          <input
-            className="w-full mt-1 px-3 py-2 border rounded-lg"
-            value={fileUrl}
-            onChange={(e) => setFileUrl(e.target.value)}
-          />
-        </div>
-
-        {/* DEADLINE */}
-        <div>
-          <label className="text-sm font-medium">Deadline</label>
-          <input
-            type="datetime-local"
-            className="w-full mt-1 px-3 py-2 border rounded-lg"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-          />
-        </div>
-
-        {/* ACTION */}
-        <div className="flex justify-between pt-4">
-
-          <button
-            onClick={onOpenDelete}
-            className="px-4 py-2 rounded-lg bg-red-500 text-white"
-          >
-            Delete
-          </button>
-
-          <div className="flex gap-3">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 border rounded-lg"
+    <BaseTeacherModal open={open} title="Manage Submissions" width="w-[900px]" onClose={onClose}>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="grid grid-cols-2 gap-6">
+          {/* LEFT FORM */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-200">Student</label>
+            <select
+              value={form.student_id}
+              onChange={(e) => setForm({ ...form, student_id: e.target.value })}
+              disabled={!!editingId}
+              className="w-full p-2 border rounded bg-gray-800 text-white"
             >
-              Cancel
-            </button>
+              <option value="">Select student</option>
+              {students.map((s) => (
+                <option key={s.id} value={s.user_id}>
+                  {usersMap[s.user_id]?.username || s.user_id}
+                </option>
+              ))}
+            </select>
+
+            <input
+              value={form.file_url}
+              onChange={(e) => setForm({ ...form, file_url: e.target.value })}
+              placeholder="File URL"
+              className="w-full p-2 border rounded"
+            />
+            <textarea
+              value={form.text_submission}
+              onChange={(e) => setForm({ ...form, text_submission: e.target.value })}
+              placeholder="Text Submission"
+              className="w-full p-2 border rounded"
+            />
 
             <button
               onClick={handleSave}
-              disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50"
+              disabled={saving}
+              className="w-full py-2 bg-blue-600 text-white rounded"
             >
-              {loading ? "Saving..." : "Save"}
+              {saving ? "Saving..." : editingId ? "Save Changes" : "Add Submission"}
             </button>
+
+            {editingId && (
+              <button
+                onClick={() => { setForm({ student_id: "", file_url: "", text_submission: "" }); setEditingId(null); }}
+                className="w-full py-2 bg-gray-600 text-white rounded"
+              >
+                Cancel Edit
+              </button>
+            )}
           </div>
 
+          {/* RIGHT LIST */}
+          <div className="space-y-2 overflow-y-auto">
+            {submissions.map((s) => (
+              <div key={s.id} className="flex justify-between border p-2 rounded">
+                <div>
+                  <p className="text-sm font-medium">
+                    Student: {usersMap[s.student_id]?.username || s.student_id}
+                  </p>
+                  {s.file_url && (
+                    <p className="text-xs text-blue-600">
+                      File: <a href={s.file_url} target="_blank">{s.file_url}</a>
+                    </p>
+                  )}
+                  {s.text_submission && (
+                    <p className="text-xs text-gray-400">{s.text_submission}</p>
+                  )}
+                </div>
+                <div className="flex gap-1">
+                  <button onClick={() => handleEdit(s)}>✎</button>
+                  <button onClick={() => handleDelete(s.id)}>✕</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-
-      </div>
+      )}
     </BaseTeacherModal>
   );
 }
