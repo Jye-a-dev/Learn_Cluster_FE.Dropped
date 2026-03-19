@@ -3,6 +3,7 @@
 import BaseTeacherList from "@/components/pages/TeacherDashboard/Base/BaseTeacherList";
 import { SubmissionBE } from "@/hooks/submission/getSubmission";
 import { useUsersMap } from "@/hooks/users/useUsersMap";
+import Link from "next/link";
 
 type Props = {
   submission: SubmissionBE;
@@ -12,6 +13,12 @@ export default function SubmissionItemList({ submission }: Props) {
   const { usersMap, loading } = useUsersMap();
 
   const items = [
+    {
+      label: "Student",
+      value: loading
+        ? "Loading..."
+        : usersMap[submission.student_id]?.username || "Unknown student",
+    },
     {
       label: "Text Submission",
       value: submission.text_submission || "No text submitted",
@@ -38,24 +45,46 @@ export default function SubmissionItemList({ submission }: Props) {
         ? new Date(submission.submitted_at).toLocaleString()
         : "Not submitted",
     },
-    {
-      label: "Student",
-      value: loading
-        ? "Loading..."
-        : usersMap[submission.student_id]?.username || "Unknown student",
-    },
   ];
 
   return (
-    <BaseTeacherList
-          layout="grid"
-          items={items} // bỏ title nếu không muốn hiển thị
-          emptyText="No data"
-          renderItem={(item) => (
-              <div className="flex flex-col gap-2 w-full rounded-xl p-4 border border-gray-200 bg-white/60">
-                  <div className="text-sm text-gray-500">{item.label}</div>
-                  <div className="font-medium text-gray-800 wrap-break-word">{item.value}</div>
-              </div>
-          )} title={""}    />
+    <div className="space-y-4">
+      <BaseTeacherList
+        layout="grid"
+        items={items}
+        emptyText="No data"
+        renderItem={(item) => (
+          <div className="flex flex-col gap-2 w-full rounded-xl p-4 border border-gray-200 bg-white/60">
+            <div className="text-sm text-gray-500">{item.label}</div>
+
+            {/* Text + truncate */}
+            <div
+              className={`font-medium text-gray-800 ${item.label === "Text Submission"
+                  ? "line-clamp-2"
+                  : "wrap-break-word"
+                }`}
+              title={
+                item.label === "Text Submission"
+                  ? submission.text_submission ?? undefined
+                  : undefined
+              }
+            >
+              {item.value}
+            </div>
+          </div>
+        )}
+        title={"Submission"}
+      />
+
+      {/* Button xem chi tiết */}
+      <div className="flex justify-end">
+        <Link
+          href={`/teacher/submission/${submission.id}`}
+          className="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
+        >
+          Xem & chấm điểm
+        </Link>
+      </div>
+    </div>
   );
 }

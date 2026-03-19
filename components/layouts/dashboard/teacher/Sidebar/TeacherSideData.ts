@@ -18,25 +18,6 @@ export const TEACHER_SIDEBAR_ITEMS: SideItem[] = [
 		],
 	},
 
-	/* ================= CONTENT ================= */
-	{
-		label: "Course Content",
-		items: [
-			{ label: "Chapters", href: "/teacher/chapters", highlight: "lapis" },
-			{ label: "Lessons", href: "/teacher/lessons", highlight: "gold" },
-		],
-	},
-
-	/* ================= ASSIGNMENT ================= */
-	{
-		label: "Assignments",
-		items: [
-			{ label: "Assignments", href: "/teacher/assignments", highlight: "gold" },
-			{ label: "Submissions", href: "/teacher/submissions", highlight: "lapis" },
-			{ label: "Grades", href: "/teacher/grades", highlight: "emerald" },
-		],
-	},
-
 	/* ================= STUDY DATE ================= */
 	{
 		label: "Study Dates",
