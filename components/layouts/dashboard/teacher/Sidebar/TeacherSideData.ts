@@ -22,8 +22,8 @@ export const TEACHER_SIDEBAR_ITEMS: SideItem[] = [
 	{
 		label: "Study Dates",
 		items: [
-			{ label: "Schedule", href: "/teacher/study-dates", highlight: "gold" },
-			{ label: "Participants", href: "/teacher/studydate-participants", highlight: "emerald" },
+			{ label: "Study Date", href: "/teacher/study_dates", highlight: "gold" },
+			{ label: "My study Dates", href: "/teacher/my/study_dates", highlight: "gold" },
 		],
 	},
 

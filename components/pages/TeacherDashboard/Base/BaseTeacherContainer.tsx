@@ -40,7 +40,7 @@ export default function BaseTeacherContainer({
           {/* Back button */}
           <button
             onClick={handleBack}
-            className="absolute left-6 top-6 px-3 py-2 text-sm rounded-lg border border-emerald-700 text-emerald-200 hover:bg-emerald-800 transition"
+            className="absolute cursor-pointer left-6 top-6 px-3 py-2 text-sm rounded-lg border border-emerald-700 text-emerald-200 hover:bg-emerald-800 transition"
           >
             ← Quay lại
           </button>

@@ -16,14 +16,14 @@ export default function ChapterHeaderActions({
 
       <button
         onClick={onEdit}
-        className="px-4 py-2 rounded-lg bg-cyan-500 text-white text-sm font-medium hover:bg-cyan-600 transition"
+        className="px-4 py-2 rounded-lg bg-cyan-500 text-white text-sm font-medium hover:bg-cyan-600 cursor-pointer transition"
       >
         Edit Chapter
       </button>
 
       <button
         onClick={onManage}
-        className="px-4 py-2 rounded-lg bg-white/20 text-cyan-100 text-sm hover:bg-white/30 transition"
+        className="px-4 py-2 rounded-lg bg-white/20 text-cyan-100 text-sm hover:bg-white/30 transition cursor-pointer"
       >
         Manage Lessons
       </button>
