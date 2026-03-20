@@ -31,7 +31,7 @@ export const ADMIN_SIDEBAR_ITEMS: SideItem[] = [
 			{ label: "Users", href: "/admin/users", highlight: "lapis" },
 			{ label: "Roles", href: "/admin/roles", highlight: "emerald" },
 			{ label: "Permissions", href: "/admin/permissions", highlight: "gold" },
-			{ label: "Role Permissions", href: "/admin/role-permissions", highlight: "emerald" },
+			{ label: "Role Permissions", href: "/admin/roleallow", highlight: "emerald" },
 		],
 	},
 

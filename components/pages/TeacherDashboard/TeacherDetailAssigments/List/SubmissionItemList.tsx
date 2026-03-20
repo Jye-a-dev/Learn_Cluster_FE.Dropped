@@ -4,6 +4,8 @@ import BaseTeacherList from "@/components/pages/TeacherDashboard/Base/BaseTeache
 import { SubmissionBE } from "@/hooks/submission/getSubmission";
 import { useUsersMap } from "@/hooks/users/useUsersMap";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Grade, getGradesBySubmission } from "@/hooks/grade/getGrade";
 
 type Props = {
   submission: SubmissionBE;
@@ -11,6 +13,23 @@ type Props = {
 
 export default function SubmissionItemList({ submission }: Props) {
   const { usersMap, loading } = useUsersMap();
+  const [grade, setGrade] = useState<Grade | null>(null);
+  const [loadingGrade, setLoadingGrade] = useState(true);
+
+  useEffect(() => {
+    const fetchGrade = async () => {
+      try {
+        const res = await getGradesBySubmission(submission.id);
+        setGrade(res[0] || null);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingGrade(false);
+      }
+    };
+
+    fetchGrade();
+  }, [submission.id]);
 
   const items = [
     {
@@ -45,6 +64,20 @@ export default function SubmissionItemList({ submission }: Props) {
         ? new Date(submission.submitted_at).toLocaleString()
         : "Not submitted",
     },
+    {
+      label: "Score",
+      value: loadingGrade
+        ? "Loading..."
+        : grade?.score !== null && grade?.score !== undefined
+          ? grade.score
+          : "Not graded",
+    },
+    {
+      label: "Feedback",
+      value: loadingGrade
+        ? "Loading..."
+        : grade?.feedback || "No feedback",
+    },
   ];
 
   return (
@@ -60,8 +93,8 @@ export default function SubmissionItemList({ submission }: Props) {
             {/* Text + truncate */}
             <div
               className={`font-medium text-gray-800 ${item.label === "Text Submission"
-                  ? "line-clamp-2"
-                  : "wrap-break-word"
+                ? "line-clamp-2"
+                : "wrap-break-word"
                 }`}
               title={
                 item.label === "Text Submission"
