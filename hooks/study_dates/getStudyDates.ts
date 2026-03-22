@@ -10,6 +10,15 @@ export interface StudyDateBE {
 	created_by?: string | null;
 }
 
+export type StudyDate = {
+  id: string;
+  courseId: string;
+  title: string;
+  scheduledAt: string;
+  location: string;
+  createdBy: string;
+};
+
 /* ===================== QUERY ===================== */
 export interface StudyDateQuery {
 	course_id?: string;
@@ -22,12 +31,13 @@ export interface StudyDateQuery {
 
 /** GET /api/study_date */
 export async function getStudyDates(
-	query?: StudyDateQuery
+  query?: StudyDateQuery
 ): Promise<StudyDateBE[]> {
-	const res = await api.get<StudyDateBE[]>("/study_date", {
-		params: query,
-	});
-	return res.data ?? [];
+  const res = await api.get<StudyDateBE[]>("/study_date", {
+    params: query,
+  });
+
+  return res.data ?? [];
 }
 
 /** GET /api/study_date/:id */
@@ -70,7 +80,7 @@ export async function getStudyDatesByCourse(
 		`/study_date/course/${course_id}`,
 		{ params: query }
 	);
-	return res.data ?? [];
+	return res.data ?? [];	
 }
 
 /* ===================== UPCOMING ===================== */
