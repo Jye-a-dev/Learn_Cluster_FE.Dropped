@@ -22,6 +22,7 @@ export type StudyDate = {
 /* ===================== QUERY ===================== */
 export interface StudyDateQuery {
 	course_id?: string;
+	created_by?: string;
 	upcoming?: boolean;
 	page?: number;
 	limit?: number;
@@ -44,7 +45,7 @@ export async function getStudyDates(
 export async function getStudyDate(
 	id: string
 ): Promise<StudyDateBE> {
-	const res = await api.get<StudyDateBE>(`/study_date/${id}`);
+	const res = await api.get<StudyDateBE>(`/study_date/id/${id}`);
 	return res.data;
 }
 
@@ -65,7 +66,7 @@ export async function countStudyDates(
 export async function getStudyDateFull(
 	id: string
 ): Promise<unknown> {
-	const res = await api.get(`/study_date/${id}/full`);
+	const res = await api.get(`/study_date/id/${id}/full`);
 	return res.data;
 }
 

@@ -17,8 +17,28 @@ export default function BaseTeacherContainer({
   const pathname = usePathname();
 
   const handleBack = () => {
+    if (pathname.startsWith("/teacher/my/study_dates/")) {
+      router.push("/teacher/my/study_dates");
+      return;
+    }
+
+    if (pathname === "/teacher/my/study_dates") {
+      router.push("/teacher/study_dates");
+      return;
+    }
+
     if (pathname.startsWith("/teacher/courses/my")) {
       router.push("/teacher/courses");
+      return;
+    }
+
+    if (pathname.startsWith("/teacher/study_dates/")) {
+      router.push("/teacher/study_dates");
+      return;
+    }
+
+    if (pathname === "/teacher/study_dates") {
+      router.push("/teacher");
       return;
     }
 

@@ -59,7 +59,7 @@ export async function getMessage(id: string): Promise<MessageBE> {
  * GET /api/message/study-date/:study_date_id
  * ======================================================= */
 export async function getMessagesByStudyDate(study_date_id: string): Promise<MessageBE[]> {
-	const res = await api.get<MessageBE[]>(`/message/study-date/${study_date_id}`);
+	const res = await api.get<MessageBE[]>(`/message/studydate/${study_date_id}`);
 	return res.data ?? [];
 }
 
