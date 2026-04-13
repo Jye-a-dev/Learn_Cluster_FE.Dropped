@@ -10,7 +10,6 @@ import AdminGradeGrowthGraph from "./AdminGradeGrowthGraph";
 import AdminGradeScoreGraph from "./AdminGradeScoreGraph";
 import AdminGradeStatusGraph from "./AdminGradeStatusGraph";
 import AdminLessonGraph from "./AdminLessonGraph";
-import AdminRolePermissionGraph from "./AdminRolePermissionGraph";
 import AdminRoleUserGraph from "./AdminRoleUserGraph";
 import AdminStudyDateGraph from "./AdminStudyDateGraph";
 import AdminStudyDateLessonGraph from "./AdminStudyDateLessonGraph";
@@ -30,7 +29,6 @@ export default function AdminGraphContainer() {
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                     <AdminUserGraph />
                     <AdminRoleUserGraph />
-                    <AdminRolePermissionGraph />
                     <AdminCourseStatusGraph />
                 </div>
             </section>

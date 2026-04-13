@@ -1,6 +1,6 @@
-export const FOOTER_LINKS = [
+﻿export const FOOTER_LINKS = [
   { label: "Trang chủ", href: "/" },
-  { label: "Khoá học", href: "/courses" },
+  { label: "Khóa học", href: "/courses" },
   { label: "Cộng đồng", href: "/community" },
   { label: "Giới thiệu", href: "/about" },
 ];

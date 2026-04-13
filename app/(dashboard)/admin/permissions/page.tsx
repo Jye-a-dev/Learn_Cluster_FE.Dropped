@@ -1,9 +1,5 @@
-import AdminPermissionContainer from "@/components/pages/AdminManage/AdminPermission/AdminPermissionContainer"
+import { redirect } from "next/navigation";
 
-export default function AdminPermmisionPage() {
-    return (
-        <section className="space-y-6 bg-cyan-400/20 p-3 rounded-2xl">
-            <AdminPermissionContainer />
-        </section >
-    )
+export default function AdminPermissionPage() {
+	redirect("/admin/roles");
 }

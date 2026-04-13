@@ -1,4 +1,4 @@
-// components/layouts/base/Footer/BaseFooterLinks.tsx
+﻿// components/layouts/base/Footer/BaseFooterLinks.tsx
 "use client";
 
 import Link from "next/link";

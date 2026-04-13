@@ -59,7 +59,7 @@ export default function NavbarMobileMenu({
               href="/logout"
               className="block text-center px-4 py-2 rounded-md bg-red-500/80 hover:bg-red-500"
             >
-              Logout
+              Đăng xuất
             </Link>
           </div>
         ) : (
@@ -67,7 +67,7 @@ export default function NavbarMobileMenu({
             href="/login"
             className="mt-2 block px-4 py-2 rounded-md bg-white/20 hover:bg-white/30 font-semibold text-center"
           >
-            Sign In
+            Đăng nhập
           </Link>
         )}
       </div>

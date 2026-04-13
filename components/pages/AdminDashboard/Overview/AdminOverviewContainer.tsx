@@ -7,7 +7,6 @@ import AdminCourseOverview from "./AdminCourseOverview";
 import AdminGradeOverview from "./AdminGradeOverview";
 import AdminLessonOverview from "./AdminLessonOverview";
 import AdminRoleOverview from "./AdminRoleOverview";
-import AdminRolePermissionOverview from "./AdminRolePermissionOverview";
 import AdminStudyDateLessonOverview from "./AdminStudyDateLessonOverview";
 import AdminStudyDateOverview from "./AdminStudyDateOverview";
 import AdminStudyDateParticipantOverview from "./AdminStudyDateParticipantOverview";
@@ -51,12 +50,11 @@ export default function AdminOverviewContainer() {
       {/* SYSTEM */}
       <section>
         <h2 className="text-lg font-semibold text-slate-300 mb-5 uppercase tracking-wide">
-          System & Permissions
+          System
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
           <AdminRoleOverview />
-          <AdminRolePermissionOverview />
         </div>
       </section>
     </>

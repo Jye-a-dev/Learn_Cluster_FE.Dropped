@@ -1,4 +1,4 @@
-// components/layouts/base/Footer/BaseFooter.tsx
+﻿// components/layouts/base/Footer/BaseFooter.tsx
 "use client";
 
 import NavbarLogo from "@/components/layouts/base/Navbar/NavbarLogo";
@@ -30,7 +30,6 @@ export default function BaseFooter({
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-7 md:grid-cols-3 items-start">
-          {/* Logo + description */}
           <div className="space-y-2 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
             <NavbarLogo disabled={logoDisabled} />
             <p className="max-w-sm text-justify text-xs leading-relaxed text-white/75">
@@ -38,23 +37,18 @@ export default function BaseFooter({
             </p>
           </div>
 
-          {/* Links */}
           <BaseFooterLinks title="Khám phá" items={links} />
-
-          {/* Support */}
           <BaseFooterLinks title="Hỗ trợ" items={supports} />
         </div>
 
-        {/* Divider */}
         <div className="my-5 h-px bg-white/15" />
 
-        {/* Bottom */}
         <div className="flex flex-col items-center justify-between gap-2 text-xs text-white/65 md:flex-row">
           <span>
             © {new Date().getFullYear()} LearnCluster · {areaLabel}
           </span>
           <span className="italic text-white/55">
-            Build for learning · <FooterTime />
+            Xây dựng cho việc học · <FooterTime />
           </span>
         </div>
       </div>

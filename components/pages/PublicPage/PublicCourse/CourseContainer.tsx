@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback } from "react";
 import { Course, getCourses } from "@/hooks/courses/getCourse";
@@ -73,7 +73,6 @@ export default function CourseContainer() {
 
   return (
     <>
-      {/* HERO */}
       <section className="bg-gray-50/80 m-2 border-b">
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl text-cyan-800/60 font-bold mb-4">
@@ -87,15 +86,11 @@ export default function CourseContainer() {
         </div>
       </section>
 
-      {/* FILTER */}
       <section className="mt-4 mx-2">
         <CourseFilter onFilter={handleFilter} />
       </section>
 
-      {/* COURSE LIST */}
       <section className="max-w-7xl mx-auto px-6 py-12">
-
-        {/* Skeleton loading */}
         {loading && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[...Array(8)].map((_, i) => (
@@ -107,17 +102,14 @@ export default function CourseContainer() {
           </div>
         )}
 
-        {/* Empty */}
         {!loading && filteredCourses.length === 0 && (
           <div className="text-center py-20 text-gray-500">
             Không tìm thấy khóa học phù hợp.
           </div>
         )}
 
-        {/* Course grid */}
         {!loading && filteredCourses.length > 0 && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 animate-[fadeIn_.5s_ease]">
-
             {filteredCourses.map((course, index) => (
               <div
                 key={course.id}
@@ -134,12 +126,10 @@ export default function CourseContainer() {
                 />
               </div>
             ))}
-
           </div>
         )}
       </section>
 
-      {/* PREVIEW MODAL */}
       {selectedCourse && (
         <CoursePreviewModal
           course={selectedCourse}

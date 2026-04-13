@@ -1,4 +1,4 @@
-import { AssignmentBE } from "@/hooks/assignment/getAssignment";
+﻿import { AssignmentBE } from "@/hooks/assignment/getAssignment";
 import AssignmentCard from "./AssignmentCard";
 
 interface Props {
@@ -28,7 +28,7 @@ export default function AssignmentList({
   if (!assignments.length) {
     return (
       <div className="text-center text-emerald-500 py-20">
-        No assignments available
+        Chưa có bài tập nào.
       </div>
     );
   }

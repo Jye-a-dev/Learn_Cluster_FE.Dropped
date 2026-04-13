@@ -1,24 +1,20 @@
-import HeroSection from '@/components/pages/PublicHome/HeroSection';
-import ProblemSolution from '@/components/pages/PublicHome/ProblemSolution';
-import CoreFeatures from '@/components/pages/PublicHome/CoreFeatures';
-import RoleExperience from '@/components/pages/PublicHome/RoleExperience';
-import GamificationSection from '@/components/pages/PublicHome/GamificationSection';
-import DemoFlow from '@/components/pages/PublicHome/DemoFlow';
-import UseCases from '@/components/pages/PublicHome/UseCases';
-import CallToAction from '@/components/pages/PublicHome/CallToAction';
+import ProductArchitecture from '@/components/pages/PublicHome/ProductArchitecture';
+import ProductCallToAction from '@/components/pages/PublicHome/ProductCallToAction';
+import ProductFlow from '@/components/pages/PublicHome/ProductFlow';
+import ProductHero from '@/components/pages/PublicHome/ProductHero';
+import ProductProblems from '@/components/pages/PublicHome/ProductProblems';
+import ProductUseCases from '@/components/pages/PublicHome/ProductUseCases';
 
 
 export default function PublicHome() {
   return (
     <main className="flex flex-col gap-4">
-      <HeroSection />
-      <ProblemSolution />
-      <CoreFeatures />
-      <RoleExperience />
-      <GamificationSection />
-      <DemoFlow />
-      <UseCases />
-      <CallToAction />
+      <ProductHero />
+      <ProductProblems />
+      <ProductArchitecture />
+      <ProductFlow />
+      <ProductUseCases />
+      <ProductCallToAction />
     </main>
   );
 }

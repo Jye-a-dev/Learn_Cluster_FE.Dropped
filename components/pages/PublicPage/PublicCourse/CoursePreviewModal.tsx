@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Course } from "@/hooks/courses/getCourse";
 import Link from "next/link";
@@ -11,45 +11,38 @@ interface Props {
 export default function CoursePreviewModal({ course, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
-
-        {/* Header */}
         <div className="bg-emerald-50 border-b px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-
             <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
               {course.title.charAt(0)}
             </div>
 
             <div>
               <h2 className="font-semibold text-lg text-emerald-900">
-                Course Preview
+                Xem trước khóa học
               </h2>
               <p className="text-xs text-emerald-600 capitalize">
                 {course.status}
               </p>
             </div>
-
           </div>
 
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-black text-lg cursor-pointer"
           >
-            ✕
+            ×
           </button>
         </div>
 
-        {/* Body */}
         <div className="px-6 py-6">
-
           <h3 className="text-xl font-semibold mb-2">
             {course.title}
           </h3>
 
           <p className="text-gray-600 mb-5 leading-relaxed">
-            {course.description ?? "No description available for this course."}
+            {course.description ?? "Chưa có mô tả cho khóa học này."}
           </p>
 
           {course.objective && (
@@ -64,14 +57,13 @@ export default function CoursePreviewModal({ course, onClose }: Props) {
           )}
 
           <div className="flex items-center gap-6 text-sm text-gray-500 border-t pt-4">
-
             <div>
               <span className="font-medium text-gray-700">
                 Thời lượng:
               </span>{" "}
               {course.duration_hours
-                ? `${course.duration_hours} hours`
-                : "Self paced"}
+                ? `${course.duration_hours} giờ`
+                : "Tự học"}
             </div>
 
             <div>
@@ -80,14 +72,10 @@ export default function CoursePreviewModal({ course, onClose }: Props) {
               </span>{" "}
               Cần đăng nhập
             </div>
-
           </div>
-
         </div>
 
-        {/* Footer */}
         <div className="border-t px-6 py-4 flex gap-3">
-
           <Link
             href="/login"
             className="flex-1 text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-lg font-medium transition"
@@ -101,11 +89,8 @@ export default function CoursePreviewModal({ course, onClose }: Props) {
           >
             Đóng
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

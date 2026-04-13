@@ -1,17 +1,17 @@
 export const NAV_LINKS = [
-  { label: "Home", href: "/", highlight: "gold" },
-  { label: "Courses", href: "/courses", highlight: "lime" },
-  { label: "Assignments", href: "/assignments", highlight: "gold" },
-  { label: "Community", href: "/community", highlight: "lime" },
+  { label: "Trang chủ", href: "/", highlight: "gold" },
+  { label: "Khóa học", href: "/courses", highlight: "lime" },
+  { label: "Bài tập", href: "/assignments", highlight: "gold" },
+  { label: "Cộng đồng", href: "/community", highlight: "lime" },
 ];
 
 export const DROPDOWNS = [
   {
-    label: "Resources",
+    label: "Tài nguyên",
     items: [
-      { label: "Tutorials", href: "/resources/tutorials", highlight: "lime" },
-      { label: "Documentation", href: "/resources/docs", highlight: "gold" },
-      { label: "API Reference", href: "/resources/api", highlight: "lime" },
+      { label: "Hướng dẫn", href: "/resources/tutorials", highlight: "lime" },
+      { label: "Tài liệu", href: "/resources/docs", highlight: "gold" },
+      { label: "Tài liệu API", href: "/resources/api", highlight: "lime" },
     ],
   },
 ];

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import {
@@ -19,10 +19,9 @@ export default function AssignmentContainer() {
       try {
         const data = await getAssignments();
 
-        // chỉ lấy 10 assignment làm demo
         setAssignments(data.slice(0, 10));
       } catch (err) {
-        console.error("Lỗi tải assignment:", err);
+        console.error("Lỗi tải bài tập:", err);
       } finally {
         setLoading(false);
       }
@@ -33,29 +32,23 @@ export default function AssignmentContainer() {
 
   return (
     <>
-      {/* HERO */}
       <section className="bg-gray-50/80 border-b m-2">
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-
           <h1 className="text-4xl font-bold text-cyan-800/70 mb-4">
             Bài tập thực hành
           </h1>
 
           <p className="max-w-2xl mx-auto text-emerald-600 text-justify">
-            Sau khi đăng nhập, bạn có thể truy cập danh sách bài tập của
-            từng khóa học. Mỗi bài tập sẽ cung cấp mô tả chi tiết, tài
-            liệu đính kèm và thời hạn nộp bài. Người học có thể đọc yêu
-            cầu, tải tài liệu và hoàn thành bài tập trước deadline để
-            rèn luyện kỹ năng và củng cố kiến thức đã học.
+            Sau khi đăng nhập, bạn có thể truy cập danh sách bài tập của từng
+            khóa học. Mỗi bài tập sẽ cung cấp mô tả chi tiết, tài liệu đính kèm
+            và thời hạn nộp bài. Người học có thể đọc yêu cầu, tải tài liệu và
+            hoàn thành bài tập trước hạn để rèn luyện kỹ năng và củng cố kiến
+            thức đã học.
           </p>
-
         </div>
       </section>
 
-      {/* ASSIGNMENT LIST */}
       <section className="max-w-7xl mx-auto px-6 py-12">
-
-        {/* Skeleton loading */}
         {loading && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[...Array(10)].map((_, i) => (
@@ -67,17 +60,14 @@ export default function AssignmentContainer() {
           </div>
         )}
 
-        {/* Empty */}
         {!loading && assignments.length === 0 && (
           <div className="text-center py-20 text-gray-500">
             Hiện chưa có bài tập nào.
           </div>
         )}
 
-        {/* Grid assignment */}
         {!loading && assignments.length > 0 && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-
             {assignments.map((assignment, index) => (
               <div
                 key={assignment.id}
@@ -94,12 +84,10 @@ export default function AssignmentContainer() {
                 />
               </div>
             ))}
-
           </div>
         )}
       </section>
 
-      {/* MODAL PREVIEW */}
       {selected && (
         <AssignmentPreviewModal
           assignment={selected}

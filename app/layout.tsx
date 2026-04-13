@@ -1,4 +1,4 @@
-// app/layout.tsx (RootLayout)
+﻿// app/layout.tsx (RootLayout)
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "LearnCluster",
-  description: "Ứng dụng học tập, chia sẻ kiến thức, study date.",
+  description: "Ứng dụng học tập, chia sẻ kiến thức và kết nối học nhóm.",
   icons: {
     icon: "/assets/LCLogo.png",
     shortcut: "/assets/LCLogo.png",
@@ -29,11 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          {children}
+        {children}
       </body>
     </html>
   );
