@@ -9,6 +9,7 @@ import BaseLoading from "../Base/BaseLoading";
 import LessonHeader from "./LessonHeader";
 import LessonItemList from "./List/LessonItemList";
 import EditLessonModal from "./Modal/EditLessonModal";
+import TeacherEmptyState from "../Base/TeacherEmptyState";
 
 import { getLesson } from "@/hooks/lessons/getLesson";
 import useSWR from "swr";
@@ -27,7 +28,19 @@ export default function TeacherLessonDetailContainer() {
 
   if (isLoading) return <BaseLoading />;
 
-  if (!lesson) return <div>No lesson</div>;
+  if (!lesson) {
+    return (
+      <BaseTeacherContainer
+        title="Lesson detail"
+        description="Review lesson content and update the learning material when needed."
+      >
+        <TeacherEmptyState
+          title="Lesson not found"
+          description="This lesson may have been removed, or the current teacher route is pointing to an unavailable item."
+        />
+      </BaseTeacherContainer>
+    );
+  }
 
   return (
     <BaseTeacherContainer

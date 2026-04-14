@@ -11,6 +11,7 @@ import BaseTeacherContainer from "@/components/pages/TeacherDashboard/Base/BaseT
 import ChapterHeader from "./IdHeader";
 import ChapterLessonList from "./List/IdChapterLessonList";
 import BaseLoading from "../Base/BaseLoading";
+import TeacherEmptyState from "../Base/TeacherEmptyState";
 
 /* =====================================
    Container
@@ -45,9 +46,15 @@ export default function TeacherChapterDetailContainer() {
 
   if (!chapter) {
     return (
-      <div className="text-center text-gray-500">
-        Chapter not found
-      </div>
+      <BaseTeacherContainer
+        title="Chapter detail"
+        description="Manage the lesson structure inside this chapter."
+      >
+        <TeacherEmptyState
+          title="Chapter not found"
+          description="This chapter may have been deleted, or it is no longer reachable from your current teaching workflow."
+        />
+      </BaseTeacherContainer>
     );
   }
 

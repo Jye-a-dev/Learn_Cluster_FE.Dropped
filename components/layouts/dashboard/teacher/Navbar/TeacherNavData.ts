@@ -1,20 +1,16 @@
-// UserNavData.ts
-
-
-export const TEACHER_NAV_LINKS= [
-  { label: "Dashboard", href: "/user/dashboard", highlight: "emerald" },
-  { label: "Courses", href: "user/courses", highlight: "lapis" },
-  { label: "Study Date", href: "user/studydate", highlight: "gold" },
-  { label: "Notifications", href: "user/notificantions", highlight: "emerald" },
+export const TEACHER_NAV_LINKS = [
+  { label: "Dashboard", href: "/teacher/dashboard", highlight: "emerald" },
+  { label: "Discover Courses", href: "/teacher/courses", highlight: "lapis" },
+  { label: "My Courses", href: "/teacher/courses/my", highlight: "gold" },
+  { label: "Study Dates", href: "/teacher/study_dates", highlight: "emerald" },
 ];
 
 export const TEACHER_NAV_DROPDOWNS = [
   {
-    label: "Resources",
+    label: "Teacher Flow",
     items: [
-      { label: "Tutorials", href: "/resources/tutorials", highlight: "emerald" },
-      { label: "Feature & Updates", href: "/resources/Updates", highlight: "lapis" },
-      { label: "Terms & Conditions", href: "/resources/terms", highlight: "emerald" },
+      { label: "Teaching Scope", href: "/teacher/study_dates", highlight: "emerald" },
+      { label: "My Sessions", href: "/teacher/my/study_dates", highlight: "lapis" },
     ],
   },
 ];

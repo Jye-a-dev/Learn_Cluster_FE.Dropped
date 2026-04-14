@@ -4,7 +4,7 @@ import BaseFooter from "@/components/layouts/base/Footer/BaseFooter";
 import {
   TEACHER_FOOTER_LINKS,
   TEACHER_SUPPORT_LINKS,
-} from "./FooterData";
+} from "./TeacherFooterLinks";
 
 export default function TeacherFooter() {
   return (

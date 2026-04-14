@@ -22,12 +22,37 @@ export default function BaseTeacherContainer({
       return;
     }
 
+    if (pathname.startsWith("/teacher/submission/")) {
+      router.push("/teacher/courses/my");
+      return;
+    }
+
+    if (pathname.startsWith("/teacher/assignment/")) {
+      router.push("/teacher/courses/my");
+      return;
+    }
+
+    if (pathname.startsWith("/teacher/chapter/")) {
+      router.push("/teacher/courses/my");
+      return;
+    }
+
+    if (pathname.startsWith("/teacher/lesson/")) {
+      router.push("/teacher/courses/my");
+      return;
+    }
+
     if (pathname === "/teacher/my/study_dates") {
       router.push("/teacher/study_dates");
       return;
     }
 
-    if (pathname.startsWith("/teacher/courses/my")) {
+    if (pathname.startsWith("/teacher/courses/my/")) {
+      router.push("/teacher/courses/my");
+      return;
+    }
+
+    if (pathname === "/teacher/courses/my") {
       router.push("/teacher/courses");
       return;
     }

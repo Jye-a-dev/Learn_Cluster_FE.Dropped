@@ -44,6 +44,7 @@ export type PatchCoursePayload = Partial<UpdateCoursePayload>;
 export type CourseQuery = {
 	status?: "draft" | "public" | "closed";
 	keyword?: string;
+	search?: string;
 	page?: number;
 	limit?: number;
 };
@@ -52,7 +53,19 @@ export type CourseQuery = {
  * GET /api/course
  * ======================================================= */
 export async function getCourses(query?: CourseQuery): Promise<Course[]> {
-	const res = await api.get<Course[]>("/course", { params: query });
+	const params = query
+		? {
+			status: query.status,
+			page: query.page,
+			limit:
+				typeof query.limit === "number"
+					? Math.min(Math.max(query.limit, 1), 100)
+					: undefined,
+			search: query.search ?? query.keyword,
+		}
+		: undefined;
+
+	const res = await api.get<Course[]>("/course", { params });
 	return res.data ?? [];
 }
 

@@ -16,6 +16,7 @@ import {
 
 import SubmissionInfo from "./SubmissionInfo";
 import GradeForm from ".//GradeForm";
+import TeacherEmptyState from "../Base/TeacherEmptyState";
 
 export default function TeacherSubmissionGradeContainer() {
   const params = useParams();
@@ -81,8 +82,14 @@ export default function TeacherSubmissionGradeContainer() {
 
   if (!submission) {
     return (
-      <BaseTeacherContainer title="Submission">
-        <div>Not found</div>
+      <BaseTeacherContainer
+        title="Submission"
+        description="Review learner work and keep grading feedback consistent."
+      >
+        <TeacherEmptyState
+          title="Submission not found"
+          description="The submission may have been removed, or this route no longer points to a valid learner artifact."
+        />
       </BaseTeacherContainer>
     );
   }

@@ -1,9 +1,7 @@
 "use client";
-export default function TeacherPage() {
 
-  return (
-    <div className="space-y-6">
-      
-    </div>
-  );
+import TeacherWorkflowDashboard from "@/components/pages/TeacherDashboard/TeacherWorkflow/TeacherWorkflowDashboard";
+
+export default function TeacherPage() {
+  return <TeacherWorkflowDashboard />;
 }

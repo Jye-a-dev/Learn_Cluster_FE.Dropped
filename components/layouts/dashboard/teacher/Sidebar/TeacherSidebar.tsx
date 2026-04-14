@@ -3,7 +3,7 @@
 import BaseSidebar from "@/components/layouts/base/Sidebar/BaseSidebar";
 import { TEACHER_SIDEBAR_ITEMS } from "./TeacherSideData";
 
-export default function AdminSidebar() {
+export default function TeacherSidebar() {
     return (
         <BaseSidebar
             items={TEACHER_SIDEBAR_ITEMS}

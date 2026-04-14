@@ -14,6 +14,7 @@ import BaseLoading from "../Base/BaseLoading";
 import ManageSubmissionModal from "./Modal/ManageSubmissionModal";
 import SubmissionItemList from "./List/SubmissionItemList";
 import { useUsersMap } from "@/hooks/users/useUsersMap";
+import TeacherEmptyState from "../Base/TeacherEmptyState";
 
 export default function TeacherAssignmentDetailContainer() {
   const router = useRouter();
@@ -37,9 +38,15 @@ export default function TeacherAssignmentDetailContainer() {
 
   if (!assignment) {
     return (
-      <div className="text-center text-gray-500">
-        Assignment not found
-      </div>
+      <BaseTeacherContainer
+        title="Assignment detail"
+        description="Review assignment configuration and learner submissions."
+      >
+        <TeacherEmptyState
+          title="Assignment not found"
+          description="This assignment may have been removed, or the current teacher scope no longer includes it."
+        />
+      </BaseTeacherContainer>
     );
   }
 
